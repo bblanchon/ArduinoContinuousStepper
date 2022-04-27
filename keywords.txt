@@ -1,0 +1,9 @@
+ContinuousStepper	KEYWORD1
+isSpinning	KEYWORD2
+powerOff	KEYWORD2
+powerOn	KEYWORD2
+setAcceleration	KEYWORD2
+setPulseWidth	KEYWORD2
+speed	KEYWORD2
+spin	KEYWORD2
+stop	KEYWORD2
