@@ -1,5 +1,5 @@
-Arduino Continuous Stepper Library
-==================================
+Arduino ContinuousStepper Library
+=================================
 
 An Arduino library to spin stepper motors in continuous motions.
 
@@ -9,6 +9,7 @@ Contrary to other stepper libraries, this one doesn't provide any function to mo
 
 * Supports stepper drivers with *step* and *dir* pins
 * Optionally supports the *enable* pin
+* Optionally runs with [TimerOne](https://github.com/PaulStoffregen/TimerOne)
 * Accelerates and decelerates smoothly
 * Negative speed rotates backward
 * Tiny footprint (about 150 lines of code)
@@ -30,6 +31,21 @@ void setup() {
 
 void loop() {
   stepper.loop(); // this function must be called as frequently as possible
+}
+```
+
+Alternatively, you can install the [TimerOne](https://github.com/PaulStoffregen/TimerOne) to have the `loop()` function called in the timer interrupt handler:
+
+```c++
+ContinuousStepper_Timer1 stepper(stepPin, dirPin);
+
+void setup() {
+  stepper.spin(200);
+}
+
+void loop() {
+  // no need to call stepper.loop()
+  // it's called by the timer interrupt handler
 }
 ```
 
@@ -77,6 +93,8 @@ public:
   bool isSpinning() const;
 };
 ```
+
+`ContinuousStepper_Timer1` is identical, except it can only have one instance and it doesn't have the `loop()` function.
 
 ### Why use this library instead of AccelStepper
 

@@ -28,7 +28,7 @@ public:
     time_t t = now();
     time_t elapsed = t - _lastTick;
 
-    if (elapsed > _interval) {
+    if (elapsed >= _interval) {
       if (_status == STEP) {
         digitalWrite(_dirPin, _currentSpeed >= 0 ? HIGH : LOW);
         step();
@@ -58,6 +58,7 @@ public:
 
     _status = OFF;
     _currentSpeed = 0;
+    _interval = 0;
   }
 
   void spin(float_t speed) {
@@ -73,6 +74,10 @@ public:
 
   float_t speed() const {
     return _currentSpeed;
+  }
+
+  time_t interval() const {
+    return _interval;
   }
 
   void setAcceleration(float_t acceleration) {
@@ -121,6 +126,7 @@ private:
     } else {
       // stop moving
       _status = WAIT;
+      _interval = 0;
     }
   }
 
