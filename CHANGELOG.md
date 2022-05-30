@@ -1,6 +1,12 @@
 ContinuousStepper: changelog
 ============================
 
+HEAD
+----
+
+* Remove call to `delayMicroseconds()`
+* Remove `setPulseWidth()`
+
 1.1.1
 -----
 

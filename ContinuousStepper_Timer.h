@@ -48,10 +48,6 @@ public:
     _stepper->setAcceleration(acceleration);
   }
 
-  void setPulseWidth(time_t t) {
-    _stepper->setPulseWidth(t);
-  }
-
   bool isSpinning() const {
     return _stepper->isSpinning();
   }

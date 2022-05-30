@@ -13,6 +13,7 @@ Contrary to other stepper libraries, this one doesn't provide any function to mo
 * Accelerates and decelerates smoothly
 * Negative speed rotates backward
 * Tiny footprint (about 150 lines of code)
+* Uses neither `delay()` nor `delayMicroseconds()`
 
 ### Suggested applications
 
@@ -120,5 +121,5 @@ Moreover, even if you can control the speed with `setMaxSpeed()`, you'll see tha
 | `setAcceleration()`  | `setAcceleration()`   |
 | `setEnablePin()`     | Constructor's 3rd arg |
 | `setMaxSpeed()`      | `spin()`              |
-| `setMinPulseWidth()` | `setPulseWidth()`     |
+| `setMinPulseWidth()` | Automatic             |
 | `stop()`             | `stop()`              |

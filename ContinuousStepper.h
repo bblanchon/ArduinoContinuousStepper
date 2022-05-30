@@ -12,8 +12,8 @@ public:
   static constexpr float_t MIN_SPEED = 0.001;
 
   ContinuousStepper(pin_t stepPin, pin_t dirPin, pin_t enablePin = NULL_PIN)
-      : _stepPin(stepPin), _dirPin(dirPin), _enablePin(enablePin), _lastTick(0), _interval(0), _pulseWidth(10),
-        _targetSpeed(0), _currentSpeed(0), _acceleration(1000), _status(OFF) {
+      : _stepPin(stepPin), _dirPin(dirPin), _enablePin(enablePin), _lastTick(0), _interval(0), _targetSpeed(0),
+        _currentSpeed(0), _acceleration(1000), _status(OFF), _stepLevel(false) {
     pinMode(stepPin, OUTPUT);
     pinMode(dirPin, OUTPUT);
     if (enablePin != NULL_PIN)
@@ -29,13 +29,19 @@ public:
     time_t elapsed = t - _lastTick;
 
     if (elapsed >= _interval) {
-      if (_status == STEP) {
-        digitalWrite(_dirPin, _currentSpeed >= 0 ? HIGH : LOW);
-        step();
+      if (_stepLevel == HIGH) {
+        writeStep(LOW);
+      } else {
+
+        if (_status == STEP) {
+          writeDir(_currentSpeed >= 0 ? HIGH : LOW);
+          writeStep(HIGH);
+        }
+
+        updateSpeed();
       }
 
       _lastTick = t;
-      updateSpeed();
     }
   }
 
@@ -84,19 +90,18 @@ public:
     _acceleration = acceleration;
   }
 
-  void setPulseWidth(time_t t) {
-    _pulseWidth = t;
-  }
-
   bool isSpinning() const {
     return _status == STEP || _status == SKIP;
   }
 
 private:
-  void step() const {
-    digitalWrite(_stepPin, HIGH);
-    delayMicroseconds(_pulseWidth);
-    digitalWrite(_stepPin, LOW);
+  void writeStep(bool level) {
+    digitalWrite(_stepPin, level);
+    _stepLevel = level;
+  }
+
+  void writeDir(bool level) {
+    digitalWrite(_dirPin, level);
   }
 
   void startMoving() {
@@ -105,7 +110,7 @@ private:
   }
 
   void updateSpeed() {
-    incrementSpeed(_acceleration * _interval / oneSecond);
+    incrementSpeed(_acceleration * _interval * 2 / oneSecond);
   }
 
   void incrementSpeed(float_t speedIncrement) {
@@ -118,7 +123,7 @@ private:
     }
 
     if (abs(_currentSpeed) > MIN_SPEED) {
-      _interval = oneSecond / abs(_currentSpeed);
+      _interval = oneSecond / abs(_currentSpeed) / 2;
       _status = STEP;
     } else if (abs(_targetSpeed) > MIN_SPEED) {
       // crossing the zero on the speed graph
@@ -137,8 +142,9 @@ private:
   static const time_t oneSecond = 1e6;
 
   pin_t _stepPin, _dirPin, _enablePin;
-  time_t _lastTick, _interval, _pulseWidth;
+  time_t _lastTick, _interval;
   float_t _targetSpeed, _currentSpeed, _acceleration;
+  bool _stepLevel;
 
   enum Status {
     OFF,
