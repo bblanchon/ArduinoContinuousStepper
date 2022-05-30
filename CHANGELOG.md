@@ -1,8 +1,8 @@
 ContinuousStepper: changelog
 ============================
 
-HEAD
-----
+1.1.1
+-----
 
 * Fix error when the `TimerOne` library is not available
 * Add class `ContinuousStepper_Timer3` to support the `TimerThree` library
