@@ -1,6 +1,11 @@
 ContinuousStepper: changelog
 ============================
 
+HEAD
+----
+
+* Fix error when the `TimerOne` library is not available
+
 1.1.0
 -----
 
