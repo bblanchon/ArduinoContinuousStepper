@@ -2,10 +2,10 @@
 
 #include <TimerOne.h> // https://github.com/PaulStoffregen/TimerOne
 
-#include "ContinuousStepper_Timer.h"
+#include "ContinuousStepperBase.h"
 #include "TimerOneAdapter.hpp"
 
-struct ContinuousStepper_Timer1 : ContinuousStepper_Timer<TimerOneAdapter<TimerOne>> {
+struct ContinuousStepper_Timer1 : ContinuousStepperBase<TimerOneAdapter<TimerOne>> {
   ContinuousStepper_Timer1(pin_t stepPin, pin_t dirPin, pin_t enablePin = ContinuousStepper::NULL_PIN)
-      : ContinuousStepper_Timer(TimerOneAdapter<TimerOne>(), stepPin, dirPin, enablePin) {}
+      : ContinuousStepperBase(TimerOneAdapter<TimerOne>(), stepPin, dirPin, enablePin) {}
 };
