@@ -2,7 +2,7 @@
 
 #include <Arduino.h>
 
-class ContinuousStepper {
+class ContinuousStepperBase {
 public:
   typedef unsigned long time_t;
   typedef float float_t;
@@ -11,7 +11,7 @@ public:
   static const pin_t NULL_PIN = 255;
   static constexpr float_t MIN_SPEED = 0.001;
 
-  ContinuousStepper(pin_t stepPin, pin_t dirPin, pin_t enablePin = NULL_PIN)
+  ContinuousStepperBase(pin_t stepPin, pin_t dirPin, pin_t enablePin = NULL_PIN)
       : _stepPin(stepPin), _dirPin(dirPin), _enablePin(enablePin), _lastTick(0), _interval(0), _targetSpeed(0),
         _currentSpeed(0), _acceleration(1000), _status(OFF), _stepLevel(false) {
     pinMode(stepPin, OUTPUT);
@@ -19,30 +19,6 @@ public:
     if (enablePin != NULL_PIN)
       pinMode(enablePin, OUTPUT);
     powerOn();
-  }
-
-  void loop() {
-    if (_status == WAIT || _status == OFF)
-      return;
-
-    time_t t = now();
-    time_t elapsed = t - _lastTick;
-
-    if (elapsed >= _interval) {
-      if (_stepLevel == HIGH) {
-        writeStep(LOW);
-      } else {
-
-        if (_status == STEP) {
-          writeDir(_currentSpeed >= 0 ? HIGH : LOW);
-          writeStep(HIGH);
-        }
-
-        updateSpeed();
-      }
-
-      _lastTick = t;
-    }
   }
 
   void powerOn() {
@@ -94,6 +70,33 @@ public:
     return _status == STEP || _status == SKIP;
   }
 
+protected:
+  void loop() {
+    if (_status == WAIT || _status == OFF)
+      return;
+
+    time_t t = now();
+    time_t elapsed = t - _lastTick;
+
+    if (elapsed >= _interval) {
+      if (_stepLevel == HIGH) {
+        writeStep(LOW);
+      } else {
+
+        if (_status == STEP) {
+          writeDir(_currentSpeed >= 0 ? HIGH : LOW);
+          writeStep(HIGH);
+        }
+
+        updateSpeed();
+      }
+
+      _lastTick = t;
+    }
+  }
+
+  virtual void configureTimer(time_t) = 0;
+
 private:
   void writeStep(bool level) {
     digitalWrite(_stepPin, level);
@@ -123,7 +126,7 @@ private:
     }
 
     if (abs(_currentSpeed) > MIN_SPEED) {
-      _interval = oneSecond / abs(_currentSpeed) / 2;
+      setInterval(oneSecond / abs(_currentSpeed) / 2);
       _status = STEP;
     } else if (abs(_targetSpeed) > MIN_SPEED) {
       // crossing the zero on the speed graph
@@ -131,7 +134,14 @@ private:
     } else {
       // stop moving
       _status = WAIT;
-      _interval = 0;
+      setInterval(0);
+    }
+  }
+
+  void setInterval(time_t interval) {
+    if (interval != _interval) {
+      _interval = interval;
+      configureTimer(interval);
     }
   }
 
@@ -154,4 +164,15 @@ private:
   };
 
   Status _status;
+};
+
+class ContinuousStepper : public ContinuousStepperBase {
+public:
+  using ContinuousStepperBase::loop;
+
+  ContinuousStepper(pin_t stepPin, pin_t dirPin, pin_t enablePin = NULL_PIN)
+      : ContinuousStepperBase(stepPin, dirPin, enablePin) {}
+
+protected:
+  void configureTimer(time_t) override {}
 };
