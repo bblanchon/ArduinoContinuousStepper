@@ -8,8 +8,7 @@
 namespace ArduinoContinuousStepper {
 
 struct ContinuousStepper_Timer3 : ContinuousStepperBase<ArduinoContinuousStepper::TimerOneAdapter<TimerThree>> {
-  ContinuousStepper_Timer3(pin_t stepPin, pin_t dirPin, pin_t enablePin = NULL_PIN)
-      : ContinuousStepperBase(ArduinoContinuousStepper::TimerOneAdapter<TimerThree>(), stepPin, dirPin, enablePin) {}
+  ContinuousStepper_Timer3() : ContinuousStepperBase(ArduinoContinuousStepper::TimerOneAdapter<TimerThree>()) {}
 };
 
 } // namespace ArduinoContinuousStepper

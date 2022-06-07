@@ -24,9 +24,10 @@ Contrary to other stepper libraries, this one doesn't provide any function to mo
 ### How to use the ContinousStepper library?
 
 ```c++
-ContinuousStepper stepper(stepPin, dirPin);
+ContinuousStepper stepper;
 
 void setup() {
+  stepper.begin(stepPin, dirPin)
   stepper.spin(200); // rotate at 200 steps per seconds
 }
 
@@ -38,9 +39,10 @@ void loop() {
 Alternatively, you can install the [TimerOne](https://github.com/PaulStoffregen/TimerOne) to have the `loop()` function called in the timer interrupt handler:
 
 ```c++
-ContinuousStepper_Timer1 stepper(stepPin, dirPin);
+ContinuousStepper_Timer1 stepper;
 
 void setup() {
+  stepper.begin(stepPin, dirPin);
   stepper.spin(200);
 }
 
@@ -55,9 +57,9 @@ void loop() {
 ```c++
 class ContinuousStepper {
 public:
-  // Creates an instance attached to the specified pins.
+  // Initialize the class and attaches to the specified pins.
   // If the enable pin is passed, it sets its level to high.
-  ContinuousStepper(pin_t stepPin, pin_t dirPin, pin_t enablePin = NULL_PIN);
+  begin(pin_t stepPin, pin_t dirPin, pin_t enablePin = NULL_PIN);
 
   // Updates the status of the step and dir pins.
   // You must call this function as frequently as possible.
@@ -86,9 +88,6 @@ public:
 
   // Sets the acceleration in steps/s².
   void setAcceleration(float_t acceleration);
-
-  // Sets the duration (in µs) of the pulse sent to the step.
-  void setPulseWidth(time_t t);
 
   // Tells wether the shaft is currently spinning.
   bool isSpinning() const;

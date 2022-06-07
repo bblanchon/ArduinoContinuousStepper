@@ -18,9 +18,15 @@ public:
   static const pin_t NULL_PIN = 255;
   static constexpr float_t MIN_SPEED = 0.001;
 
-  ContinuousStepperBase(const TTimer &timer, pin_t stepPin, pin_t dirPin, pin_t enablePin = NULL_PIN)
-      : _timer(timer), _stepPin(stepPin), _dirPin(dirPin), _enablePin(enablePin) {
+  ContinuousStepperBase(const TTimer &timer) : _timer(timer) {}
+
+  void begin(pin_t stepPin, pin_t dirPin, pin_t enablePin = NULL_PIN) {
+    _stepPin = stepPin;
+    _dirPin = dirPin;
+    _enablePin = enablePin;
+
     _timer.setClient(this);
+
     pinMode(stepPin, OUTPUT);
     pinMode(dirPin, OUTPUT);
     if (enablePin != NULL_PIN)
@@ -157,7 +163,7 @@ private:
   static const time_t oneSecond = 1e6;
 
   TTimer _timer;
-  pin_t _stepPin, _dirPin, _enablePin;
+  pin_t _stepPin = 0, _dirPin = 0, _enablePin = 0;
   time_t _lastTick = 0, _interval = 0;
   float_t _targetSpeed = 0, _currentSpeed = 0, _acceleration = 1000;
   bool _stepLevel = false;

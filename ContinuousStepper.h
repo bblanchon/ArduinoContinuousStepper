@@ -10,8 +10,7 @@ struct NullTimer {
 
 class ContinuousStepper : public ContinuousStepperBase<NullTimer> {
 public:
-  ContinuousStepper(pin_t stepPin, pin_t dirPin, pin_t enablePin = NULL_PIN)
-      : ContinuousStepperBase(NullTimer(), stepPin, dirPin, enablePin) {}
+  ContinuousStepper() : ContinuousStepperBase(NullTimer()) {}
 
   void loop() {
     tick();

@@ -1,6 +1,11 @@
 ContinuousStepper: changelog
 ============================
 
+HEAD
+----
+
+* Add `begin()` which now receives the pin numbers
+
 1.2.0
 -----
 
