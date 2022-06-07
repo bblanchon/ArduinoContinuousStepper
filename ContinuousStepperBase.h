@@ -17,8 +17,7 @@ public:
   static constexpr float_t MIN_SPEED = 0.001;
 
   ContinuousStepperBase(const TTimer &timer, pin_t stepPin, pin_t dirPin, pin_t enablePin = NULL_PIN)
-      : _timer(timer), _stepPin(stepPin), _dirPin(dirPin), _enablePin(enablePin), _lastTick(0), _interval(0),
-        _targetSpeed(0), _currentSpeed(0), _acceleration(1000), _status(OFF), _stepLevel(false) {
+      : _timer(timer), _stepPin(stepPin), _dirPin(dirPin), _enablePin(enablePin) {
     _timer.setClient(this);
     pinMode(stepPin, OUTPUT);
     pinMode(dirPin, OUTPUT);
@@ -157,9 +156,9 @@ private:
 
   TTimer _timer;
   pin_t _stepPin, _dirPin, _enablePin;
-  time_t _lastTick, _interval;
-  float_t _targetSpeed, _currentSpeed, _acceleration;
-  bool _stepLevel;
+  time_t _lastTick = 0, _interval = 0;
+  float_t _targetSpeed = 0, _currentSpeed = 0, _acceleration = 1000;
+  bool _stepLevel = false;
 
   enum Status {
     OFF,
@@ -168,5 +167,5 @@ private:
     SKIP,
   };
 
-  Status _status;
+  Status _status = OFF;
 };
