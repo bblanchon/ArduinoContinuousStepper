@@ -1,7 +1,6 @@
 #pragma once
 
-#include "ContinuousStepper.h"
-
+namespace ArduinoContinuousStepper {
 template <typename TTimer>
 class TimerOneAdapter {
 public:
@@ -36,3 +35,5 @@ TTimer TimerOneAdapter<TTimer>::_timer;
 
 template <typename TTimer>
 TimerClient *TimerOneAdapter<TTimer>::_client;
+
+} // namespace ArduinoContinuousStepper

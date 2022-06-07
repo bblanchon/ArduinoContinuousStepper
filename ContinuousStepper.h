@@ -2,6 +2,7 @@
 
 #include "ContinuousStepperBase.h"
 
+namespace ArduinoContinuousStepper {
 struct NullTimer {
   void setPeriod(unsigned long) {}
   void setClient(TimerClient *) {}
@@ -16,3 +17,6 @@ public:
     tick();
   }
 };
+} // namespace ArduinoContinuousStepper
+
+using ArduinoContinuousStepper::ContinuousStepper;

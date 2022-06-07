@@ -2,6 +2,8 @@
 
 #include <Arduino.h>
 
+namespace ArduinoContinuousStepper {
+
 struct TimerClient {
   virtual void tick() = 0;
 };
@@ -169,3 +171,5 @@ private:
 
   Status _status = OFF;
 };
+
+} // namespace ArduinoContinuousStepper
