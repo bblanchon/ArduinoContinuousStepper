@@ -9,7 +9,7 @@ Contrary to other stepper libraries, this one doesn't provide any function to mo
 
 * Supports stepper drivers with *step* and *dir* pins
 * Optionally supports the *enable* pin
-* Optionally runs with [TimerOne](https://github.com/PaulStoffregen/TimerOne) or [TimerThree](https://github.com/PaulStoffregen/TimerThree)
+* Optionally runs with [TimerOne](https://github.com/PaulStoffregen/TimerOne), [TimerThree](https://github.com/PaulStoffregen/TimerThree) or [TeensyTimerTool](https://github.com/luni64/TeensyTimerTool)
 * Accelerates and decelerates smoothly
 * Negative speed rotates backward
 * Tiny footprint (about 150 lines of code)

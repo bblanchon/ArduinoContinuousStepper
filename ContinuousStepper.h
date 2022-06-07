@@ -4,8 +4,8 @@
 
 namespace ArduinoContinuousStepper {
 struct NullTimer {
+  void begin(TimerClient *) {}
   void setPeriod(unsigned long) {}
-  void setClient(TimerClient *) {}
 };
 
 class ContinuousStepper : public ContinuousStepperBase<NullTimer> {

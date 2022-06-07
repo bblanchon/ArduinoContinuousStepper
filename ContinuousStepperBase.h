@@ -25,7 +25,7 @@ public:
     _dirPin = dirPin;
     _enablePin = enablePin;
 
-    _timer.setClient(this);
+    _timer.begin(this);
 
     pinMode(stepPin, OUTPUT);
     pinMode(dirPin, OUTPUT);

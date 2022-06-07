@@ -8,7 +8,7 @@ public:
     _timer.attachInterrupt(interruptHandler);
   }
 
-  void setClient(TimerClient *client) {
+  void begin(TimerClient *client) {
     _client = client;
   }
 

@@ -5,6 +5,7 @@ HEAD
 ----
 
 * Add `begin()` which now receives the pin numbers
+* Add class `ContinuousStepper_TeensyTimerTool` to support the `TeensyTimerTool` library
 
 1.2.0
 -----
