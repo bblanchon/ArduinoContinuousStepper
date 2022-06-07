@@ -1,8 +1,8 @@
 ContinuousStepper: changelog
 ============================
 
-HEAD
-----
+2.0.0
+-----
 
 * Add `begin()` which now receives the pin numbers
 * Add class `ContinuousStepper_TeensyTimerTool` to support the `TeensyTimerTool` library
