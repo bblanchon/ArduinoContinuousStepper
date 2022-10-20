@@ -1,0 +1,3 @@
+[submodule "extras/thirdparty/dtl"]
+	path = extras/thirdparty/dtl
+	url = https://github.com/cubicdaiya/dtl.git
