@@ -12,7 +12,7 @@ template <typename TTimer>
 class ContinuousStepperBase : TimerClient {
 public:
   typedef unsigned long time_t;
-  typedef float float_t;
+  typedef double float_t;
   typedef uint8_t pin_t;
 
   static const pin_t NULL_PIN = 255;

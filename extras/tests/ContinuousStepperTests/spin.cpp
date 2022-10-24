@@ -71,12 +71,12 @@ TEST_CASE("ContinuousStepper::spin()") {
                 {179'470, "digitalWrite(10, LOW)"},
                 {195'317, "digitalWrite(11, HIGH)"},
                 {195'317, "digitalWrite(10, HIGH)"},
-                {3667'606, "digitalWrite(10, LOW)"}, // issue #7
-                {7'139'895, "digitalWrite(11, LOW)"},
-                {7'139'895, "digitalWrite(10, HIGH)"},
-                {7'144'895, "digitalWrite(10, LOW)"},
-                {7'149'895, "digitalWrite(11, LOW)"},
-                {7'149'895, "digitalWrite(10, HIGH)"},
+                {3'667'539, "digitalWrite(10, LOW)"}, // issue #7
+                {7'139'761, "digitalWrite(11, LOW)"},
+                {7'139'761, "digitalWrite(10, HIGH)"},
+                {7'144'761, "digitalWrite(10, LOW)"},
+                {7'149'761, "digitalWrite(11, LOW)"},
+                {7'149'761, "digitalWrite(10, HIGH)"},
             });
           }
         }
