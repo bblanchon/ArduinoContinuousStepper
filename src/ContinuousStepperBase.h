@@ -115,7 +115,10 @@ private:
   }
 
   void writeDir(bool level) {
+    if (level == _dirLevel)
+      return;
     digitalWrite(_dirPin, level);
+    _dirLevel = level;
   }
 
   void startMoving() {
@@ -166,7 +169,7 @@ private:
   pin_t _stepPin = 0, _dirPin = 0, _enablePin = 0;
   time_t _lastTick = 0, _interval = 0;
   float_t _targetSpeed = 0, _currentSpeed = 0, _acceleration = 1000;
-  bool _stepLevel = false;
+  bool _stepLevel = LOW, _dirLevel = LOW;
 
   enum Status {
     OFF,

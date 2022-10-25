@@ -1,6 +1,11 @@
 ContinuousStepper: changelog
 ============================
 
+HEAD
+----
+
+* Set *dir* pin level only when it changes (used to be on each tick)
+
 2.0.0
 -----
 

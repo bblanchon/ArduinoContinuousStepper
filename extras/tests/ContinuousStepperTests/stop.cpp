@@ -25,22 +25,16 @@ TEST_CASE("ContinuousStepper::stop()") {
         REQUIRE(stepper.speed() == 0);
         CHECK_ARDUINO_LOG({
             {100'173, "digitalWrite(10, LOW)"},
-            {105'173, "digitalWrite(11, HIGH)"},
             {105'173, "digitalWrite(10, HIGH)"},
             {110'728, "digitalWrite(10, LOW)"},
-            {116'283, "digitalWrite(11, HIGH)"},
             {116'283, "digitalWrite(10, HIGH)"},
             {122'620, "digitalWrite(10, LOW)"},
-            {128'957, "digitalWrite(11, HIGH)"},
             {128'957, "digitalWrite(10, HIGH)"},
             {136'508, "digitalWrite(10, LOW)"},
-            {144'059, "digitalWrite(11, HIGH)"},
             {144'059, "digitalWrite(10, HIGH)"},
             {153'841, "digitalWrite(10, LOW)"},
-            {163'623, "digitalWrite(11, HIGH)"},
             {163'623, "digitalWrite(10, HIGH)"},
             {179'470, "digitalWrite(10, LOW)"},
-            {195'317, "digitalWrite(11, HIGH)"},
             {195'317, "digitalWrite(10, HIGH)"},
         })
       }
