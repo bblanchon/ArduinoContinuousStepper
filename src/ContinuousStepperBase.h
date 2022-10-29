@@ -55,7 +55,7 @@ public:
 
     _status = OFF;
     _currentSpeed = 0;
-    _interval = 0;
+    setInterval(0);
   }
 
   void spin(float_t speed) {
