@@ -34,8 +34,6 @@ TEST_CASE("ContinuousStepper::stop()") {
             {144'059, "digitalWrite(10, HIGH)"},
             {153'841, "digitalWrite(10, LOW)"},
             {163'623, "digitalWrite(10, HIGH)"},
-            {179'470, "digitalWrite(10, LOW)"},
-            {195'317, "digitalWrite(10, HIGH)"},
         })
       }
     }

@@ -16,7 +16,6 @@ public:
   typedef uint8_t pin_t;
 
   static const pin_t NULL_PIN = 255;
-  static constexpr float_t MIN_SPEED = 0.001;
 
   ContinuousStepperBase(const TTimer &timer) : _timer(timer) {}
 
@@ -41,10 +40,7 @@ public:
     if (_enablePin != NULL_PIN)
       digitalWrite(_enablePin, HIGH);
 
-    if (abs(_targetSpeed) > MIN_SPEED)
-      startMoving();
-    else
-      _status = WAIT;
+    updateSpeed();
   }
 
   void powerOff() {
@@ -58,9 +54,8 @@ public:
 
   void spin(float_t speed) {
     _targetSpeed = speed;
-
-    if (_status == WAIT)
-      startMoving();
+    if (_status != OFF)
+      updateSpeed();
   }
 
   void stop() {
@@ -77,6 +72,7 @@ public:
 
   void setAcceleration(float_t acceleration) {
     _acceleration = acceleration;
+    _minSpeedForAcceleration = sqrt(_acceleration);
   }
 
   bool isSpinning() const {
@@ -121,16 +117,9 @@ private:
     _dirLevel = level;
   }
 
-  void startMoving() {
-    incrementSpeed(sqrt(_acceleration));
-    _lastTick = now();
-  }
-
   void updateSpeed() {
-    incrementSpeed(_acceleration * _interval * 2 / oneSecond);
-  }
+    float_t speedIncrement = _interval ? _acceleration * _interval * 2 / oneSecond : _minSpeedForAcceleration;
 
-  void incrementSpeed(float_t speedIncrement) {
     if (_targetSpeed > _currentSpeed) {
       _currentSpeed = min(_currentSpeed + speedIncrement, _targetSpeed);
     }
@@ -139,15 +128,21 @@ private:
       _currentSpeed = max(_currentSpeed - speedIncrement, _targetSpeed);
     }
 
-    if (abs(_currentSpeed) > MIN_SPEED) {
+    if (abs(_currentSpeed) >= _minSpeedForAcceleration) {
       setInterval(oneSecond / abs(_currentSpeed) / 2);
       _status = STEP;
-    } else if (abs(_targetSpeed) > MIN_SPEED) {
+    } else if (abs(_targetSpeed) >= _minSpeedForAcceleration) {
       // crossing the zero on the speed graph
+      setInterval(oneSecond / _minSpeedForAcceleration / 2);
       _status = SKIP;
+    } else if (_targetSpeed) {
+      // target speed is not null but too low to allow a smooth acceleration
+      setInterval(oneSecond / _targetSpeed / 2);
+      _status = STEP;
     } else {
-      // stop moving
+      // target speed is null
       _status = WAIT;
+      _currentSpeed = 0;
       setInterval(0);
     }
   }
@@ -168,7 +163,7 @@ private:
   TTimer _timer;
   pin_t _stepPin = 0, _dirPin = 0, _enablePin = 0;
   time_t _lastTick = 0, _interval = 0;
-  float_t _targetSpeed = 0, _currentSpeed = 0, _acceleration = 1000;
+  float_t _targetSpeed = 0, _currentSpeed = 0, _acceleration = 1000, _minSpeedForAcceleration = sqrt(1000);
   bool _stepLevel = LOW, _dirLevel = LOW;
 
   enum Status {
