@@ -6,7 +6,7 @@ HEAD
 
 * Set *dir* pin level only when it changes (used to be on each tick)
 * Fix acceleration bug after reversing the rotation (issue #7)
-* Add `setEnablePin()` (issue #6)
+* Add `setEnablePin()` and allow inverting the pin's level (issue #6)
 * Stop timer when `powerOff()` is called
 
 2.0.0

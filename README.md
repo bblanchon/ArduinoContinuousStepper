@@ -62,17 +62,18 @@ public:
   begin(pin_t stepPin, pin_t dirPin, pin_t enablePin = NULL_PIN);
 
   // Configures the "enable" pin.
-  // The pin is set to high unless powerOff() was called.
-  void setEnablePin(pin_t pinNumber);
+  // You can pass LOW as the second argument to invert the logic.
+  // The pin is set to its active level unless powerOff() was called.
+  void setEnablePin(pin_t pinNumber, bool activeLevel = HIGH);
 
   // Updates the status of the step and dir pins.
   // You must call this function as frequently as possible.
   void loop();
 
-  // Sets the enable pin's level to high and restores the current speed.
+  // Sets the enable pin's level to its active level and restores the current speed.
   void powerOn();
 
-  // Sets the enable pin's level to low.
+  // Sets the enable pin's level to its inactive level.
   void powerOff();
 
   // Changes target speed.

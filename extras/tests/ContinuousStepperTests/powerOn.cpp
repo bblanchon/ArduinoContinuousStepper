@@ -84,8 +84,8 @@ TEST_CASE("ContinuousStepper::powerOn()") {
       }
     }
 
-    AND_GIVEN("setEnablePin(12)") {
-      stepper.setEnablePin(12);
+    AND_GIVEN("setEnablePin(12, HIGH)") {
+      stepper.setEnablePin(12, HIGH);
 
       WHEN("powerOn() is called") {
         CLEAR_ARDUINO_LOG();
@@ -106,6 +106,34 @@ TEST_CASE("ContinuousStepper::powerOn()") {
           THEN("it should set pin 12 to HIGH") {
             CHECK_ARDUINO_LOG({
                 {0, "digitalWrite(12, HIGH)"},
+            })
+          }
+        }
+      }
+    }
+
+    AND_GIVEN("setEnablePin(12, LOW)") {
+      stepper.setEnablePin(12, LOW);
+
+      WHEN("powerOn() is called") {
+        CLEAR_ARDUINO_LOG();
+        stepper.powerOn();
+
+        THEN("it should do nothing") {
+          CHECK_ARDUINO_LOG({});
+        }
+      }
+
+      AND_GIVEN("powerOff() was called") {
+        stepper.powerOff();
+
+        WHEN("powerOn() is called") {
+          CLEAR_ARDUINO_LOG();
+          stepper.powerOn();
+
+          THEN("it should set pin 12 to LOW") {
+            CHECK_ARDUINO_LOG({
+                {0, "digitalWrite(12, LOW)"},
             })
           }
         }

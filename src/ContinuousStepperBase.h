@@ -33,10 +33,11 @@ public:
     powerOn();
   }
 
-  void setEnablePin(pin_t enablePin) {
+  void setEnablePin(pin_t enablePin, bool activeLevel = HIGH) {
     pinMode(enablePin, OUTPUT);
-    digitalWrite(enablePin, _status != OFF ? HIGH : LOW);
+    digitalWrite(enablePin, (_status == OFF) ^ activeLevel);
     _enablePin = enablePin;
+    _enablePinActiveLevel = activeLevel;
   }
 
   void powerOn() {
@@ -44,14 +45,14 @@ public:
       return;
 
     if (_enablePin != NULL_PIN)
-      digitalWrite(_enablePin, HIGH);
+      digitalWrite(_enablePin, _enablePinActiveLevel);
 
     updateSpeed();
   }
 
   void powerOff() {
     if (_enablePin != NULL_PIN)
-      digitalWrite(_enablePin, LOW);
+      digitalWrite(_enablePin, !_enablePinActiveLevel);
 
     _status = OFF;
     _currentSpeed = 0;
@@ -170,7 +171,7 @@ private:
   pin_t _stepPin = 0, _dirPin = 0, _enablePin = 0;
   time_t _lastTick = 0, _interval = 0;
   float_t _targetSpeed = 0, _currentSpeed = 0, _acceleration = 1000, _minSpeedForAcceleration = sqrt(1000);
-  bool _stepLevel = LOW, _dirLevel = LOW;
+  bool _stepLevel = LOW, _dirLevel = LOW, _enablePinActiveLevel = HIGH;
 
   enum Status {
     OFF,

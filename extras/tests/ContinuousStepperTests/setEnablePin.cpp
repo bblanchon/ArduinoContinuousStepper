@@ -21,6 +21,30 @@ TEST_CASE("ContinuousStepper::setEnablePin()") {
       }
     }
 
+    WHEN("setEnablePin(12, HIGH) is called") {
+      CLEAR_ARDUINO_LOG();
+      stepper.setEnablePin(12, HIGH);
+
+      THEN("it should set pin 12 to HIGH") {
+        CHECK_ARDUINO_LOG({
+            {0, "pinMode(12, OUTPUT)"},
+            {0, "digitalWrite(12, HIGH)"},
+        })
+      }
+    }
+
+    WHEN("setEnablePin(12, LOW) is called") {
+      CLEAR_ARDUINO_LOG();
+      stepper.setEnablePin(12, LOW);
+
+      THEN("it should set pin 12 to LOW") {
+        CHECK_ARDUINO_LOG({
+            {0, "pinMode(12, OUTPUT)"},
+            {0, "digitalWrite(12, LOW)"},
+        })
+      }
+    }
+
     AND_GIVEN("powerOff() was called") {
       stepper.powerOff();
 
@@ -32,6 +56,30 @@ TEST_CASE("ContinuousStepper::setEnablePin()") {
           CHECK_ARDUINO_LOG({
               {0, "pinMode(12, OUTPUT)"},
               {0, "digitalWrite(12, LOW)"},
+          })
+        }
+      }
+
+      WHEN("setEnablePin(12, HIGH) is called") {
+        CLEAR_ARDUINO_LOG();
+        stepper.setEnablePin(12, HIGH);
+
+        THEN("it should set pin 12 to LOW") {
+          CHECK_ARDUINO_LOG({
+              {0, "pinMode(12, OUTPUT)"},
+              {0, "digitalWrite(12, LOW)"},
+          })
+        }
+      }
+
+      WHEN("setEnablePin(12, LOW) is called") {
+        CLEAR_ARDUINO_LOG();
+        stepper.setEnablePin(12, LOW);
+
+        THEN("it should set pin 12 to HIGH") {
+          CHECK_ARDUINO_LOG({
+              {0, "pinMode(12, OUTPUT)"},
+              {0, "digitalWrite(12, HIGH)"},
           })
         }
       }
