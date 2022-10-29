@@ -33,6 +33,12 @@ public:
     powerOn();
   }
 
+  void setEnablePin(pin_t enablePin) {
+    pinMode(enablePin, OUTPUT);
+    digitalWrite(enablePin, _status != OFF ? HIGH : LOW);
+    _enablePin = enablePin;
+  }
+
   void powerOn() {
     if (_status != OFF)
       return;

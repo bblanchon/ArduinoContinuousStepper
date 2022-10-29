@@ -61,6 +61,10 @@ public:
   // If the enable pin is passed, it sets its level to high.
   begin(pin_t stepPin, pin_t dirPin, pin_t enablePin = NULL_PIN);
 
+  // Configures the "enable" pin.
+  // The pin is set to high unless powerOff() was called.
+  void setEnablePin(pin_t pinNumber);
+
   // Updates the status of the step and dir pins.
   // You must call this function as frequently as possible.
   void loop();
@@ -109,16 +113,16 @@ Moreover, even if you can control the speed with `setMaxSpeed()`, you'll see tha
 
 ### How to migrate from AccelStepper to ContinuousStepper
 
-| AccelStepper         | ContinuousStepper     |
-|:---------------------|:----------------------|
-| `disableOutputs()`   | `powerOff()`          |
-| `enableOutputs()`    | `powerOn()`           |
-| `isRunning()`        | `isSpinning()`        |
-| `move()`             | `spin()`              |
-| `moveTo()`           | `spin()`              |
-| `run()`              | `loop()`              |
-| `setAcceleration()`  | `setAcceleration()`   |
-| `setEnablePin()`     | Constructor's 3rd arg |
-| `setMaxSpeed()`      | `spin()`              |
-| `setMinPulseWidth()` | Automatic             |
-| `stop()`             | `stop()`              |
+| AccelStepper         | ContinuousStepper   |
+|:---------------------|:--------------------|
+| `disableOutputs()`   | `powerOff()`        |
+| `enableOutputs()`    | `powerOn()`         |
+| `isRunning()`        | `isSpinning()`      |
+| `move()`             | `spin()`            |
+| `moveTo()`           | `spin()`            |
+| `run()`              | `loop()`            |
+| `setAcceleration()`  | `setAcceleration()` |
+| `setEnablePin()`     | `setEnablePin()`    |
+| `setMaxSpeed()`      | `spin()`            |
+| `setMinPulseWidth()` | Automatic           |
+| `stop()`             | `stop()`            |

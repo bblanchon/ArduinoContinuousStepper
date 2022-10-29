@@ -6,7 +6,7 @@
 TEST_CASE("ContinuousStepper::powerOn()") {
   ContinuousStepper stepper;
 
-  GIVEN("a stepper with enable pin configured") {
+  GIVEN("begin(10, 11, 12)") {
     stepper.begin(10, 11, 12);
 
     WHEN("powerOn() is called") {
@@ -34,7 +34,7 @@ TEST_CASE("ContinuousStepper::powerOn()") {
     }
   }
 
-  GIVEN("a stepper with no enable pin") {
+  GIVEN("begin(10, 11) was called") {
     stepper.begin(10, 11);
 
     AND_GIVEN("powerOff() was called") {
@@ -78,6 +78,34 @@ TEST_CASE("ContinuousStepper::powerOn()") {
                 {85'173, "digitalWrite(10, HIGH)"},
                 {90'173, "digitalWrite(10, LOW)"},
                 {95'173, "digitalWrite(10, HIGH)"},
+            })
+          }
+        }
+      }
+    }
+
+    AND_GIVEN("setEnablePin(12)") {
+      stepper.setEnablePin(12);
+
+      WHEN("powerOn() is called") {
+        CLEAR_ARDUINO_LOG();
+        stepper.powerOn();
+
+        THEN("it should do nothing") {
+          CHECK_ARDUINO_LOG({});
+        }
+      }
+
+      AND_GIVEN("powerOff() was called") {
+        stepper.powerOff();
+
+        WHEN("powerOn() is called") {
+          CLEAR_ARDUINO_LOG();
+          stepper.powerOn();
+
+          THEN("it should set pin 12 to HIGH") {
+            CHECK_ARDUINO_LOG({
+                {0, "digitalWrite(12, HIGH)"},
             })
           }
         }

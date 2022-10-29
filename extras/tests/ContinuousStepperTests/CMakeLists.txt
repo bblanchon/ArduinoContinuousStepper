@@ -2,6 +2,7 @@ add_executable(ContinuousStepperTests
   begin.cpp
   powerOff.cpp
   powerOn.cpp
+  setEnablePin.cpp
   spin.cpp
   stop.cpp
 

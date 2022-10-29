@@ -6,6 +6,7 @@ HEAD
 
 * Set *dir* pin level only when it changes (used to be on each tick)
 * Fix acceleration bug after reversing the rotation (issue #7)
+* Add `setEnablePin()` (issue #6)
 
 2.0.0
 -----
