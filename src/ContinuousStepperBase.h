@@ -2,6 +2,8 @@
 
 #include <Arduino.h>
 
+#include "attributes.h"
+
 namespace ArduinoContinuousStepper {
 
 struct TimerClient {
@@ -15,22 +17,23 @@ public:
   typedef double float_t;
   typedef uint8_t pin_t;
 
-  static const pin_t NULL_PIN = 255;
-
   ContinuousStepperBase(const TTimer &timer) : _timer(timer) {}
 
-  void begin(pin_t stepPin, pin_t dirPin, pin_t enablePin = NULL_PIN) {
+  void begin(pin_t stepPin, pin_t dirPin) {
     _stepPin = stepPin;
     _dirPin = dirPin;
-    _enablePin = enablePin;
+    _status = WAIT;
 
     _timer.begin(this);
 
     pinMode(stepPin, OUTPUT);
     pinMode(dirPin, OUTPUT);
-    if (enablePin != NULL_PIN)
-      pinMode(enablePin, OUTPUT);
-    powerOn();
+  }
+
+  CONTINUOUSSTEPPER_DEPRECATED("use setEnablePin() instead")
+  void begin(pin_t stepPin, pin_t dirPin, pin_t enablePin) {
+    begin(stepPin, dirPin);
+    setEnablePin(enablePin);
   }
 
   void setEnablePin(pin_t enablePin, bool activeLevel = HIGH) {
@@ -165,10 +168,11 @@ private:
     return micros();
   }
 
+  static const pin_t NULL_PIN = 255;
   static const time_t oneSecond = 1e6;
 
   TTimer _timer;
-  pin_t _stepPin = 0, _dirPin = 0, _enablePin = 0;
+  pin_t _stepPin = 0, _dirPin = 0, _enablePin = NULL_PIN;
   time_t _lastTick = 0, _interval = 0;
   float_t _targetSpeed = 0, _currentSpeed = 0, _acceleration = 1000, _minSpeedForAcceleration = sqrt(1000);
   bool _stepLevel = LOW, _dirLevel = LOW, _enablePinActiveLevel = HIGH;

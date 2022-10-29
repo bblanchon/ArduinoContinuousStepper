@@ -58,8 +58,7 @@ void loop() {
 class ContinuousStepper {
 public:
   // Initialize the class and attaches to the specified pins.
-  // If the enable pin is passed, it sets its level to high.
-  begin(pin_t stepPin, pin_t dirPin, pin_t enablePin = NULL_PIN);
+  void begin(pin_t stepPin, pin_t dirPin);
 
   // Configures the "enable" pin.
   // You can pass LOW as the second argument to invert the logic.

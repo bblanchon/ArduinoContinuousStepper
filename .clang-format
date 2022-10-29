@@ -1,3 +1,4 @@
 AllowShortFunctionsOnASingleLine: Empty
 AlwaysBreakTemplateDeclarations: Yes
 ColumnLimit: 120
+IndentPPDirectives: AfterHash
