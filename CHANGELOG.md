@@ -1,8 +1,8 @@
 ContinuousStepper: changelog
 ============================
 
-HEAD
-----
+2.1.0
+-----
 
 * Set *dir* pin level only when it changes (used to be on each tick)
 * Fix acceleration bug after reversing the rotation (issue #7)
