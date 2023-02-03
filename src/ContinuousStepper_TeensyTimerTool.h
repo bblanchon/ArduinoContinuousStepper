@@ -3,7 +3,6 @@
 #include <TeensyTimerTool.h> // https://github.com/luni64/TeensyTimerTool
 
 #include "ContinuousStepperBase.h"
-#include "TimerOneAdapter.hpp"
 
 namespace ArduinoContinuousStepper {
 
