@@ -6,16 +6,17 @@
 
 namespace ArduinoContinuousStepper {
 
-class TeensyTimerToolAdapter {
+class ContinuousStepper_TeensyTimerTool : public ContinuousStepperBase {
+
 public:
-  TeensyTimerToolAdapter(TeensyTimerTool::PeriodicTimer &timer) : _timer(&timer) {}
+  ContinuousStepper_TeensyTimerTool(TeensyTimerTool::PeriodicTimer &timer) : _timer(&timer) {}
 
-  void begin(TimerClient *client) {
-
-    _timer->begin([client]() { client->tick(); }, 1000, false);
+protected:
+  void initialize() override {
+    _timer->begin([this]() { tick(); }, 1000, false);
   }
 
-  void setPeriod(unsigned long period) {
+  void setPeriod(unsigned long period) override {
     _timer->stop();
     if (period) {
       _timer->setPeriod(period);
@@ -25,11 +26,6 @@ public:
 
 private:
   TeensyTimerTool::PeriodicTimer *_timer;
-};
-
-struct ContinuousStepper_TeensyTimerTool : ContinuousStepperBase<TeensyTimerToolAdapter> {
-  ContinuousStepper_TeensyTimerTool(TeensyTimerTool::PeriodicTimer &timer)
-      : ContinuousStepperBase(TeensyTimerToolAdapter(timer)) {}
 };
 
 }; // namespace ArduinoContinuousStepper

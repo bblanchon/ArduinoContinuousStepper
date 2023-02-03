@@ -2,17 +2,14 @@
 
 namespace ArduinoContinuousStepper {
 template <typename TTimer>
-class TimerOneAdapter {
-public:
-  TimerOneAdapter() {
+class ContinuousStepper_TimerX : public ContinuousStepperBase {
+protected:
+  void initialize() override {
+    _instance = this;
     _timer.attachInterrupt(interruptHandler);
   }
 
-  void begin(TimerClient *client) {
-    _client = client;
-  }
-
-  void setPeriod(unsigned long interval) {
+  void setPeriod(unsigned long interval) override {
     _timer.stop();
     if (interval) {
       _timer.setPeriod(interval);
@@ -22,18 +19,17 @@ public:
 
 private:
   static void interruptHandler() {
-    if (_client)
-      _client->tick();
+    _instance->tick();
   }
 
   static TTimer _timer;
-  static TimerClient *_client;
+  static ContinuousStepper_TimerX *_instance;
 };
 
 template <typename TTimer>
-TTimer TimerOneAdapter<TTimer>::_timer;
+TTimer ContinuousStepper_TimerX<TTimer>::_timer;
 
 template <typename TTimer>
-TimerClient *TimerOneAdapter<TTimer>::_client;
+ContinuousStepper_TimerX<TTimer> *ContinuousStepper_TimerX<TTimer>::_instance;
 
 } // namespace ArduinoContinuousStepper

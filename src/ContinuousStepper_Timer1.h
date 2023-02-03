@@ -3,13 +3,11 @@
 #include <TimerOne.h> // https://github.com/PaulStoffregen/TimerOne
 
 #include "ContinuousStepperBase.h"
-#include "TimerOneAdapter.hpp"
+#include "ContinuousStepper_TimerX.hpp"
 
 namespace ArduinoContinuousStepper {
 
-struct ContinuousStepper_Timer1 : ContinuousStepperBase<TimerOneAdapter<TimerOne>> {
-  ContinuousStepper_Timer1() : ContinuousStepperBase(TimerOneAdapter<TimerOne>()) {}
-};
+using ContinuousStepper_Timer1 = ContinuousStepper_TimerX<TimerOne>;
 
 }; // namespace ArduinoContinuousStepper
 

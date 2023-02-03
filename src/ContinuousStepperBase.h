@@ -6,28 +6,21 @@
 
 namespace ArduinoContinuousStepper {
 
-struct TimerClient {
-  virtual void tick() = 0;
-};
-
-template <typename TTimer>
-class ContinuousStepperBase : TimerClient {
+class ContinuousStepperBase {
 public:
   typedef unsigned long time_t;
   typedef double float_t;
   typedef uint8_t pin_t;
-
-  ContinuousStepperBase(const TTimer &timer) : _timer(timer) {}
 
   void begin(pin_t stepPin, pin_t dirPin) {
     _stepPin = stepPin;
     _dirPin = dirPin;
     _status = WAIT;
 
-    _timer.begin(this);
-
     pinMode(stepPin, OUTPUT);
     pinMode(dirPin, OUTPUT);
+
+    initialize();
   }
 
   CONTINUOUSSTEPPER_DEPRECATED("use setEnablePin() instead")
@@ -59,7 +52,7 @@ public:
 
     _status = OFF;
     _currentSpeed = 0;
-    setInterval(0);
+    setPeriodIfChanged(0);
   }
 
   void spin(float_t speed) {
@@ -90,7 +83,7 @@ public:
   }
 
 protected:
-  void tick() override {
+  void tick() {
     if (_status == WAIT || _status == OFF)
       return;
 
@@ -139,30 +132,33 @@ private:
     }
 
     if (abs(_currentSpeed) >= _minSpeedForAcceleration) {
-      setInterval(oneSecond / abs(_currentSpeed) / 2);
+      setPeriodIfChanged(oneSecond / abs(_currentSpeed) / 2);
       _status = STEP;
     } else if (abs(_targetSpeed) >= _minSpeedForAcceleration) {
       // crossing the zero on the speed graph
-      setInterval(oneSecond / _minSpeedForAcceleration / 2);
+      setPeriodIfChanged(oneSecond / _minSpeedForAcceleration / 2);
       _status = SKIP;
     } else if (_targetSpeed) {
       // target speed is not null but too low to allow a smooth acceleration
-      setInterval(oneSecond / _targetSpeed / 2);
+      setPeriodIfChanged(oneSecond / _targetSpeed / 2);
       _status = STEP;
     } else {
       // target speed is null
       _status = WAIT;
       _currentSpeed = 0;
-      setInterval(0);
+      setPeriodIfChanged(0);
     }
   }
 
-  void setInterval(time_t interval) {
+  void setPeriodIfChanged(time_t interval) {
     if (interval != _interval) {
       _interval = interval;
-      _timer.setPeriod(interval);
+      setPeriod(interval); // delegate to derived class
     }
   }
+
+  virtual void initialize(){};
+  virtual void setPeriod(time_t interval) = 0;
 
   static time_t now() {
     return micros();
@@ -171,7 +167,6 @@ private:
   static const pin_t NULL_PIN = 255;
   static const time_t oneSecond = 1e6;
 
-  TTimer _timer;
   pin_t _stepPin = 0, _dirPin = 0, _enablePin = NULL_PIN;
   time_t _lastTick = 0, _interval = 0;
   float_t _targetSpeed = 0, _currentSpeed = 0, _acceleration = 1000, _minSpeedForAcceleration = sqrt(1000);

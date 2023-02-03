@@ -3,18 +3,14 @@
 #include "ContinuousStepperBase.h"
 
 namespace ArduinoContinuousStepper {
-struct NullTimer {
-  void begin(TimerClient *) {}
-  void setPeriod(unsigned long) {}
-};
-
-class ContinuousStepper : public ContinuousStepperBase<NullTimer> {
+class ContinuousStepper : public ContinuousStepperBase {
 public:
-  ContinuousStepper() : ContinuousStepperBase(NullTimer()) {}
-
   void loop() {
     tick();
   }
+
+protected:
+  void setPeriod(unsigned long) override {}
 };
 } // namespace ArduinoContinuousStepper
 
