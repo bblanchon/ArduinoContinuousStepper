@@ -6,6 +6,7 @@ add_executable(ContinuousStepperTests
   spin.cpp
   stop.cpp
 
+  ContinuousStepper_AWF.cpp
   ContinuousStepper_Tone.cpp
 )
 

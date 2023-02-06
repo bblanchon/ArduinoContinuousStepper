@@ -11,6 +11,7 @@ Contrary to other stepper libraries, this one doesn't provide any function to mo
 * Optionally supports the *enable* pin
 * Optionally runs with [TimerOne](https://github.com/PaulStoffregen/TimerOne), [TimerThree](https://github.com/PaulStoffregen/TimerThree) or [TeensyTimerTool](https://github.com/luni64/TeensyTimerTool)
 * Optionally uses `tone()` instead of `digitalWrite()` for the step pin
+* Optionally uses PWM with `analogWriteFrequency()` on Teensy 3 and 4
 * Accelerates and decelerates smoothly
 * Negative speed rotates backward
 * Tiny footprint (about 150 lines of code)

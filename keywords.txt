@@ -3,6 +3,7 @@ ContinuousStepper_Timer1	KEYWORD1
 ContinuousStepper_Timer3	KEYWORD1
 ContinuousStepper_TeensyTimerTool	KEYWORD1
 ContinuousStepper_Tone	KEYWORD1
+ContinuousStepper_AWF	KEYWORD1
 isSpinning	KEYWORD2
 powerOff	KEYWORD2
 powerOn	KEYWORD2

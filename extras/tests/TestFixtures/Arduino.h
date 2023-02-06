@@ -10,6 +10,8 @@ void pinMode(uint8_t pin, uint8_t mode);
 void digitalWrite(uint8_t pin, uint8_t val);
 void tone(uint8_t pin, unsigned int frequency);
 void noTone(uint8_t pin);
+void analogWrite(uint8_t pin, uint8_t val);
+void analogWriteFrequency(uint8_t pin, float frequency);
 
 unsigned long micros();
 

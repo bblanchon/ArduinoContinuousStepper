@@ -30,3 +30,11 @@ void tone(uint8_t pin, unsigned int frequency) {
 void noTone(uint8_t pin) {
   arduino_log.add(_micros, "noTone(%d)");
 }
+
+void analogWrite(uint8_t pin, uint8_t val) {
+  arduino_log.add(_micros, "analogWrite(%d, %d)", pin, val);
+}
+
+void analogWriteFrequency(uint8_t pin, float frequency) {
+  arduino_log.add(_micros, "analogWriteFrequency(%d, %g)", pin, frequency);
+}
