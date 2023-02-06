@@ -12,6 +12,7 @@ Contrary to other stepper libraries, this one doesn't provide any function to mo
 * Optionally runs with [TimerOne](https://github.com/PaulStoffregen/TimerOne), [TimerThree](https://github.com/PaulStoffregen/TimerThree) or [TeensyTimerTool](https://github.com/luni64/TeensyTimerTool)
 * Optionally uses `tone()` instead of `digitalWrite()` for the step pin
 * Optionally uses PWM with `analogWriteFrequency()` on Teensy 3 and 4
+* Optionally uses [Khoi Hoang](https://github.com/khoih-prog)'s PWM libraries (RP2040_PWM, SAMD_PWM, AVR_PWM, STM32_PWM, Teensy_PWM...)
 * Accelerates and decelerates smoothly
 * Negative speed rotates backward
 * Tiny footprint (about 150 lines of code)
