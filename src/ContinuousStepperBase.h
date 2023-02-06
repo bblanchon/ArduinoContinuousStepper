@@ -69,8 +69,8 @@ public:
     return _currentSpeed;
   }
 
-  time_t interval() const {
-    return _interval;
+  time_t period() const {
+    return _period;
   }
 
   void setAcceleration(float_t acceleration) {
@@ -90,7 +90,7 @@ protected:
     time_t t = now();
     time_t elapsed = t - _lastTick;
 
-    if (elapsed >= _interval) {
+    if (elapsed >= _period) {
       if (_stepLevel == HIGH) {
         writeStep(LOW);
       } else {
@@ -121,7 +121,7 @@ private:
   }
 
   void updateSpeed() {
-    float_t speedIncrement = _interval ? _acceleration * _interval * 2 / oneSecond : _minSpeedForAcceleration;
+    float_t speedIncrement = _period ? _acceleration * _period * 2 / oneSecond : _minSpeedForAcceleration;
 
     if (_targetSpeed > _currentSpeed) {
       _currentSpeed = min(_currentSpeed + speedIncrement, _targetSpeed);
@@ -150,15 +150,15 @@ private:
     }
   }
 
-  void setPeriodIfChanged(time_t interval) {
-    if (interval != _interval) {
-      _interval = interval;
-      setPeriod(interval); // delegate to derived class
+  void setPeriodIfChanged(time_t period) {
+    if (period != _period) {
+      _period = period;
+      setPeriod(period); // delegate to derived class
     }
   }
 
   virtual void initialize(){};
-  virtual void setPeriod(time_t interval) = 0;
+  virtual void setPeriod(time_t period) = 0;
 
   static time_t now() {
     return micros();
@@ -168,7 +168,7 @@ private:
   static const time_t oneSecond = 1e6;
 
   pin_t _stepPin = 0, _dirPin = 0, _enablePin = NULL_PIN;
-  time_t _lastTick = 0, _interval = 0;
+  time_t _lastTick = 0, _period = 0;
   float_t _targetSpeed = 0, _currentSpeed = 0, _acceleration = 1000, _minSpeedForAcceleration = sqrt(1000);
   bool _stepLevel = LOW, _dirLevel = LOW, _enablePinActiveLevel = HIGH;
 

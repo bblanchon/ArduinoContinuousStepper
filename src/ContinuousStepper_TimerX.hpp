@@ -9,10 +9,10 @@ protected:
     _timer.attachInterrupt(interruptHandler);
   }
 
-  void setPeriod(unsigned long interval) override {
+  void setPeriod(unsigned long period) override {
     _timer.stop();
-    if (interval) {
-      _timer.setPeriod(interval);
+    if (period) {
+      _timer.setPeriod(period);
       _timer.start();
     }
   }
