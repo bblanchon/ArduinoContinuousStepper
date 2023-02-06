@@ -22,3 +22,11 @@ void pinMode(uint8_t pin, uint8_t mode) {
 void digitalWrite(uint8_t pin, uint8_t val) {
   arduino_log.add(_micros, "digitalWrite(%d, %s)", pin, val ? "HIGH" : "LOW");
 }
+
+void tone(uint8_t pin, unsigned int frequency) {
+  arduino_log.add(_micros, "tone(%d, %u)", pin, frequency);
+}
+
+void noTone(uint8_t pin) {
+  arduino_log.add(_micros, "noTone(%d)");
+}

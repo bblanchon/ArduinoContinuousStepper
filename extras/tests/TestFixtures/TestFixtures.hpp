@@ -15,13 +15,15 @@
       SUCCEED();                                                                                                       \
   }
 
-inline void loop_till(ContinuousStepper &stepper, unsigned long end_time, unsigned long step = 1) {
+template <typename TContinuousStepper>
+inline void loop_till(TContinuousStepper &stepper, unsigned long end_time, unsigned long step = 1) {
   for (unsigned long t = micros(); t <= end_time; t += step) {
     set_micros(t);
     stepper.loop();
   }
 }
 
-inline void loop_for(ContinuousStepper &stepper, unsigned long duration, unsigned long step = 1) {
+template <typename TContinuousStepper>
+inline void loop_for(TContinuousStepper &stepper, unsigned long duration, unsigned long step = 1) {
   loop_till(stepper, micros() + duration, step);
 }

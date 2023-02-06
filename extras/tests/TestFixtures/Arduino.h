@@ -8,6 +8,8 @@ enum { INPUT, OUTPUT };
 
 void pinMode(uint8_t pin, uint8_t mode);
 void digitalWrite(uint8_t pin, uint8_t val);
+void tone(uint8_t pin, unsigned int frequency);
+void noTone(uint8_t pin);
 
 unsigned long micros();
 

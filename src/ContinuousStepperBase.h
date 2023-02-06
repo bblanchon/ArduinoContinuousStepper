@@ -86,12 +86,14 @@ protected:
   void tick() {
     if (_stepLevel == LOW) {
       if (_status == STEP) {
-        writeDir(_currentSpeed >= 0 ? HIGH : LOW);
+        writeDir();
         writeStep(HIGH);
+        _stepLevel = HIGH;
       }
       updateSpeedIfNeeded();
     } else {
       writeStep(LOW);
+      _stepLevel = LOW;
     }
   }
 
@@ -100,19 +102,23 @@ protected:
       updateSpeed();
   }
 
-private:
-  void writeStep(bool level) {
+  virtual void writeStep(bool level) {
     digitalWrite(_stepPin, level);
-    _stepLevel = level;
   }
 
-  void writeDir(bool level) {
+  pin_t stepPin() const {
+    return _stepPin;
+  }
+
+  void writeDir() {
+    bool level = _currentSpeed >= 0 ? HIGH : LOW;
     if (level == _dirLevel)
       return;
     digitalWrite(_dirPin, level);
     _dirLevel = level;
   }
 
+private:
   void updateSpeed() {
     float_t speedIncrement = _period ? _acceleration * _period / oneSecond : _minSpeedForAcceleration;
 
@@ -133,7 +139,7 @@ private:
       _status = SKIP;
     } else if (_targetSpeed) {
       // target speed is not null but too low to allow a smooth acceleration
-      _period = oneSecond / _targetSpeed;
+      _period = oneSecond / abs(_targetSpeed);
       _status = STEP;
     } else {
       // target speed is null

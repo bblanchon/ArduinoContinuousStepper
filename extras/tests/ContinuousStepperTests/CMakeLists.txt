@@ -5,6 +5,8 @@ add_executable(ContinuousStepperTests
   setEnablePin.cpp
   spin.cpp
   stop.cpp
+
+  ContinuousStepper_Tone.cpp
 )
 
 target_link_libraries(ContinuousStepperTests

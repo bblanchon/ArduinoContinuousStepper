@@ -5,6 +5,7 @@ HEAD
 ----
 
 * Fix occasional missed ticks on timer-based implementations
+* Add `ContinuousStepper_Tone` which uses `tone()` instead of `digitalWrite()` for the step pin
 
 2.1.0
 -----
