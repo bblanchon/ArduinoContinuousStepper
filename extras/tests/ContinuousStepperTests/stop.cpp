@@ -28,12 +28,12 @@ TEST_CASE("ContinuousStepper::stop()") {
             {105'173, "digitalWrite(10, HIGH)"},
             {110'728, "digitalWrite(10, LOW)"},
             {116'283, "digitalWrite(10, HIGH)"},
-            {122'620, "digitalWrite(10, LOW)"},
-            {128'957, "digitalWrite(10, HIGH)"},
-            {136'508, "digitalWrite(10, LOW)"},
-            {144'059, "digitalWrite(10, HIGH)"},
-            {153'841, "digitalWrite(10, LOW)"},
-            {163'623, "digitalWrite(10, HIGH)"},
+            {122'621, "digitalWrite(10, LOW)"},
+            {128'959, "digitalWrite(10, HIGH)"},
+            {136'510, "digitalWrite(10, LOW)"},
+            {144'061, "digitalWrite(10, HIGH)"},
+            {153'843, "digitalWrite(10, LOW)"},
+            {163'625, "digitalWrite(10, HIGH)"},
         })
       }
     }

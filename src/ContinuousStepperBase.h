@@ -90,7 +90,7 @@ protected:
     time_t t = now();
     time_t elapsed = t - _lastTick;
 
-    if (elapsed >= _period) {
+    if (elapsed >= _period / 2) {
       if (_stepLevel == HIGH) {
         writeStep(LOW);
       } else {
@@ -121,7 +121,7 @@ private:
   }
 
   void updateSpeed() {
-    float_t speedIncrement = _period ? _acceleration * _period * 2 / oneSecond : _minSpeedForAcceleration;
+    float_t speedIncrement = _period ? _acceleration * _period / oneSecond : _minSpeedForAcceleration;
 
     if (_targetSpeed > _currentSpeed) {
       _currentSpeed = min(_currentSpeed + speedIncrement, _targetSpeed);
@@ -132,15 +132,15 @@ private:
     }
 
     if (abs(_currentSpeed) >= _minSpeedForAcceleration) {
-      setPeriodIfChanged(oneSecond / abs(_currentSpeed) / 2);
+      setPeriodIfChanged(oneSecond / abs(_currentSpeed));
       _status = STEP;
     } else if (abs(_targetSpeed) >= _minSpeedForAcceleration) {
       // crossing the zero on the speed graph
-      setPeriodIfChanged(oneSecond / _minSpeedForAcceleration / 2);
+      setPeriodIfChanged(oneSecond / _minSpeedForAcceleration);
       _status = SKIP;
     } else if (_targetSpeed) {
       // target speed is not null but too low to allow a smooth acceleration
-      setPeriodIfChanged(oneSecond / _targetSpeed / 2);
+      setPeriodIfChanged(oneSecond / _targetSpeed);
       _status = STEP;
     } else {
       // target speed is null

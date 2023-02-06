@@ -19,7 +19,7 @@ protected:
   void setPeriod(unsigned long period) override {
     _timer->stop();
     if (period) {
-      _timer->setPeriod(period);
+      _timer->setPeriod(period / 2);
       _timer->start();
     }
   }
