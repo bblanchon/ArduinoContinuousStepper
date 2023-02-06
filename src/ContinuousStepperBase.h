@@ -84,26 +84,14 @@ public:
 
 protected:
   void tick() {
-    if (_status == WAIT || _status == OFF)
-      return;
-
-    time_t t = now();
-    time_t elapsed = t - _lastTick;
-
-    if (elapsed >= _period / 2) {
-      if (_stepLevel == HIGH) {
-        writeStep(LOW);
-      } else {
-
-        if (_status == STEP) {
-          writeDir(_currentSpeed >= 0 ? HIGH : LOW);
-          writeStep(HIGH);
-        }
-
-        updateSpeed();
+    if (_stepLevel == LOW) {
+      if (_status == STEP) {
+        writeDir(_currentSpeed >= 0 ? HIGH : LOW);
+        writeStep(HIGH);
       }
-
-      _lastTick = t;
+      updateSpeed();
+    } else {
+      writeStep(LOW);
     }
   }
 
@@ -160,15 +148,11 @@ private:
   virtual void initialize(){};
   virtual void setPeriod(time_t period) = 0;
 
-  static time_t now() {
-    return micros();
-  }
-
   static const pin_t NULL_PIN = 255;
   static const time_t oneSecond = 1e6;
 
   pin_t _stepPin = 0, _dirPin = 0, _enablePin = NULL_PIN;
-  time_t _lastTick = 0, _period = 0;
+  time_t _period = 0;
   float_t _targetSpeed = 0, _currentSpeed = 0, _acceleration = 1000, _minSpeedForAcceleration = sqrt(1000);
   bool _stepLevel = LOW, _dirLevel = LOW, _enablePinActiveLevel = HIGH;
 

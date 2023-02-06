@@ -1,6 +1,11 @@
 ContinuousStepper: changelog
 ============================
 
+HEAD
+----
+
+* Fix occasional missed ticks on timer-based implementations
+
 2.1.0
 -----
 
