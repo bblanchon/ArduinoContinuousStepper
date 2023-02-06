@@ -5,17 +5,12 @@ add_executable(ContinuousStepperTests
   setEnablePin.cpp
   spin.cpp
   stop.cpp
-
-  helpers.hpp
-  helpers.cpp
 )
 
 target_link_libraries(ContinuousStepperTests
   PRIVATE
-    ArduinoStub
-    EventLog
+    TestFixtures
     ContinuousStepper
-    Catch2::Catch2WithMain
 )
 
 if(MSVC)

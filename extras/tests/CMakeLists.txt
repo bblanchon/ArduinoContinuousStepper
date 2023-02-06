@@ -1,4 +1,3 @@
-add_subdirectory(ArduinoStub)
-add_subdirectory(EventLog)
+add_subdirectory(TestFixtures)
 
 add_subdirectory(ContinuousStepperTests)

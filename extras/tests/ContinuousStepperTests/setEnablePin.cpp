@@ -1,7 +1,5 @@
-#include <Arduino.h>
 #include <ContinuousStepper.h>
-
-#include "helpers.hpp"
+#include <TestFixtures.hpp>
 
 TEST_CASE("ContinuousStepper::setEnablePin()") {
   ContinuousStepper stepper;
