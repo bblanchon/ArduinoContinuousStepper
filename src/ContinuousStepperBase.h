@@ -52,7 +52,7 @@ public:
 
     _status = OFF;
     _currentSpeed = 0;
-    setPeriodIfChanged(0);
+    setPeriod(0);
   }
 
   void spin(float_t speed) {
@@ -89,10 +89,15 @@ protected:
         writeDir(_currentSpeed >= 0 ? HIGH : LOW);
         writeStep(HIGH);
       }
-      updateSpeed();
+      updateSpeedIfNeeded();
     } else {
       writeStep(LOW);
     }
+  }
+
+  void updateSpeedIfNeeded() {
+    if (_targetSpeed != _currentSpeed)
+      updateSpeed();
   }
 
 private:
@@ -120,29 +125,24 @@ private:
     }
 
     if (abs(_currentSpeed) >= _minSpeedForAcceleration) {
-      setPeriodIfChanged(oneSecond / abs(_currentSpeed));
+      _period = oneSecond / abs(_currentSpeed);
       _status = STEP;
     } else if (abs(_targetSpeed) >= _minSpeedForAcceleration) {
       // crossing the zero on the speed graph
-      setPeriodIfChanged(oneSecond / _minSpeedForAcceleration);
+      _period = oneSecond / _minSpeedForAcceleration;
       _status = SKIP;
     } else if (_targetSpeed) {
       // target speed is not null but too low to allow a smooth acceleration
-      setPeriodIfChanged(oneSecond / _targetSpeed);
+      _period = oneSecond / _targetSpeed;
       _status = STEP;
     } else {
       // target speed is null
       _status = WAIT;
       _currentSpeed = 0;
-      setPeriodIfChanged(0);
+      _period = 0;
     }
-  }
 
-  void setPeriodIfChanged(time_t period) {
-    if (period != _period) {
-      _period = period;
-      setPeriod(period); // delegate to derived class
-    }
+    setPeriod(_period);
   }
 
   virtual void initialize(){};
