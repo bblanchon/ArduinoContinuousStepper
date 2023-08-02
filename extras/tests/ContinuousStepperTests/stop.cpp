@@ -22,16 +22,16 @@ TEST_CASE("ContinuousStepper::stop()") {
         REQUIRE(stepper.isSpinning() == false);
         REQUIRE(stepper.speed() == 0);
         CHECK_ARDUINO_LOG({
-            {100'173, "digitalWrite(10, LOW)"},
-            {105'173, "digitalWrite(10, HIGH)"},
-            {110'728, "digitalWrite(10, LOW)"},
-            {116'283, "digitalWrite(10, HIGH)"},
-            {122'621, "digitalWrite(10, LOW)"},
-            {128'959, "digitalWrite(10, HIGH)"},
-            {136'510, "digitalWrite(10, LOW)"},
-            {144'061, "digitalWrite(10, HIGH)"},
-            {153'843, "digitalWrite(10, LOW)"},
-            {163'625, "digitalWrite(10, HIGH)"},
+            {100'173, "digitalWrite(10, LOW)"},  // 5 ms
+            {105'173, "digitalWrite(10, HIGH)"}, // 5.555 ms
+            {110'728, "digitalWrite(10, LOW)"},  // 5.555 ms
+            {116'283, "digitalWrite(10, HIGH)"}, // 6.338 ms
+            {122'621, "digitalWrite(10, LOW)"},  // 6.338 ms
+            {128'959, "digitalWrite(10, HIGH)"}, // 7.551 ms
+            {136'510, "digitalWrite(10, LOW)"},  // 7.551 ms
+            {144'061, "digitalWrite(10, HIGH)"}, // 9.782 ms
+            {153'843, "digitalWrite(10, LOW)"},  // 9.782 ms
+            {163'625, "digitalWrite(10, HIGH)"}, // ...
         })
       }
     }

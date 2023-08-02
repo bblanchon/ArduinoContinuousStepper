@@ -60,22 +60,22 @@ TEST_CASE("ContinuousStepper::powerOn()") {
             REQUIRE(stepper.isSpinning() == true);
             CHECK(stepper.speed() == 100);
             CHECK_ARDUINO_LOG({
-                {15'811, "digitalWrite(11, HIGH)"},
-                {15'811, "digitalWrite(10, HIGH)"},
-                {23'716, "digitalWrite(10, LOW)"},
-                {31'621, "digitalWrite(10, HIGH)"},
-                {37'945, "digitalWrite(10, LOW)"},
-                {44'269, "digitalWrite(10, HIGH)"},
-                {49'721, "digitalWrite(10, LOW)"},
-                {55'173, "digitalWrite(10, HIGH)"},
-                {60'173, "digitalWrite(10, LOW)"},
-                {65'173, "digitalWrite(10, HIGH)"},
-                {70'173, "digitalWrite(10, LOW)"},
-                {75'173, "digitalWrite(10, HIGH)"},
-                {80'173, "digitalWrite(10, LOW)"},
-                {85'173, "digitalWrite(10, HIGH)"},
-                {90'173, "digitalWrite(10, LOW)"},
-                {95'173, "digitalWrite(10, HIGH)"},
+                {15'811, "digitalWrite(11, HIGH)"}, // DIR
+                {15'811, "digitalWrite(10, HIGH)"}, // 7.905 ms
+                {23'716, "digitalWrite(10, LOW)"},  // 7.905 ms
+                {31'621, "digitalWrite(10, HIGH)"}, // 6.324 ms
+                {37'945, "digitalWrite(10, LOW)"},  // 6.324 ms
+                {44'269, "digitalWrite(10, HIGH)"}, // 5.452 ms
+                {49'721, "digitalWrite(10, LOW)"},  // 5.452 ms
+                {55'173, "digitalWrite(10, HIGH)"}, // 5 ms
+                {60'173, "digitalWrite(10, LOW)"},  // 5 ms
+                {65'173, "digitalWrite(10, HIGH)"}, // 5 ms
+                {70'173, "digitalWrite(10, LOW)"},  // 5 ms
+                {75'173, "digitalWrite(10, HIGH)"}, // 5 ms
+                {80'173, "digitalWrite(10, LOW)"},  // 5 ms
+                {85'173, "digitalWrite(10, HIGH)"}, // 5 ms
+                {90'173, "digitalWrite(10, LOW)"},  // 5 ms
+                {95'173, "digitalWrite(10, HIGH)"}, // ...
             })
           }
         }

@@ -36,22 +36,22 @@ TEST_CASE("ContinuousStepper::spin()") {
           REQUIRE(stepper.speed() == 100);
 
           CHECK_ARDUINO_LOG({
-              {15'811, "digitalWrite(11, HIGH)"},
-              {15'811, "digitalWrite(10, HIGH)"},
-              {23'716, "digitalWrite(10, LOW)"},
-              {31'621, "digitalWrite(10, HIGH)"},
-              {37'945, "digitalWrite(10, LOW)"},
-              {44'269, "digitalWrite(10, HIGH)"},
-              {49'721, "digitalWrite(10, LOW)"},
-              {55'173, "digitalWrite(10, HIGH)"},
-              {60'173, "digitalWrite(10, LOW)"},
-              {65'173, "digitalWrite(10, HIGH)"},
-              {70'173, "digitalWrite(10, LOW)"},
-              {75'173, "digitalWrite(10, HIGH)"},
-              {80'173, "digitalWrite(10, LOW)"},
-              {85'173, "digitalWrite(10, HIGH)"},
-              {90'173, "digitalWrite(10, LOW)"},
-              {95'173, "digitalWrite(10, HIGH)"},
+              {15'811, "digitalWrite(11, HIGH)"}, // DIR
+              {15'811, "digitalWrite(10, HIGH)"}, // 7.905 ms
+              {23'716, "digitalWrite(10, LOW)"},  // 7.905 ms
+              {31'621, "digitalWrite(10, HIGH)"}, // 6.324 ms
+              {37'945, "digitalWrite(10, LOW)"},  // 6.324 ms
+              {44'269, "digitalWrite(10, HIGH)"}, // 5.452 ms
+              {49'721, "digitalWrite(10, LOW)"},  // 5.452 ms
+              {55'173, "digitalWrite(10, HIGH)"}, // 5 ms
+              {60'173, "digitalWrite(10, LOW)"},  // 5 ms
+              {65'173, "digitalWrite(10, HIGH)"}, // 5 ms
+              {70'173, "digitalWrite(10, LOW)"},  // 5 ms
+              {75'173, "digitalWrite(10, HIGH)"}, // 5 ms
+              {80'173, "digitalWrite(10, LOW)"},  // 5 ms
+              {85'173, "digitalWrite(10, HIGH)"}, // 5 ms
+              {90'173, "digitalWrite(10, LOW)"},  // 5 ms
+              {95'173, "digitalWrite(10, HIGH)"}, // ...
           });
 
           AND_WHEN("spin(-100) is called") {
@@ -63,31 +63,31 @@ TEST_CASE("ContinuousStepper::spin()") {
               REQUIRE(stepper.speed() == -100);
 
               CHECK_ARDUINO_LOG({
-                  {100'728, "digitalWrite(10, LOW)"},
-                  {106'283, "digitalWrite(10, HIGH)"},
-                  {112'621, "digitalWrite(10, LOW)"},
-                  {118'959, "digitalWrite(10, HIGH)"},
-                  {126'510, "digitalWrite(10, LOW)"},
-                  {134'061, "digitalWrite(10, HIGH)"},
-                  {143'843, "digitalWrite(10, LOW)"},
-                  {153'625, "digitalWrite(10, HIGH)"},
-                  {169'436, "digitalWrite(10, LOW)"},
-                  {216'831, "digitalWrite(11, LOW)"},
-                  {216'831, "digitalWrite(10, HIGH)"},
-                  {224'736, "digitalWrite(10, LOW)"},
-                  {232'641, "digitalWrite(10, HIGH)"},
-                  {238'965, "digitalWrite(10, LOW)"},
-                  {245'289, "digitalWrite(10, HIGH)"},
-                  {250'741, "digitalWrite(10, LOW)"},
-                  {256'193, "digitalWrite(10, HIGH)"},
-                  {261'193, "digitalWrite(10, LOW)"},
-                  {266'193, "digitalWrite(10, HIGH)"},
-                  {271'193, "digitalWrite(10, LOW)"},
-                  {276'193, "digitalWrite(10, HIGH)"},
-                  {281'193, "digitalWrite(10, LOW)"},
-                  {286'193, "digitalWrite(10, HIGH)"},
-                  {291'193, "digitalWrite(10, LOW)"},
-                  {296'193, "digitalWrite(10, HIGH)"},
+                  {100'728, "digitalWrite(10, LOW)"},  // 5.555 ms
+                  {106'283, "digitalWrite(10, HIGH)"}, // 6.338 ms
+                  {112'621, "digitalWrite(10, LOW)"},  // 6.338 ms
+                  {118'959, "digitalWrite(10, HIGH)"}, // 7.551 ms
+                  {126'510, "digitalWrite(10, LOW)"},  // 7.551 ms
+                  {134'061, "digitalWrite(10, HIGH)"}, // 9.782 ms
+                  {143'843, "digitalWrite(10, LOW)"},  // 9.782 ms
+                  {153'625, "digitalWrite(10, HIGH)"}, // 15.811 ms
+                  {169'436, "digitalWrite(10, LOW)"},  // 47.395 ms
+                  {216'831, "digitalWrite(11, LOW)"},  // DIR
+                  {216'831, "digitalWrite(10, HIGH)"}, // 7.905 ms
+                  {224'736, "digitalWrite(10, LOW)"},  // 7.905 ms
+                  {232'641, "digitalWrite(10, HIGH)"}, // 6.324 ms
+                  {238'965, "digitalWrite(10, LOW)"},  // 6.324 ms
+                  {245'289, "digitalWrite(10, HIGH)"}, // 5.452 ms
+                  {250'741, "digitalWrite(10, LOW)"},  // 5.452 ms
+                  {256'193, "digitalWrite(10, HIGH)"}, // 5 ms
+                  {261'193, "digitalWrite(10, LOW)"},  // 5 ms
+                  {266'193, "digitalWrite(10, HIGH)"}, // 5 ms
+                  {271'193, "digitalWrite(10, LOW)"},  // 5 ms
+                  {276'193, "digitalWrite(10, HIGH)"}, // 5 ms
+                  {281'193, "digitalWrite(10, LOW)"},  // 5 ms
+                  {286'193, "digitalWrite(10, HIGH)"}, // 5 ms
+                  {291'193, "digitalWrite(10, LOW)"},  // 5 ms
+                  {296'193, "digitalWrite(10, HIGH)"}, // ...
               });
             }
           }
