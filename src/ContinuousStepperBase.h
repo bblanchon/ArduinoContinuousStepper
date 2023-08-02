@@ -6,12 +6,12 @@
 
 namespace ArduinoContinuousStepper {
 
+typedef unsigned long time_t;
+typedef double float_t;
+typedef uint8_t pin_t;
+
 class ContinuousStepperBase {
 public:
-  typedef unsigned long time_t;
-  typedef double float_t;
-  typedef uint8_t pin_t;
-
   void begin(pin_t stepPin, pin_t dirPin) {
     _stepPin = stepPin;
     _dirPin = dirPin;
