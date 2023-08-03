@@ -20,7 +20,11 @@ public:
 
 protected:
   void setPeriod(unsigned long period) override {
-    _tickPeriod = period / 2;
+    _tickPeriod = period;
+  }
+
+  bool needsDoubleSpeed() const override {
+    return true;
   }
 
 private:

@@ -19,9 +19,13 @@ protected:
   void setPeriod(unsigned long period) override {
     _timer->stop();
     if (period) {
-      _timer->setPeriod(period / 2);
+      _timer->setPeriod(period);
       _timer->start();
     }
+  }
+
+  bool needsDoubleSpeed() const override {
+    return true;
   }
 
 private:

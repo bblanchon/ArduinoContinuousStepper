@@ -148,11 +148,17 @@ private:
       _period = 0;
     }
 
-    setPeriod(_period);
+    if (needsDoubleSpeed())
+      setPeriod(_period / 2);
+    else
+      setPeriod(_period);
   }
 
   virtual void initialize(){};
   virtual void setPeriod(time_t period) = 0;
+  virtual bool needsDoubleSpeed() const {
+    return false;
+  }
 
   static const pin_t NULL_PIN = 255;
   static const time_t oneSecond = 1e6;
