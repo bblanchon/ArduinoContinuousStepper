@@ -36,7 +36,7 @@ TEST_CASE("ContinuousStepper::spin()") {
           REQUIRE(stepper.speed() == 100);
 
           CHECK_ARDUINO_LOG({
-              {15'811, "digitalWrite(11, HIGH)"}, // DIR
+              {0'000, "digitalWrite(11, HIGH)"},  // DIR
               {15'811, "digitalWrite(10, HIGH)"}, // 10.541 ms
               {26'352, "digitalWrite(10, LOW)"},  // 8.624 ms
               {34'976, "digitalWrite(10, HIGH)"}, // 7.507 ms
@@ -71,7 +71,7 @@ TEST_CASE("ContinuousStepper::spin()") {
                   {143'218, "digitalWrite(10, HIGH)"}, // 10.325 ms
                   {153'543, "digitalWrite(10, LOW)"},  // 13.124 ms
                   {166'667, "digitalWrite(10, HIGH)"}, // 76.308 ms
-                  {242'975, "digitalWrite(11, LOW)"},  // DIR
+                  {198'289, "digitalWrite(11, LOW)"},  // DIR
                   {242'975, "digitalWrite(10, LOW)"},  // 9.739 ms
                   {252'714, "digitalWrite(10, HIGH)"}, // 8.186 ms
                   {260'900, "digitalWrite(10, LOW)"},  // 7.219 ms

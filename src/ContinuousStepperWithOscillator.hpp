@@ -24,7 +24,6 @@ private:
 
   void setPeriod(unsigned long period) override {
     if (period) {
-      writeDir();
       startOscillator(1e6 / period);
     } else {
       stopOscillator();

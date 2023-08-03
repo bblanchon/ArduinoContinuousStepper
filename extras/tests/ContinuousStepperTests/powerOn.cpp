@@ -32,7 +32,7 @@ TEST_CASE("ContinuousStepper::powerOn()") {
             REQUIRE(stepper.isSpinning() == true);
             CHECK(stepper.speed() == 100);
             CHECK_ARDUINO_LOG({
-                {15'811, "digitalWrite(11, HIGH)"}, // DIR
+                {0'000, "digitalWrite(11, HIGH)"},  // DIR
                 {15'811, "digitalWrite(10, HIGH)"}, // 10.541 ms
                 {26'352, "digitalWrite(10, LOW)"},  // 8.624 ms
                 {34'976, "digitalWrite(10, HIGH)"}, // 7.507 ms

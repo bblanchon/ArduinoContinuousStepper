@@ -27,6 +27,7 @@ TEST_CASE("ContinuousStepper_TeensyTimerTool::spin()") {
           REQUIRE(stepper.speed() == 10);
 
           CHECK_ARDUINO_LOG({
+              {0'000, "digitalWrite(11, HIGH)"},
               {0'000, "PeriodicTimer::stop()"},
               {0'000, "PeriodicTimer::setPeriod(50000)"},
               {0'000, "PeriodicTimer::start()"},
@@ -40,6 +41,7 @@ TEST_CASE("ContinuousStepper_TeensyTimerTool::spin()") {
               REQUIRE(stepper.speed() == -10);
 
               CHECK_ARDUINO_LOG({
+                  {0'000, "digitalWrite(11, LOW)"},
                   {0'000, "PeriodicTimer::stop()"},
                   {0'000, "PeriodicTimer::setPeriod(50000)"},
                   {0'000, "PeriodicTimer::start()"},
@@ -58,10 +60,10 @@ TEST_CASE("ContinuousStepper_TeensyTimerTool::spin()") {
           REQUIRE(stepper.speed() == 100);
 
           CHECK_ARDUINO_LOG({
+              {0'000, "digitalWrite(11, HIGH)"},
               {0'000, "PeriodicTimer::stop()"},
               {0'000, "PeriodicTimer::setPeriod(15811)"},
               {0'000, "PeriodicTimer::start()"},
-              {15'811, "digitalWrite(11, HIGH)"},
               {15'811, "digitalWrite(10, HIGH)"},
               {15'811, "PeriodicTimer::stop()"},
               {15'811, "PeriodicTimer::setPeriod(10541)"},
@@ -156,6 +158,7 @@ TEST_CASE("ContinuousStepper_TeensyTimerTool::spin()") {
                   {182'478, "PeriodicTimer::stop()"},
                   {182'478, "PeriodicTimer::setPeriod(15811)"},
                   {182'478, "PeriodicTimer::start()"},
+                  {198'289, "digitalWrite(11, LOW)"},
                   {198'289, "PeriodicTimer::stop()"},
                   {198'289, "PeriodicTimer::setPeriod(15811)"},
                   {198'289, "PeriodicTimer::start()"},
@@ -165,7 +168,6 @@ TEST_CASE("ContinuousStepper_TeensyTimerTool::spin()") {
                   {229'911, "PeriodicTimer::stop()"},
                   {229'911, "PeriodicTimer::setPeriod(13064)"},
                   {229'911, "PeriodicTimer::start()"},
-                  {242'975, "digitalWrite(11, LOW)"},
                   {242'975, "digitalWrite(10, LOW)"},
                   {242'975, "PeriodicTimer::stop()"},
                   {242'975, "PeriodicTimer::setPeriod(9739)"},

@@ -85,7 +85,6 @@ public:
 protected:
   void tick() {
     if (_status == STEP) {
-      writeDir();
       if (_stepLevel == LOW) {
         writeStep(HIGH);
         _stepLevel = HIGH;
@@ -111,6 +110,7 @@ protected:
     return _stepPin;
   }
 
+private:
   void writeDir() {
     bool level = _currentSpeed >= 0 ? HIGH : LOW;
     if (level == _dirLevel)
@@ -119,7 +119,6 @@ protected:
     _dirLevel = level;
   }
 
-private:
   void updateSpeed() {
     float_t speedIncrement = _period ? _acceleration * _period / oneSecond : _minSpeedForAcceleration;
 
@@ -151,6 +150,9 @@ private:
 
     if (needsDoubleSpeed())
       _period /= 2;
+
+    if (_period)
+      writeDir();
 
     setPeriod(_period);
   }

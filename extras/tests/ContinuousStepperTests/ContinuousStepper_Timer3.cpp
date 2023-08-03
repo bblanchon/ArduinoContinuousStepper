@@ -27,6 +27,7 @@ TEST_CASE("ContinuousStepper_Timer3::spin()") {
           REQUIRE(stepper.speed() == 10);
 
           CHECK_ARDUINO_LOG({
+              {0'000, "digitalWrite(11, HIGH)"},
               {0'000, "TimerThree::stop()"},
               {0'000, "TimerThree::setPeriod(50000)"},
               {0'000, "TimerThree::start()"},
@@ -40,6 +41,7 @@ TEST_CASE("ContinuousStepper_Timer3::spin()") {
               REQUIRE(stepper.speed() == -10);
 
               CHECK_ARDUINO_LOG({
+                  {0'000, "digitalWrite(11, LOW)"},
                   {0'000, "TimerThree::stop()"},
                   {0'000, "TimerThree::setPeriod(50000)"},
                   {0'000, "TimerThree::start()"},
@@ -58,10 +60,10 @@ TEST_CASE("ContinuousStepper_Timer3::spin()") {
           REQUIRE(stepper.speed() == 100);
 
           CHECK_ARDUINO_LOG({
+              {0'000, "digitalWrite(11, HIGH)"},
               {0'000, "TimerThree::stop()"},
               {0'000, "TimerThree::setPeriod(15811)"},
               {0'000, "TimerThree::start()"},
-              {15'811, "digitalWrite(11, HIGH)"},
               {15'811, "digitalWrite(10, HIGH)"},
               {15'811, "TimerThree::stop()"},
               {15'811, "TimerThree::setPeriod(10541)"},
@@ -156,6 +158,7 @@ TEST_CASE("ContinuousStepper_Timer3::spin()") {
                   {182'478, "TimerThree::stop()"},
                   {182'478, "TimerThree::setPeriod(15811)"},
                   {182'478, "TimerThree::start()"},
+                  {198'289, "digitalWrite(11, LOW)"},
                   {198'289, "TimerThree::stop()"},
                   {198'289, "TimerThree::setPeriod(15811)"},
                   {198'289, "TimerThree::start()"},
@@ -165,7 +168,6 @@ TEST_CASE("ContinuousStepper_Timer3::spin()") {
                   {229'911, "TimerThree::stop()"},
                   {229'911, "TimerThree::setPeriod(13064)"},
                   {229'911, "TimerThree::start()"},
-                  {242'975, "digitalWrite(11, LOW)"},
                   {242'975, "digitalWrite(10, LOW)"},
                   {242'975, "TimerThree::stop()"},
                   {242'975, "TimerThree::setPeriod(9739)"},

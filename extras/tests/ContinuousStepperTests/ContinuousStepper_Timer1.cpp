@@ -27,6 +27,7 @@ TEST_CASE("ContinuousStepper_Timer1::spin()") {
           REQUIRE(stepper.speed() == 10);
 
           CHECK_ARDUINO_LOG({
+              {0'000, "digitalWrite(11, HIGH)"},
               {0'000, "TimerOne::stop()"},
               {0'000, "TimerOne::setPeriod(50000)"},
               {0'000, "TimerOne::start()"},
@@ -40,6 +41,7 @@ TEST_CASE("ContinuousStepper_Timer1::spin()") {
               REQUIRE(stepper.speed() == -10);
 
               CHECK_ARDUINO_LOG({
+                  {0'000, "digitalWrite(11, LOW)"},
                   {0'000, "TimerOne::stop()"},
                   {0'000, "TimerOne::setPeriod(50000)"},
                   {0'000, "TimerOne::start()"},
@@ -58,10 +60,10 @@ TEST_CASE("ContinuousStepper_Timer1::spin()") {
           REQUIRE(stepper.speed() == 100);
 
           CHECK_ARDUINO_LOG({
+              {0'000, "digitalWrite(11, HIGH)"},
               {0'000, "TimerOne::stop()"},
               {0'000, "TimerOne::setPeriod(15811)"},
               {0'000, "TimerOne::start()"},
-              {15'811, "digitalWrite(11, HIGH)"},
               {15'811, "digitalWrite(10, HIGH)"},
               {15'811, "TimerOne::stop()"},
               {15'811, "TimerOne::setPeriod(10541)"},
@@ -156,6 +158,7 @@ TEST_CASE("ContinuousStepper_Timer1::spin()") {
                   {182'478, "TimerOne::stop()"},
                   {182'478, "TimerOne::setPeriod(15811)"},
                   {182'478, "TimerOne::start()"},
+                  {198'289, "digitalWrite(11, LOW)"},
                   {198'289, "TimerOne::stop()"},
                   {198'289, "TimerOne::setPeriod(15811)"},
                   {198'289, "TimerOne::start()"},
@@ -165,7 +168,6 @@ TEST_CASE("ContinuousStepper_Timer1::spin()") {
                   {229'911, "TimerOne::stop()"},
                   {229'911, "TimerOne::setPeriod(13064)"},
                   {229'911, "TimerOne::start()"},
-                  {242'975, "digitalWrite(11, LOW)"},
                   {242'975, "digitalWrite(10, LOW)"},
                   {242'975, "TimerOne::stop()"},
                   {242'975, "TimerOne::setPeriod(9739)"},
