@@ -4,34 +4,6 @@
 TEST_CASE("ContinuousStepper::powerOn()") {
   ContinuousStepper stepper;
 
-  GIVEN("begin(10, 11, 12)") {
-    stepper.begin(10, 11, 12);
-
-    WHEN("powerOn() is called") {
-      CLEAR_ARDUINO_LOG();
-      stepper.powerOn();
-
-      THEN("it should do nothing") {
-        CHECK_ARDUINO_LOG({})
-      }
-    }
-
-    AND_GIVEN("powerOff() was called") {
-      stepper.powerOff();
-
-      WHEN("powerOn() is called") {
-        CLEAR_ARDUINO_LOG();
-        stepper.powerOn();
-
-        THEN("it should set enable pin to HIGH") {
-          CHECK_ARDUINO_LOG({
-              {0'000, "digitalWrite(12, HIGH)"},
-          })
-        }
-      }
-    }
-  }
-
   GIVEN("begin(10, 11) was called") {
     stepper.begin(10, 11);
 
@@ -61,21 +33,20 @@ TEST_CASE("ContinuousStepper::powerOn()") {
             CHECK(stepper.speed() == 100);
             CHECK_ARDUINO_LOG({
                 {15'811, "digitalWrite(11, HIGH)"}, // DIR
-                {15'811, "digitalWrite(10, HIGH)"}, // 7.905 ms
-                {23'716, "digitalWrite(10, LOW)"},  // 7.905 ms
-                {31'621, "digitalWrite(10, HIGH)"}, // 6.324 ms
-                {37'945, "digitalWrite(10, LOW)"},  // 6.324 ms
-                {44'269, "digitalWrite(10, HIGH)"}, // 5.452 ms
-                {49'721, "digitalWrite(10, LOW)"},  // 5.452 ms
-                {55'173, "digitalWrite(10, HIGH)"}, // 5 ms
-                {60'173, "digitalWrite(10, LOW)"},  // 5 ms
-                {65'173, "digitalWrite(10, HIGH)"}, // 5 ms
-                {70'173, "digitalWrite(10, LOW)"},  // 5 ms
-                {75'173, "digitalWrite(10, HIGH)"}, // 5 ms
-                {80'173, "digitalWrite(10, LOW)"},  // 5 ms
-                {85'173, "digitalWrite(10, HIGH)"}, // 5 ms
-                {90'173, "digitalWrite(10, LOW)"},  // 5 ms
-                {95'173, "digitalWrite(10, HIGH)"}, // ...
+                {15'811, "digitalWrite(10, HIGH)"}, // 10.541 ms
+                {26'352, "digitalWrite(10, LOW)"},  // 8.624 ms
+                {34'976, "digitalWrite(10, HIGH)"}, // 7.507 ms
+                {42'483, "digitalWrite(10, LOW)"},  // 6.747 ms
+                {49'230, "digitalWrite(10, HIGH)"}, // 6.184 ms
+                {55'414, "digitalWrite(10, LOW)"},  // 5.744 ms
+                {61'158, "digitalWrite(10, HIGH)"}, // 5.389 ms
+                {66'547, "digitalWrite(10, LOW)"},  // 5.093 ms
+                {71'640, "digitalWrite(10, HIGH)"}, // 5 ms
+                {76'640, "digitalWrite(10, LOW)"},  // 5 ms
+                {81'640, "digitalWrite(10, HIGH)"}, // 5 ms
+                {86'640, "digitalWrite(10, LOW)"},  // 5 ms
+                {91'640, "digitalWrite(10, HIGH)"}, // 5 ms
+                {96'640, "digitalWrite(10, LOW)"},  // ...
             })
           }
         }

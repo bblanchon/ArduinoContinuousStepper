@@ -84,17 +84,18 @@ public:
 
 protected:
   void tick() {
-    if (_stepLevel == LOW) {
-      if (_status == STEP) {
-        writeDir();
+    if (_status == STEP) {
+      writeDir();
+      if (_stepLevel == LOW) {
         writeStep(HIGH);
         _stepLevel = HIGH;
+      } else {
+        writeStep(LOW);
+        _stepLevel = LOW;
       }
-      updateSpeedIfNeeded();
-    } else {
-      writeStep(LOW);
-      _stepLevel = LOW;
     }
+
+    updateSpeedIfNeeded();
   }
 
   void updateSpeedIfNeeded() {
@@ -149,9 +150,9 @@ private:
     }
 
     if (needsDoubleSpeed())
-      setPeriod(_period / 2);
-    else
-      setPeriod(_period);
+      _period /= 2;
+
+    setPeriod(_period);
   }
 
   virtual void initialize(){};

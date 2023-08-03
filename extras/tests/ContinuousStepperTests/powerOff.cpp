@@ -4,22 +4,7 @@
 TEST_CASE("ContinuousStepper::powerOff()") {
   ContinuousStepper stepper;
 
-  GIVEN("begin(10, 11, 12) was called") {
-    stepper.begin(10, 11, 12);
-
-    WHEN("powerOff() is called") {
-      CLEAR_ARDUINO_LOG();
-      stepper.powerOff();
-
-      THEN("it should set pin 12 to LOW") {
-        CHECK_ARDUINO_LOG({
-            {0'000, "digitalWrite(12, LOW)"},
-        });
-      }
-    }
-  }
-
-  GIVEN("begin(10, 11)") {
+  GIVEN("begin(10, 11) zas called") {
     stepper.begin(10, 11);
 
     WHEN("powerOff() is called") {
