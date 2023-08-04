@@ -39,4 +39,39 @@ TEST_CASE("ContinuousStepper::stop()") {
       }
     }
   }
+
+  GIVEN("begin(2, 3, 4, 5) was called)") {
+    stepper.begin(2, 3, 4, 5);
+
+    AND_GIVEN("spin(100) was called") {
+      stepper.spin(100);
+      loop_for(stepper, 100'000);
+      REQUIRE(stepper.isSpinning() == true);
+      REQUIRE(stepper.speed() == 100);
+
+      WHEN("stop() is called") {
+        CLEAR_ARDUINO_LOG();
+        stepper.stop();
+
+        THEN("it should deccelerate") {
+          loop_for(stepper, 100'000);
+
+          REQUIRE(stepper.isSpinning() == false);
+          REQUIRE(stepper.speed() == 0);
+          CHECK_ARDUINO_LOG({
+              {100'986, "digitalWrite(2, HIGH)"}, // 11.111 ms
+              {100'986, "digitalWrite(3, LOW)"},  //
+              {112'097, "digitalWrite(4, HIGH)"}, // 12.676 ms
+              {112'097, "digitalWrite(5, LOW)"},  //
+              {124'773, "digitalWrite(2, LOW)"},  // 15.102 ms
+              {124'773, "digitalWrite(3, HIGH)"}, //
+              {139'875, "digitalWrite(4, LOW)"},  // 19.565 ms
+              {139'875, "digitalWrite(5, HIGH)"}, //
+              {159'440, "digitalWrite(2, HIGH)"}, // ...
+              {159'440, "digitalWrite(3, LOW)"},  //
+          })
+        }
+      }
+    }
+  }
 }

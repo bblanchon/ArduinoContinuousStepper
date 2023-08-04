@@ -108,4 +108,66 @@ TEST_CASE("ContinuousStepper::spin()") {
       }
     }
   }
+
+  GIVEN("begin(2, 3, 4, 5) was called") {
+    stepper.begin(2, 3, 4, 5);
+
+    AND_GIVEN("setAcceleration(1000) was called") {
+      stepper.setAcceleration(1000);
+
+      WHEN("spin(100) is called") {
+        CLEAR_ARDUINO_LOG();
+        stepper.spin(100);
+
+        THEN("it should accelerate and reach target speed") {
+          loop_till(stepper, 100'000);
+          REQUIRE(stepper.speed() == 100);
+
+          CHECK_ARDUINO_LOG({
+              {31'622, "digitalWrite(2, LOW)"},  // 15.811 ms
+              {31'622, "digitalWrite(3, HIGH)"}, //
+              {31'622, "digitalWrite(4, HIGH)"}, //
+              {31'622, "digitalWrite(5, LOW)"},  //
+              {47'433, "digitalWrite(4, LOW)"},  // 12.649 ms
+              {47'433, "digitalWrite(5, HIGH)"}, //
+              {60'082, "digitalWrite(2, HIGH)"}, // 10.904 ms
+              {60'082, "digitalWrite(3, LOW)"},  //
+              {70'986, "digitalWrite(4, HIGH)"}, // 10 ms
+              {70'986, "digitalWrite(5, LOW)"},  //
+              {80'986, "digitalWrite(2, LOW)"},  // 10 ms
+              {80'986, "digitalWrite(3, HIGH)"}, //
+              {90'986, "digitalWrite(4, LOW)"},  // ...
+              {90'986, "digitalWrite(5, HIGH)"}, //
+          });
+        }
+      }
+
+      WHEN("spin(-100) is called") {
+        CLEAR_ARDUINO_LOG();
+        stepper.spin(-100);
+
+        THEN("it should accelerate and reach target speed") {
+          loop_till(stepper, 100'000);
+          REQUIRE(stepper.speed() == -100);
+
+          CHECK_ARDUINO_LOG({
+              {31'622, "digitalWrite(2, HIGH)"}, // 15.811 ms
+              {31'622, "digitalWrite(3, LOW)"},  //
+              {31'622, "digitalWrite(4, LOW)"},  //
+              {31'622, "digitalWrite(5, HIGH)"}, //
+              {47'433, "digitalWrite(2, LOW)"},  // 12.649 ms
+              {47'433, "digitalWrite(3, HIGH)"}, //
+              {60'082, "digitalWrite(4, HIGH)"}, // 10.904 ms
+              {60'082, "digitalWrite(5, LOW)"},  //
+              {70'986, "digitalWrite(2, HIGH)"}, // 10 ms
+              {70'986, "digitalWrite(3, LOW)"},  //
+              {80'986, "digitalWrite(4, LOW)"},  // 10 ms
+              {80'986, "digitalWrite(5, HIGH)"}, //
+              {90'986, "digitalWrite(2, LOW)"},  // ...
+              {90'986, "digitalWrite(3, HIGH)"}, //
+          });
+        }
+      }
+    }
+  }
 }

@@ -109,4 +109,69 @@ TEST_CASE("ContinuousStepper::powerOn()") {
       }
     }
   }
+
+  GIVEN("begin(2, 3, 4, 5) was called") {
+    stepper.begin(2, 3, 4, 5);
+
+    AND_GIVEN("powerOff() was called") {
+      stepper.powerOff();
+
+      WHEN("powerOn() is called") {
+        CLEAR_ARDUINO_LOG();
+        stepper.powerOn();
+
+        THEN("it should set pin 2 and 4 to HIGH") {
+          CHECK_ARDUINO_LOG({
+              {0, "digitalWrite(2, HIGH)"},
+              {0, "digitalWrite(4, HIGH)"},
+          })
+        }
+      }
+
+      AND_GIVEN("spin() was called") {
+        stepper.spin(100);
+
+        WHEN("powerOn() is called") {
+          CLEAR_ARDUINO_LOG();
+          stepper.powerOn();
+
+          THEN("should smoothly restore the rotation") {
+            loop_for(stepper, 100'000);
+
+            REQUIRE(stepper.isSpinning() == true);
+            CHECK(stepper.speed() == 100);
+            CHECK_ARDUINO_LOG({
+                {0'000, "digitalWrite(2, HIGH)"},  // 31.622 ms
+                {0'000, "digitalWrite(4, HIGH)"},  //
+                {31'622, "digitalWrite(2, LOW)"},  // 15.811 ms
+                {31'622, "digitalWrite(3, HIGH)"}, //
+                {47'433, "digitalWrite(4, LOW)"},  // 12.649 ms
+                {47'433, "digitalWrite(5, HIGH)"}, //
+                {60'082, "digitalWrite(2, HIGH)"}, // 10.904 ms
+                {60'082, "digitalWrite(3, LOW)"},  //
+                {70'986, "digitalWrite(4, HIGH)"}, // 10 ms
+                {70'986, "digitalWrite(5, LOW)"},  //
+                {80'986, "digitalWrite(2, LOW)"},  // 10 ms
+                {80'986, "digitalWrite(3, HIGH)"}, //
+                {90'986, "digitalWrite(4, LOW)"},  // ...
+                {90'986, "digitalWrite(5, HIGH)"}, //
+            })
+          }
+        }
+      }
+    }
+
+    AND_GIVEN("powerOn() was already called") {
+      stepper.powerOn();
+
+      WHEN("powerOn() is called") {
+        CLEAR_ARDUINO_LOG();
+        stepper.powerOn();
+
+        THEN("it should do nothing") {
+          CHECK_ARDUINO_LOG({});
+        }
+      }
+    }
+  }
 }

@@ -5,6 +5,7 @@ HEAD
 ----
 
 * Remove deprecated 3-parameter `begin()` (use `setEnablePin()` instead)
+* Add support for four-wire stepper motors
 
 2.2.0
 -----

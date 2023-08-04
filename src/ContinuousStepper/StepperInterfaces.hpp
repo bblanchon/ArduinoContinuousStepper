@@ -21,6 +21,9 @@ public:
   virtual bool needsDoubleSpeed() const {
     return false;
   }
+
+  virtual void powerOn(){};
+  virtual void powerOff(){};
 };
 
 class StepperDriver : public StepperInterface {
@@ -44,6 +47,40 @@ public:
 
 private:
   OutputPin _stepPin, _dirPin;
+};
+
+class FourWireStepper : public StepperInterface {
+public:
+  FourWireStepper(pin_t pin1, pin_t pin2, pin_t pin3, pin_t pin4) : _pins{pin1, pin2, pin3, pin4} {}
+
+  void setDirection(bool reversed) override {
+    _increment = reversed ? 3 : 1;
+  }
+
+  void step() override {
+    _position = (_position + _increment) % 4;
+    setPins(_flags[_position]);
+  }
+
+  void powerOn() override {
+    setPins(_flags[_position]);
+  }
+
+  void powerOff() override {
+    setPins(0);
+  }
+
+private:
+  void setPins(uint8_t flags) {
+    for (auto &pin : _pins) {
+      pin.set(flags & 1);
+      flags >>= 1;
+    }
+  }
+
+  OutputPin _pins[4];
+  uint8_t _position = 0, _increment = 1;
+  uint8_t _flags[4] = {0b0101, 0b0110, 0b1010, 0b1001};
 };
 
 } // namespace ArduinoContinuousStepper

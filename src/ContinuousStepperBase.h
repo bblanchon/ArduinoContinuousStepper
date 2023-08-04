@@ -16,6 +16,10 @@ public:
     begin(new StepperDriver(stepPin, dirPin));
   }
 
+  void begin(pin_t pin1, pin_t pin2, pin_t pin3, pin_t pin4) {
+    begin(new FourWireStepper(pin1, pin2, pin3, pin4));
+  }
+
   void begin(StepperInterface *stepper) {
     _stepper = stepper;
     _status = WAIT;
@@ -32,12 +36,14 @@ public:
     if (_status != OFF)
       return;
 
+    _stepper->powerOn();
     _enablePin.set(_enablePinActiveLevel);
 
     updateSpeed();
   }
 
   void powerOff() {
+    _stepper->powerOff();
     _enablePin.set(!_enablePinActiveLevel);
 
     _status = OFF;

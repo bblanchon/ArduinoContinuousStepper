@@ -65,4 +65,46 @@ TEST_CASE("ContinuousStepper::powerOff()") {
       }
     }
   }
+
+  GIVEN("begin(2, 3, 4, 5) was called") {
+    stepper.begin(2, 3, 4, 5);
+
+    WHEN("powerOff() is called") {
+      CLEAR_ARDUINO_LOG();
+      stepper.powerOff();
+
+      THEN("it should set all pins to LOW") {
+        CHECK_ARDUINO_LOG({
+            {0'000, "digitalWrite(2, LOW)"},
+            {0'000, "digitalWrite(3, LOW)"},
+            {0'000, "digitalWrite(4, LOW)"},
+            {0'000, "digitalWrite(5, LOW)"},
+        });
+      }
+    }
+
+    AND_GIVEN("spin(10) was called") {
+      stepper.spin(10);
+      loop_till(stepper, 100'000);
+      REQUIRE(stepper.isSpinning() == true);
+      REQUIRE(stepper.speed() == 10);
+
+      WHEN("powerOff() is called") {
+        CLEAR_ARDUINO_LOG();
+        stepper.powerOff();
+
+        THEN("it should set all pins to LOW") {
+          loop_till(stepper, 100'000);
+          CHECK(stepper.isSpinning() == false);
+          CHECK(stepper.speed() == 0);
+          CHECK_ARDUINO_LOG({
+              // pin 2 is already LOW
+              {100'000, "digitalWrite(3, LOW)"},
+              {100'000, "digitalWrite(4, LOW)"},
+              // pin 5 is already LOW
+          });
+        }
+      }
+    }
+  }
 }
