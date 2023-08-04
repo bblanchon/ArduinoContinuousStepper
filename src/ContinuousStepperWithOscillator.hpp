@@ -4,23 +4,9 @@
 
 namespace ArduinoContinuousStepper {
 class ContinuousStepperWithOscillator : public ContinuousStepperBase {
-  class DirOnlyDriver : public StepperInterface {
-  public:
-    DirOnlyDriver(pin_t dirPin) : _dirPin(dirPin) {}
-
-    void step() override {}
-
-    void setDirection(bool reversed) {
-      _dirPin.set(reversed ? LOW : HIGH);
-    }
-
-  private:
-    OutputPin _dirPin;
-  };
-
 public:
   void begin(pin_t stepPin, pin_t dirPin) {
-    ContinuousStepperBase::begin(new DirOnlyDriver(dirPin));
+    ContinuousStepperBase::begin(new StepperDriver(NULL_PIN, dirPin));
     _stepPin = stepPin;
     pinMode(stepPin, OUTPUT);
   }

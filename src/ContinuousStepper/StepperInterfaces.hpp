@@ -39,7 +39,7 @@ public:
     // step() must be called twice per cycle:
     // - once to set the step pin high
     // - once to set it low
-    return true;
+    return _stepPin != NULL_PIN;
   }
 
 private:

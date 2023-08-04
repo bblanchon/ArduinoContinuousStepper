@@ -17,6 +17,10 @@ public:
     pinMode(pin, OUTPUT);
   }
 
+  operator pin_t() const {
+    return _pin;
+  }
+
   void set(bool level) {
     if (_level == uint8_t(level) || _pin == NULL_PIN)
       return;
