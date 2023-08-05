@@ -1,4 +1,6 @@
-#include <Arduino.h>
+#include "Arduino.h"
+#include "EventLog.hpp"
+
 #include <catch2/catch_session.hpp>
 #include <catch2/reporters/catch_reporter_event_listener.hpp>
 #include <catch2/reporters/catch_reporter_registrars.hpp>
@@ -9,12 +11,12 @@ public:
   using Catch::EventListenerBase::EventListenerBase;
 
   // void sectionStarting(Catch::SectionInfo const &sectionInfo) override {
-  //   arduino_log.clear();
+  //   theEventLog.clear();
   //   set_micros(0);
   // }
 
   void sectionEnded(Catch::SectionStats const &sectionStats) override {
-    arduino_log.clear();
+    theEventLog.clear();
     set_micros(0);
   }
 };

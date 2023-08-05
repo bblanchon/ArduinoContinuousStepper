@@ -12,11 +12,8 @@ public:
   EventLog() {}
   EventLog(std::initializer_list<event_t> events) : _events(events) {}
 
-  template <typename... Args>
-  void add(timestamp_t t, const char *format, Args... args) {
-    char buffer[256];
-    std::snprintf(buffer, sizeof(buffer), format, args...);
-    _events.emplace_back(t, buffer);
+  void add(timestamp_t t, std::string event) {
+    _events.emplace_back(t, std::move(event));
   }
 
   void clear() {
@@ -32,3 +29,7 @@ public:
 private:
   std::vector<event_t> _events;
 };
+
+extern EventLog theEventLog;
+
+void logEvent(const char *format, ...);

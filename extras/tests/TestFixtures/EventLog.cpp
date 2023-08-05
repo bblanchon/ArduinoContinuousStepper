@@ -1,9 +1,14 @@
 #include "EventLog.hpp"
+#include "Arduino.h"
 
 #include <dtl.hpp>
 
+#include <cstdarg>
+#include <cstdio>
 #include <iomanip>
 #include <sstream>
+
+EventLog theEventLog;
 
 std::ostream &operator<<(std::ostream &os, const EventLog::event_t &value) {
   auto timestamp = value.first;
@@ -22,4 +27,13 @@ std::string EventLog::diff(const EventLog &expected) const {
   std::ostringstream message;
   diff.printSES(message);
   return message.str();
+}
+
+void logEvent(const char *format, ...) {
+  char buffer[256];
+  std::va_list args;
+  va_start(args, format);
+  std::vsnprintf(buffer, sizeof(buffer), format, args);
+  va_end(args);
+  theEventLog.add(micros(), buffer);
 }

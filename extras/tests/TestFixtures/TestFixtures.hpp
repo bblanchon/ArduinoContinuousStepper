@@ -1,16 +1,18 @@
 #pragma once
 
-#include <Arduino.h>
+#include "Arduino.h"
+#include "EventLog.hpp"
+
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/reporters/catch_reporter_registrars.hpp>
 
-#define CLEAR_ARDUINO_LOG() arduino_log.clear()
+#define CLEAR_ARDUINO_LOG() theEventLog.clear()
 
 #define CHECK_ARDUINO_LOG(...)                                                                                         \
   {                                                                                                                    \
     EventLog _expected_log(__VA_ARGS__);                                                                               \
-    if (arduino_log != _expected_log)                                                                                  \
-      FAIL_CHECK(arduino_log.diff(_expected_log));                                                                     \
+    if (theEventLog != _expected_log)                                                                                  \
+      FAIL_CHECK(theEventLog.diff(_expected_log));                                                                     \
     else                                                                                                               \
       SUCCEED();                                                                                                       \
   }
