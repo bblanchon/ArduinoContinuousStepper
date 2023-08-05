@@ -7,6 +7,7 @@ add_executable(ContinuousStepperTests
   stop.cpp
 
   ContinuousStepper_AWF.cpp
+  ContinuousStepper_TeensyTimerTool.cpp
   ContinuousStepper_Tone.cpp
   ContinuousStepper_Timer1.cpp
   ContinuousStepper_Timer3.cpp

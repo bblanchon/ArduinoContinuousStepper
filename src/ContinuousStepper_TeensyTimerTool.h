@@ -11,6 +11,10 @@ class ContinuousStepper_TeensyTimerTool : public ContinuousStepperBase {
 public:
   ContinuousStepper_TeensyTimerTool(TeensyTimerTool::PeriodicTimer &timer) : _timer(&timer) {}
 
+  ~ContinuousStepper_TeensyTimerTool() {
+    _timer->stop();
+  }
+
 protected:
   void initialize() override {
     _timer->begin([this]() { tick(); }, 1000, false);

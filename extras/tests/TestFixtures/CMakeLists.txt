@@ -6,6 +6,7 @@ add_library(TestFixtures
   EventLog.cpp
   EventLog.hpp
   main.cpp
+  TeensyTimerTool.h
   TestFixtures.hpp
   TimerOne.h
   TimerThree.h
