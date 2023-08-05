@@ -1,4 +1,4 @@
-#include "Arduino.h"
+#include "Clock.hpp"
 #include "EventLog.hpp"
 
 #include <catch2/catch_session.hpp>
@@ -12,12 +12,12 @@ public:
 
   // void sectionStarting(Catch::SectionInfo const &sectionInfo) override {
   //   theEventLog.clear();
-  //   set_micros(0);
+  //   theClock.set(0);
   // }
 
   void sectionEnded(Catch::SectionStats const &sectionStats) override {
     theEventLog.clear();
-    set_micros(0);
+    theClock.set(0);
   }
 };
 } // namespace

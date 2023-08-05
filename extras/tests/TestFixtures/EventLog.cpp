@@ -1,5 +1,5 @@
 #include "EventLog.hpp"
-#include "Arduino.h"
+#include "Clock.hpp"
 
 #include <dtl.hpp>
 
@@ -35,5 +35,5 @@ void logEvent(const char *format, ...) {
   va_start(args, format);
   std::vsnprintf(buffer, sizeof(buffer), format, args);
   va_end(args);
-  theEventLog.add(micros(), buffer);
+  theEventLog.add(theClock.get(), buffer);
 }

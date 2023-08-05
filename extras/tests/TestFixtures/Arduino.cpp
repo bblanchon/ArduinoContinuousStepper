@@ -1,18 +1,9 @@
 #include "Arduino.h"
+#include "Clock.hpp"
 #include "EventLog.hpp"
 
-#include <cstdio>
-#include <string>
-#include <vector>
-
-static unsigned long _micros = 0;
-
-void set_micros(unsigned long t) {
-  _micros = t;
-}
-
 unsigned long micros() {
-  return _micros;
+  return theClock.get();
 }
 
 void pinMode(uint8_t pin, uint8_t mode) {

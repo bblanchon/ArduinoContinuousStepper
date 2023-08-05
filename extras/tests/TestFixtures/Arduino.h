@@ -29,7 +29,3 @@ template <typename T>
 T min(T a, T b) {
   return a < b ? a : b;
 }
-
-// ---------------------- TEST STUFF BELOW ----------------------
-
-void set_micros(unsigned long);

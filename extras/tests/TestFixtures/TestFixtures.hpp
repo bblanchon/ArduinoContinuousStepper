@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Arduino.h"
+#include "Clock.hpp"
 #include "EventLog.hpp"
 
 #include <catch2/catch_test_macros.hpp>
@@ -19,13 +19,13 @@
 
 template <typename TContinuousStepper>
 inline void loop_till(TContinuousStepper &stepper, unsigned long end_time, unsigned long step = 1) {
-  for (unsigned long t = micros(); t <= end_time; t += step) {
-    set_micros(t);
+  for (unsigned long t = theClock.get(); t <= end_time; t += step) {
+    theClock.set(t);
     stepper.loop();
   }
 }
 
 template <typename TContinuousStepper>
 inline void loop_for(TContinuousStepper &stepper, unsigned long duration, unsigned long step = 1) {
-  loop_till(stepper, micros() + duration, step);
+  loop_till(stepper, theClock.get() + duration, step);
 }

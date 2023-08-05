@@ -1,6 +1,8 @@
 add_library(TestFixtures
-  Arduino.h
   Arduino.cpp
+  Arduino.h
+  Clock.cpp
+  Clock.hpp
   EventLog.cpp
   EventLog.hpp
   main.cpp
