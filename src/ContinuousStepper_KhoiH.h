@@ -7,6 +7,11 @@ namespace ArduinoContinuousStepper {
 // khoih = Khoi Hoang, the author of all the Xxx_PWM libraries
 template <typename XXX_PWM>
 class ContinuousStepper_KhoiH : public ContinuousStepperWithOscillator {
+public:
+  ~ContinuousStepper_KhoiH() {
+    delete _pwm;
+  }
+
 private:
   void initialize() override {
     _pwm = new XXX_PWM(stepPin(), 500, 0);
