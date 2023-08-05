@@ -29,3 +29,13 @@ template <typename TContinuousStepper>
 inline void loop_for(TContinuousStepper &stepper, unsigned long duration, unsigned long step = 1) {
   loop_till(stepper, theClock.get() + duration, step);
 }
+
+inline void wait_till(unsigned long end_time, unsigned long step = 1) {
+  for (unsigned long t = theClock.get(); t <= end_time; t += step) {
+    theClock.set(t);
+  }
+}
+
+inline void wait_for(unsigned long duration, unsigned long step = 1) {
+  wait_till(theClock.get() + duration, step);
+}

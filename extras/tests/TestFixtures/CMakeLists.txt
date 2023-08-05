@@ -7,6 +7,7 @@ add_library(TestFixtures
   EventLog.hpp
   main.cpp
   TestFixtures.hpp
+  TimerOne.h
 )
 
 target_include_directories(TestFixtures

@@ -3,6 +3,11 @@
 namespace ArduinoContinuousStepper {
 template <typename TTimer>
 class ContinuousStepper_TimerX : public ContinuousStepperBase {
+public:
+  ~ContinuousStepper_TimerX() {
+    _timer.stop();
+  }
+
 protected:
   void initialize() override {
     _instance = this;
