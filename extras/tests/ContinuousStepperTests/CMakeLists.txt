@@ -9,6 +9,7 @@ add_executable(ContinuousStepperTests
   ContinuousStepper_AWF.cpp
   ContinuousStepper_Tone.cpp
   ContinuousStepper_Timer1.cpp
+  ContinuousStepper_Timer3.cpp
 )
 
 target_link_libraries(ContinuousStepperTests

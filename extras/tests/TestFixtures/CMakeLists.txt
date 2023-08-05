@@ -8,6 +8,7 @@ add_library(TestFixtures
   main.cpp
   TestFixtures.hpp
   TimerOne.h
+  TimerThree.h
 )
 
 target_include_directories(TestFixtures
