@@ -4,7 +4,7 @@
 TEST_CASE("ContinuousStepper::powerOff()") {
   ContinuousStepper stepper;
 
-  GIVEN("begin(10, 11) zas called") {
+  GIVEN("begin(10, 11) was called") {
     stepper.begin(10, 11);
 
     WHEN("powerOff() is called") {

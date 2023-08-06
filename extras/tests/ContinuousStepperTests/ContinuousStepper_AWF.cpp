@@ -4,7 +4,7 @@
 TEST_CASE("ContinuousStepper_AWF::spin()") {
   ContinuousStepper_AWF stepper;
 
-  GIVEN("begin() was called with 2 arguments") {
+  GIVEN("begin(10, 11) was called") {
     stepper.begin(10, 11);
 
     AND_GIVEN("setAcceleration(1000) was called") {
