@@ -7,6 +7,10 @@ class TimerOne : ClockWatcher {
 public:
   using callback_t = void (*)();
 
+  void initialize() {
+    logEvent("TimerOne::initialize()");
+  }
+
   void attachInterrupt(callback_t cb) {
     logEvent("TimerOne::attachInterrupt()");
     _callback = cb;

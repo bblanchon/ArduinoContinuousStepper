@@ -11,6 +11,7 @@ TEST_CASE("ContinuousStepper_Timer3::spin()") {
       CHECK_ARDUINO_LOG({
           {0'000, "pinMode(10, OUTPUT)"},
           {0'000, "pinMode(11, OUTPUT)"},
+          {0'000, "TimerThree::initialize()"},
           {0'000, "TimerThree::attachInterrupt()"},
       });
     }

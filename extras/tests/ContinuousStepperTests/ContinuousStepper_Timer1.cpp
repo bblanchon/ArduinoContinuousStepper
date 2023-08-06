@@ -11,6 +11,7 @@ TEST_CASE("ContinuousStepper_Timer1::spin()") {
       CHECK_ARDUINO_LOG({
           {0'000, "pinMode(10, OUTPUT)"},
           {0'000, "pinMode(11, OUTPUT)"},
+          {0'000, "TimerOne::initialize()"},
           {0'000, "TimerOne::attachInterrupt()"},
       });
     }

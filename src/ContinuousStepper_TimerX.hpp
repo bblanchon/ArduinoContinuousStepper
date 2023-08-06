@@ -11,6 +11,7 @@ public:
 protected:
   void initialize() override {
     _instance = this;
+    _timer.initialize();
     _timer.attachInterrupt(interruptHandler);
   }
 
