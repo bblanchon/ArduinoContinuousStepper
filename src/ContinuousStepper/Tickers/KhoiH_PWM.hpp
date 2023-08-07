@@ -25,7 +25,7 @@ public:
   }
 
 private:
-  uint8_t pin_ = NULL_PIN;
+  uint8_t pin_ = nullPin;
   KhoiH_PWM *pwm_ = nullptr;
 };
 

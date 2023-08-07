@@ -60,7 +60,7 @@ class ContinuousStepper<StepperDriver, OscillatorTicker<TOscillator>>
 public:
   void begin(uint8_t stepPin, uint8_t dirPin) {
     TTicker::setPin(stepPin);
-    TBase::begin(NULL_PIN, dirPin);
+    TBase::begin(nullPin, dirPin);
   }
 };
 

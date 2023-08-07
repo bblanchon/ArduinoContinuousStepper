@@ -26,7 +26,7 @@ public:
 
 private:
   bool active_ = false;
-  uint8_t pin_ = NULL_PIN;
+  uint8_t pin_ = nullPin;
 };
 
 using AwfTicker = OscillatorTicker<AwfOscillator>;

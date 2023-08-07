@@ -48,7 +48,7 @@ protected:
     // step() must be called twice per cycle:
     // - once to set the step pin high
     // - once to set it low
-    return stepPin_ != NULL_PIN;
+    return stepPin_ != nullPin;
   }
 
   void powerOn() {

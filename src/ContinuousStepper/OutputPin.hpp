@@ -4,11 +4,11 @@
 
 namespace ArduinoContinuousStepper {
 
-constexpr uint8_t NULL_PIN = 255;
+constexpr uint8_t nullPin = 255;
 
 class OutputPin {
 public:
-  OutputPin() : pin_(NULL_PIN) {}
+  OutputPin() : pin_(nullPin) {}
 
   OutputPin(uint8_t pin) : pin_(pin) {
     pinMode(pin, OUTPUT);
@@ -19,7 +19,7 @@ public:
   }
 
   void set(bool level) {
-    if (level_ == uint8_t(level) || pin_ == NULL_PIN)
+    if (level_ == uint8_t(level) || pin_ == nullPin)
       return;
     digitalWrite(pin_, level);
     level_ = level;
