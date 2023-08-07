@@ -10,64 +10,63 @@ typedef unsigned long time_t;
 typedef double float_t;
 typedef uint8_t pin_t;
 
-class StepperInterface {
+class StepperDriver {
 public:
-  virtual ~StepperInterface() = default;
-
-  virtual void step() = 0;
-  virtual void setDirection(bool reversed) = 0;
-
-  // tells if drivers needs to be called twice per step
-  virtual bool needsDoubleSpeed() const {
-    return false;
+  void begin(pin_t stepPin, pin_t dirPin) {
+    _stepPin = stepPin;
+    _dirPin = dirPin;
   }
 
-  virtual void powerOn(){};
-  virtual void powerOff(){};
-};
-
-class StepperDriver : public StepperInterface {
-public:
-  StepperDriver(pin_t stepPin, pin_t dirPin) : _stepPin(stepPin), _dirPin(dirPin) {}
-
-  void setDirection(bool reversed) override {
+  void setDirection(bool reversed) {
     _dirPin.set(reversed ? LOW : HIGH);
   }
 
-  void step() override {
+  void step() {
     _stepPin.toggle();
   }
 
-  bool needsDoubleSpeed() const override {
+  bool needsDoubleSpeed() const {
     // step() must be called twice per cycle:
     // - once to set the step pin high
     // - once to set it low
     return _stepPin != NULL_PIN;
   }
 
+  void powerOn(){};
+  void powerOff(){};
+
 private:
   OutputPin _stepPin, _dirPin;
 };
 
-class FourWireStepper : public StepperInterface {
+class FourWireStepper {
 public:
-  FourWireStepper(pin_t pin1, pin_t pin2, pin_t pin3, pin_t pin4) : _pins{pin1, pin2, pin3, pin4} {}
+  void begin(pin_t pin1, pin_t pin2, pin_t pin3, pin_t pin4) {
+    _pins[0] = pin1;
+    _pins[1] = pin2;
+    _pins[2] = pin3;
+    _pins[3] = pin4;
+  }
 
-  void setDirection(bool reversed) override {
+  void setDirection(bool reversed) {
     _increment = reversed ? 3 : 1;
   }
 
-  void step() override {
+  void step() {
     _position = (_position + _increment) % 4;
     setPins(_flags[_position]);
   }
 
-  void powerOn() override {
+  void powerOn() {
     setPins(_flags[_position]);
   }
 
-  void powerOff() override {
+  void powerOff() {
     setPins(0);
+  }
+
+  bool needsDoubleSpeed() const {
+    return false;
   }
 
 private:

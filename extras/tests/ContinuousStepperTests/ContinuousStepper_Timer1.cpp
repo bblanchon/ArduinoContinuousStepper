@@ -1,8 +1,9 @@
-#include <ContinuousStepper_Timer1.h>
+#include <ContinuousStepper.h>
+#include <ContinuousStepper/Tickers/TimerOne.h>
 #include <TestFixtures.hpp>
 
-TEST_CASE("ContinuousStepper_Timer1::spin()") {
-  ContinuousStepper_Timer1 stepper;
+TEST_CASE("ContinuousStepper<StepperDriver, TimerOneTicker>") {
+  ContinuousStepper<StepperDriver, TimerOneTicker> stepper;
 
   GIVEN("begin(10, 11) was called") {
     stepper.begin(10, 11);

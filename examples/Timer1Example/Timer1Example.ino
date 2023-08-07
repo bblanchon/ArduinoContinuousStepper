@@ -1,15 +1,26 @@
 // This example requires the TimerOne library.
 // https://github.com/PaulStoffregen/TimerOne
+//
+// Tested on Teensy 3.1
+// ⚠️ Doesn't work on Teensy 4.1
+// ⚠️ Works poorly on AVR boards (UNO, Leonardo, Mega, etc.)
 
-#include <ContinuousStepper_Timer1.h>
+#include <ContinuousStepper.h>
+#include <ContinuousStepper/Tickers/TimerOne.h>
 
-const uint8_t stepPin = 2;
-const uint8_t dirPin = 3;
+// If using a stepper driver, with STEP and DIR pins:
+ContinuousStepper<StepperDriver, TimerOneTicker> stepper;
 
-ContinuousStepper_Timer1 stepper;
+// If using a four-wire stepper:
+// ContinuousStepper<FourWireStepper, TimerOneTicker> stepper;
 
 void setup() {
-  stepper.begin(stepPin, dirPin);
+  // If using a stepper driver, with STEP and DIR pins:
+  stepper.begin(/*step=*/2, /*dir=*/3);
+
+  // If using a four-wire stepper:
+  // stepper.begin(8, 10, 9, 11);
+
   stepper.spin(200);
 }
 

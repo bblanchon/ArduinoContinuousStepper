@@ -1,8 +1,8 @@
 #include <ContinuousStepper.h>
 #include <TestFixtures.hpp>
 
-TEST_CASE("ContinuousStepper::begin()") {
-  ContinuousStepper stepper;
+TEST_CASE("ContinuousStepper<StepperDriver>::begin()") {
+  ContinuousStepper<StepperDriver> stepper;
 
   WHEN("begin(10, 11) is called") {
     stepper.begin(10, 11);
@@ -14,6 +14,10 @@ TEST_CASE("ContinuousStepper::begin()") {
       });
     }
   }
+}
+
+TEST_CASE("ContinuousStepper<FourWireStepper>::begin()") {
+  ContinuousStepper<FourWireStepper> stepper;
 
   WHEN("begin(2, 3, 4, 5) is called") {
     stepper.begin(2, 3, 4, 5);

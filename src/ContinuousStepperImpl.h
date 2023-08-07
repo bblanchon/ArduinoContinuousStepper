@@ -1,29 +1,25 @@
 #pragma once
 
-#include <assert.h>
-
 #include <ContinuousStepper/StepperInterfaces.hpp>
 
 namespace ArduinoContinuousStepper {
 
-class ContinuousStepperBase {
+class TickListener {
 public:
-  ~ContinuousStepperBase() {
-    delete _stepper;
-  }
+  virtual void tick() = 0;
+};
 
-  void begin(pin_t stepPin, pin_t dirPin) {
-    begin(new StepperDriver(stepPin, dirPin));
-  }
+template <class TStepper, class TTicker>
+class ContinuousStepperImpl : TickListener {
+public:
+  template <typename... Args>
+  ContinuousStepperImpl(Args &&...args) : _ticker(this, args...) {}
 
-  void begin(pin_t pin1, pin_t pin2, pin_t pin3, pin_t pin4) {
-    begin(new FourWireStepper(pin1, pin2, pin3, pin4));
-  }
-
-  void begin(StepperInterface *stepper) {
-    _stepper = stepper;
+  template <typename... Args>
+  void begin(Args &&...args) {
+    _stepper.begin(args...);
     _status = WAIT;
-    initialize();
+    _ticker.begin();
   }
 
   void setEnablePin(pin_t enablePin, bool activeLevel = HIGH) {
@@ -36,19 +32,19 @@ public:
     if (_status != OFF)
       return;
 
-    _stepper->powerOn();
+    _stepper.powerOn();
     _enablePin.set(_enablePinActiveLevel);
 
     updateSpeed();
   }
 
   void powerOff() {
-    _stepper->powerOff();
+    _stepper.powerOff();
     _enablePin.set(!_enablePinActiveLevel);
 
     _status = OFF;
     _currentSpeed = 0;
-    setPeriod(0);
+    _ticker.setPeriod(0);
   }
 
   void spin(float_t speed) {
@@ -81,7 +77,7 @@ public:
 protected:
   void tick() {
     if (_status == STEP)
-      _stepper->step();
+      _stepper.step();
 
     updateSpeedIfNeeded();
   }
@@ -93,8 +89,6 @@ protected:
 
 private:
   void updateSpeed() {
-    assert(_stepper != nullptr); // You must call begin() first
-
     float_t speedIncrement = _period ? _acceleration * _period / oneSecond : _minSpeedForAcceleration;
 
     if (_targetSpeed > _currentSpeed) {
@@ -123,21 +117,18 @@ private:
       _period = 0;
     }
 
-    if (_stepper->needsDoubleSpeed())
+    if (_stepper.needsDoubleSpeed())
       _period /= 2;
 
     if (_period)
-      _stepper->setDirection(_currentSpeed < 0);
+      _stepper.setDirection(_currentSpeed < 0);
 
-    setPeriod(_period);
+    _ticker.setPeriod(_period);
   }
-
-  virtual void initialize(){};
-  virtual void setPeriod(time_t period) = 0;
 
   static const time_t oneSecond = 1e6;
 
-  StepperInterface *_stepper = nullptr;
+  TStepper _stepper;
   OutputPin _enablePin;
   time_t _period = 0;
   float_t _targetSpeed = 0, _currentSpeed = 0, _acceleration = 1000, _minSpeedForAcceleration = sqrt(1000);
@@ -151,6 +142,9 @@ private:
   };
 
   Status _status = OFF;
+
+protected:
+  TTicker _ticker;
 };
 
 } // namespace ArduinoContinuousStepper

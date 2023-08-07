@@ -1,8 +1,9 @@
-#include <ContinuousStepper_AWF.h>
+#include <ContinuousStepper.h>
+#include <ContinuousStepper/Tickers/AnalogWriteFrequency.h>
 #include <TestFixtures.hpp>
 
-TEST_CASE("ContinuousStepper_AWF::spin()") {
-  ContinuousStepper_AWF stepper;
+TEST_CASE("ContinuousStepper<StepperDriver, AwfTicker>") {
+  ContinuousStepper<StepperDriver, AwfTicker> stepper;
 
   GIVEN("begin(10, 11) was called") {
     stepper.begin(10, 11);

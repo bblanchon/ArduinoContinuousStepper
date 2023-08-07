@@ -1,12 +1,18 @@
 #include <ContinuousStepper.h>
 
-const uint8_t stepPin = 2;
-const uint8_t dirPin = 3;
+// If using a stepper driver, with STEP and DIR pins:
+ContinuousStepper<StepperDriver> stepper;
 
-ContinuousStepper stepper;
+// If using a four-wire stepper:
+// ContinuousStepper<FourWireStepper> stepper;
 
 void setup() {
-  stepper.begin(stepPin, dirPin);
+  // If using a stepper driver, with STEP and DIR pins
+  stepper.begin(/*step=*/2, /*dir=*/3);
+
+  // If using a four-wire stepper:
+  // stepper.begin(8, 10, 9, 11);
+
   stepper.spin(200);
 }
 

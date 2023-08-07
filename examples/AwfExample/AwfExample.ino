@@ -1,15 +1,18 @@
 // This example requires a core that implements analogWriteFrequency()
 // such as Teensy 3 and 4
+//
+// Tested on Teensy 3.1 and Teensy 4.0
+// ⚠️ speed is quite limited on Teensy 3.1
 
-#include <ContinuousStepper_AWF.h>
+#include <ContinuousStepper.h>
+#include <ContinuousStepper/Tickers/AnalogWriteFrequency.h>
 
-const uint8_t stepPin = 2;
-const uint8_t dirPin = 3;
-
-ContinuousStepper_AWF stepper;
+// AwfTicker can only work with StepperDriver
+ContinuousStepper<StepperDriver, AwfTicker> stepper;
 
 void setup() {
-  stepper.begin(stepPin, dirPin);
+  stepper.begin(/*step=*/2, /*dir=*/3); // ⚠️ step pin must support PWM
+
   stepper.spin(200);
 }
 

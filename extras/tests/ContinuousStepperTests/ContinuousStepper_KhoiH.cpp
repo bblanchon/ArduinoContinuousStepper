@@ -1,10 +1,12 @@
-#include <ContinuousStepper_KhoiH.h>
+#include <ContinuousStepper.h>
+#include <ContinuousStepper/Tickers/KhoiH_PWM.h>
 #include <Teensy_PWM.h>
 #include <TestFixtures.hpp>
 
-TEST_CASE("ContinuousStepper_KhoiH::spin()") {
+TEST_CASE(
+    "ContinuousStepper<StepperDriver, KhoihTicker<Teensy_PWM>>") {
 
-  ContinuousStepper_KhoiH<Teensy_PWM> stepper;
+  ContinuousStepper<StepperDriver, KhoihTicker<Teensy_PWM>> stepper;
 
   GIVEN("begin() was called with 2 arguments") {
     stepper.begin(10, 11);

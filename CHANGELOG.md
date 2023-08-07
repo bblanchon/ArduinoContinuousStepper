@@ -6,6 +6,27 @@ HEAD
 
 * Remove deprecated 3-parameter `begin()` (use `setEnablePin()` instead)
 * Add support for four-wire stepper motors
+* `ContinuousStepper` is now a template class with two parameters, see the first table below.
+* Some include files have been renamed, see the second table below.
+
+| Before                                | After                                                       |
+|---------------------------------------|-------------------------------------------------------------|
+| `ContinuousStepper`                   | `ContinuousStepper<StepperDriver>`                          |
+| `ContinuousStepper_AWF`               | `ContinuousStepper<StepperDriver, AwfTicker>`               |
+| `ContinuousStepper_KhoiH<Teensy_PWM>` | `ContinuousStepper<StepperDriver, KhoihTicker<Teensy_PWM>>` |
+| `ContinuousStepper_TeensyTimerTool`   | `ContinuousStepper<StepperDriver, TeensyTimerToolTicker>`   |
+| `ContinuousStepper_Timer1`            | `ContinuousStepper<StepperDriver, TimerOneTicker>`          |
+| `ContinuousStepper_Timer3`            | `ContinuousStepper<StepperDriver, TimerThreeTicker>`        |
+| `ContinuousStepper_Tone`              | `ContinuousStepper<StepperDriver, ToneTicker>`              |
+
+| Before                                | After                                              |
+|---------------------------------------|----------------------------------------------------|
+| `ContinuousStepper_AWF.h`             | `ContinuousStepper/Tickers/AnalogWriteFrequency.h` |
+| `ContinuousStepper_KhoiH.h`           | `ContinuousStepper/Tickers/Khoih_PWM.h`            |
+| `ContinuousStepper_TeensyTimerTool.h` | `ContinuousStepper/Tickers/TeensyTimerTool.h`      |
+| `ContinuousStepper_Timer1.h`          | `ContinuousStepper/Tickers/TimerOne.h`             |
+| `ContinuousStepper_Timer3.h`          | `ContinuousStepper/Tickers/TimerThree.h`           |
+| `ContinuousStepper_Tone.h`            | `ContinuousStepper/Tickers/Tone.h`                 |
 
 2.2.0
 -----

@@ -1,9 +1,11 @@
-#include <ContinuousStepper_TeensyTimerTool.h>
+#include <ContinuousStepper.h>
+#include <ContinuousStepper/Tickers/TeensyTimerTool.h>
 #include <TestFixtures.hpp>
 
-TEST_CASE("ContinuousStepper_TeensyTimerTool::spin()") {
+TEST_CASE("ContinuousStepper<StepperDriver, TeensyTimerToolTicker>") {
   TeensyTimerTool::PeriodicTimer timer;
-  ContinuousStepper_TeensyTimerTool stepper(timer);
+  ContinuousStepper<StepperDriver, TeensyTimerToolTicker> stepper(
+      timer);
 
   GIVEN("begin(10, 11) was called") {
     stepper.begin(10, 11);

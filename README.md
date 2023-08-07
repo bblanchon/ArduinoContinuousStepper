@@ -26,8 +26,12 @@ Contrary to other stepper libraries, this one doesn't provide any function to mo
 
 ### How to use the ContinousStepper library?
 
+#### Basic example with a stepper driver
+
 ```c++
-ContinuousStepper stepper;
+#include <ContinuousStepper.h>
+
+ContinuousStepper<StepperDriver> stepper;
 
 void setup() {
   stepper.begin(stepPin, dirPin)
@@ -39,29 +43,81 @@ void loop() {
 }
 ```
 
-Alternatively, you can install the [TimerOne](https://github.com/PaulStoffregen/TimerOne) to have the `loop()` function called in the timer interrupt handler:
+#### Basic example with a four-wire stepper motor
 
 ```c++
-ContinuousStepper_Timer1 stepper;
+#include <ContinuousStepper.h>
+
+ContinuousStepper<FourWireStepper> stepper;
+
+void setup() {
+  stepper.begin(pin1, pin2, pin3, pin4);
+  stepper.spin(200); // rotate at 200 steps per seconds
+}
+
+void loop() {
+  stepper.loop(); // this function must be called as frequently as possible
+}
+```
+
+#### Using the Tone library for the step pin
+
+In the basic example above, the level of the *step* pin is changed with `digitalWrite()`. We can offload this task to the `tone()` function, which uses a timer to generate a square wave.
+
+```c++
+#include <ContinuousStepper.h>
+#include <ContinuousStepper/Tickers/Tone.h>
+
+ContinuousStepper<StepperDriver, ToneTicker> stepper;
 
 void setup() {
   stepper.begin(stepPin, dirPin);
+
+  stepper.spin(200);
+}
+
+void loop() {
+  stepper.loop();
+}
+```
+
+Of course, this only work for `StepperDriver`, don't try to use it with `FourWireStepper`. The same remark applies to `AwfTicker` and `KhoiTicker`.
+
+#### Using the TimerOne library to call `loop()` automatically
+
+Alternatively, you can install the [TimerOne](https://github.com/PaulStoffregen/TimerOne) to have the `loop()` function called in the timer interrupt handler:
+
+```c++
+#include <ContinuousStepper.h>
+#include <ContinuousStepper/Tickers/TimerOne.h>
+
+ContinuousStepper<FourWireStepper, TimerOneTicker> stepper;
+
+void setup() {
+  stepper.begin(pin1, pin2, pin3, pin4);
+
   stepper.spin(200);
 }
 
 void loop() {
   // no need to call stepper.loop()
-  // it's called by the timer interrupt handler
 }
 ```
 
+You can do this for either `StepperDriver` or `FourWireStepper`.
+
+CAUTION: this example only proved to work correctly on Teensy 3.1.
+
 ### API
 
+Here is the general overview of the `ContinuousStepper` class:
+
 ```c++
+template <class TStepper, class TTicker = LoopTicker>
 class ContinuousStepper {
 public:
   // Initialize the class and attaches to the specified pins.
-  void begin(pin_t stepPin, pin_t dirPin);
+  void begin(/* depends, see below */);
 
   // Configures the "enable" pin.
   // You can pass LOW as the second argument to invert the logic.
@@ -78,30 +134,39 @@ public:
   // Sets the enable pin's level to its inactive level.
   void powerOff();
 
-  // Changes target speed.
+  // Sets the target speed.
   // The shaft will smoothly accelerate or decelerate to reach the
   // target speed.
   void spin(float_t speed);
 
-  // Sets targets speed to 0.
+  // Sets the target speed to 0.
   // The shaft will smoothly decelerate.
   // Call isSpinning() to know when the motion is complete.
   void stop();
 
   // Returns the current speed.
-  // During accelerations and deccelerations, this value differs from the
+  // During accelerations and decelerations, this value differs from the
   // target speed configured with spin().
   float_t speed() const;
 
   // Sets the acceleration in steps/s².
   void setAcceleration(float_t acceleration);
 
-  // Tells wether the shaft is currently spinning.
+  // Tells whether the shaft is currently spinning.
   bool isSpinning() const;
 };
 ```
 
-`ContinuousStepper_Timer1` is identical, except it can only have one instance and it doesn't have the `loop()` function.
+The `begin()` function forwards its arguments to the `TStepper::begin()`, such as:
+
+```c++
+// For stepper drivers, the arguments are step and dir pins numbers.
+void StepperDriver::begin(pin_t stepPin, pin_t dirPin);
+
+// For four-wire stepper motors, the arguments are the four pins numbers.
+void FourWireStepper::begin(pin_t pin1, pin_t pin2, pin_t pin3, pin_t pin4);
+```
+
 
 ### Why use this library instead of AccelStepper
 

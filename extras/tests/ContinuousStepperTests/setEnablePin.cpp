@@ -1,8 +1,8 @@
 #include <ContinuousStepper.h>
 #include <TestFixtures.hpp>
 
-TEST_CASE("ContinuousStepper::setEnablePin()") {
-  ContinuousStepper stepper;
+TEST_CASE("ContinuousStepper<StepperDriver>::setEnablePin()") {
+  ContinuousStepper<StepperDriver> stepper;
 
   GIVEN("begin(10, 11) was called") {
     stepper.begin(10, 11);
@@ -83,6 +83,10 @@ TEST_CASE("ContinuousStepper::setEnablePin()") {
       }
     }
   }
+}
+
+TEST_CASE("ContinuousStepper<FourWireStepper>::setEnablePin()") {
+  ContinuousStepper<FourWireStepper> stepper;
 
   GIVEN("begin(2, 3, 4, 5) was called") {
     stepper.begin(2, 3, 4, 5);

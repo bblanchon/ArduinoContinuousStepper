@@ -1,8 +1,9 @@
-#include <ContinuousStepper_Tone.h>
+#include <ContinuousStepper.h>
+#include <ContinuousStepper/Tickers/Tone.h>
 #include <TestFixtures.hpp>
 
-TEST_CASE("ContinuousStepper_Tone::spin()") {
-  ContinuousStepper_Tone stepper;
+TEST_CASE("ContinuousStepper<StepperDriver, ToneTicker>") {
+  ContinuousStepper<StepperDriver, ToneTicker> stepper;
 
   GIVEN("begin(10, 11) was called") {
     stepper.begin(10, 11);
