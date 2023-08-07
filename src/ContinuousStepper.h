@@ -23,10 +23,6 @@ protected:
     _tickPeriod = period;
   }
 
-  bool needsDoubleSpeed() const override {
-    return true;
-  }
-
 private:
   static time_t now() {
     return micros();

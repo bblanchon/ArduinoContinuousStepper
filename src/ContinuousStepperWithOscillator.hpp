@@ -4,7 +4,37 @@
 
 namespace ArduinoContinuousStepper {
 class ContinuousStepperWithOscillator : public ContinuousStepperBase {
+  class DirOnlyDriver : public StepperInterface {
+  public:
+    DirOnlyDriver(pin_t dirPin) : _dirPin(dirPin) {
+      pinMode(dirPin, OUTPUT);
+    }
+
+    void step() override {}
+
+    void setDirection(bool reversed) {
+      setDirPinLevel(reversed ? LOW : HIGH);
+    }
+
+  private:
+    void setDirPinLevel(bool level) {
+      if (level == _dirLevel)
+        return;
+      digitalWrite(_dirPin, level);
+      _dirLevel = level;
+    }
+
+    pin_t _dirPin;
+    bool _dirLevel = LOW;
+  };
+
 public:
+  void begin(pin_t stepPin, pin_t dirPin) {
+    ContinuousStepperBase::begin(new DirOnlyDriver(dirPin));
+    _stepPin = stepPin;
+    pinMode(stepPin, OUTPUT);
+  }
+
   void loop() {
     if (!_period)
       return;
@@ -16,6 +46,11 @@ public:
       updateSpeedIfNeeded();
       _periodStart = now;
     }
+  }
+
+protected:
+  pin_t stepPin() const {
+    return _stepPin;
   }
 
 private:
@@ -31,8 +66,7 @@ private:
     _period = period;
   }
 
-  void writeStep(bool) override {}
-
   time_t _period, _periodStart = 0;
+  pin_t _stepPin;
 };
 } // namespace ArduinoContinuousStepper

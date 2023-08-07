@@ -28,10 +28,6 @@ protected:
     }
   }
 
-  bool needsDoubleSpeed() const override {
-    return true;
-  }
-
 private:
   TeensyTimerTool::PeriodicTimer *_timer;
 };

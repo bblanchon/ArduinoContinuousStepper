@@ -23,10 +23,6 @@ protected:
     }
   }
 
-  bool needsDoubleSpeed() const override {
-    return true;
-  }
-
 private:
   static void interruptHandler() {
     _instance->tick();

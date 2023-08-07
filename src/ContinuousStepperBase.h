@@ -1,23 +1,25 @@
 #pragma once
 
 #include <Arduino.h>
+#include <assert.h>
+
+#include <ContinuousStepper/StepperInterfaces.hpp>
 
 namespace ArduinoContinuousStepper {
 
-typedef unsigned long time_t;
-typedef double float_t;
-typedef uint8_t pin_t;
-
 class ContinuousStepperBase {
 public:
+  ~ContinuousStepperBase() {
+    delete _stepper;
+  }
+
   void begin(pin_t stepPin, pin_t dirPin) {
-    _stepPin = stepPin;
-    _dirPin = dirPin;
+    begin(new StepperDriver(stepPin, dirPin));
+  }
+
+  void begin(StepperInterface *stepper) {
+    _stepper = stepper;
     _status = WAIT;
-
-    pinMode(stepPin, OUTPUT);
-    pinMode(dirPin, OUTPUT);
-
     initialize();
   }
 
@@ -76,15 +78,8 @@ public:
 
 protected:
   void tick() {
-    if (_status == STEP) {
-      if (_stepLevel == LOW) {
-        writeStep(HIGH);
-        _stepLevel = HIGH;
-      } else {
-        writeStep(LOW);
-        _stepLevel = LOW;
-      }
-    }
+    if (_status == STEP)
+      _stepper->step();
 
     updateSpeedIfNeeded();
   }
@@ -94,24 +89,10 @@ protected:
       updateSpeed();
   }
 
-  virtual void writeStep(bool level) {
-    digitalWrite(_stepPin, level);
-  }
-
-  pin_t stepPin() const {
-    return _stepPin;
-  }
-
 private:
-  void writeDir() {
-    bool level = _currentSpeed >= 0 ? HIGH : LOW;
-    if (level == _dirLevel)
-      return;
-    digitalWrite(_dirPin, level);
-    _dirLevel = level;
-  }
-
   void updateSpeed() {
+    assert(_stepper != nullptr); // You must call begin() first
+
     float_t speedIncrement = _period ? _acceleration * _period / oneSecond : _minSpeedForAcceleration;
 
     if (_targetSpeed > _currentSpeed) {
@@ -140,28 +121,26 @@ private:
       _period = 0;
     }
 
-    if (needsDoubleSpeed())
+    if (_stepper->needsDoubleSpeed())
       _period /= 2;
 
     if (_period)
-      writeDir();
+      _stepper->setDirection(_currentSpeed < 0);
 
     setPeriod(_period);
   }
 
   virtual void initialize(){};
   virtual void setPeriod(time_t period) = 0;
-  virtual bool needsDoubleSpeed() const {
-    return false;
-  }
 
   static const pin_t NULL_PIN = 255;
   static const time_t oneSecond = 1e6;
 
-  pin_t _stepPin = 0, _dirPin = 0, _enablePin = NULL_PIN;
+  StepperInterface *_stepper = nullptr;
+  pin_t _enablePin = NULL_PIN;
   time_t _period = 0;
   float_t _targetSpeed = 0, _currentSpeed = 0, _acceleration = 1000, _minSpeedForAcceleration = sqrt(1000);
-  bool _stepLevel = LOW, _dirLevel = LOW, _enablePinActiveLevel = HIGH;
+  bool _enablePinActiveLevel = HIGH;
 
   enum Status {
     OFF,
