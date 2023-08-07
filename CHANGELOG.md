@@ -1,8 +1,8 @@
 ContinuousStepper: changelog
 ============================
 
-HEAD
-----
+3.0.0
+-----
 
 * Remove deprecated 3-parameter `begin()` (use `setEnablePin()` instead)
 * Add support for four-wire stepper motors
