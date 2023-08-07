@@ -2,8 +2,8 @@
 
 #include <Arduino.h>
 
+#include <ContinuousStepper/ContinuousStepperImpl.hpp>
 #include <ContinuousStepper/OutputPin.hpp>
-#include <ContinuousStepperImpl.hpp>
 
 namespace ArduinoContinuousStepper {
 

@@ -1,7 +1,7 @@
 #pragma once
 
+#include <ContinuousStepper/ContinuousStepperImpl.hpp>
 #include <ContinuousStepper/StepperInterfaces.hpp>
-#include <ContinuousStepperImpl.hpp>
 
 namespace ArduinoContinuousStepper {
 
