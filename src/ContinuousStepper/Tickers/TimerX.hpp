@@ -4,7 +4,7 @@ namespace ArduinoContinuousStepper {
 
 template <class TTimer>
 class TimerXTicker : StepperTicker {
-public:
+protected:
   using StepperTicker::StepperTicker;
 
   ~TimerXTicker() {

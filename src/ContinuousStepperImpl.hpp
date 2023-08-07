@@ -10,18 +10,18 @@ public:
 };
 
 template <class TStepper, class TTicker>
-class ContinuousStepperImpl : TickListener {
+class ContinuousStepperImpl : TickListener, public TTicker {
 public:
   using time_t = unsigned long;
 
   template <typename... Args>
-  ContinuousStepperImpl(Args &&...args) : _ticker(this, args...) {}
+  ContinuousStepperImpl(Args &&...args) : TTicker(this, args...) {}
 
   template <typename... Args>
   void begin(Args &&...args) {
     _stepper.begin(args...);
     _status = WAIT;
-    _ticker.begin();
+    TTicker::begin();
   }
 
   void setEnablePin(pin_t enablePin, bool activeLevel = HIGH) {
@@ -46,7 +46,7 @@ public:
 
     _status = OFF;
     _currentSpeed = 0;
-    _ticker.setPeriod(0);
+    TTicker::setPeriod(0);
   }
 
   void spin(float_t speed) {
@@ -125,7 +125,7 @@ private:
     if (_period)
       _stepper.setDirection(_currentSpeed < 0);
 
-    _ticker.setPeriod(_period);
+    TTicker::setPeriod(_period);
   }
 
   static const time_t oneSecond = 1e6;
@@ -144,9 +144,6 @@ private:
   };
 
   Status _status = OFF;
-
-protected:
-  TTicker _ticker;
 };
 
 } // namespace ArduinoContinuousStepper

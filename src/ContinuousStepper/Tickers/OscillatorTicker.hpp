@@ -5,9 +5,26 @@
 namespace ArduinoContinuousStepper {
 
 template <class TOscillator>
-class OscillatorTicker : public StepperTicker {
-public:
+class OscillatorTicker : StepperTicker {
   using time_t = unsigned long;
+
+public:
+  void begin() {}
+
+  void loop() {
+    if (!_period)
+      return;
+
+    time_t now = micros();
+    time_t elapsed = now - _periodStart;
+
+    if (elapsed >= _period) {
+      tick();
+      _periodStart = now;
+    }
+  }
+
+protected:
   using StepperTicker::StepperTicker;
 
   void setPin(pin_t pin) {
@@ -22,19 +39,6 @@ public:
       _oscillator.stop();
     }
     _period = period;
-  }
-
-  void loop() {
-    if (!_period)
-      return;
-
-    time_t now = micros();
-    time_t elapsed = now - _periodStart;
-
-    if (elapsed >= _period) {
-      tick();
-      _periodStart = now;
-    }
   }
 
 private:
@@ -55,16 +59,9 @@ class ContinuousStepper<StepperDriver, OscillatorTicker<TOscillator>>
 
 public:
   void begin(pin_t stepPin, pin_t dirPin) {
-    TBase::_ticker.setPin(stepPin);
+    TTicker::setPin(stepPin);
     TBase::begin(NULL_PIN, dirPin);
   }
-
-  void loop() {
-    TBase::_ticker.loop();
-  }
-
-private:
-  time_t _periodStart = 0;
 };
 
 } // namespace ArduinoContinuousStepper

@@ -7,7 +7,7 @@
 namespace ArduinoContinuousStepper {
 
 class TeensyTimerToolTicker : StepperTicker {
-public:
+protected:
   TeensyTimerToolTicker(TickListener *listener, TeensyTimerTool::PeriodicTimer *timer)
       : StepperTicker(listener), _timer(timer) {}
 
