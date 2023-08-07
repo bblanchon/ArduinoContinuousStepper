@@ -8,36 +8,36 @@ protected:
   using StepperTicker::StepperTicker;
 
   ~TimerXTicker() {
-    _timer.stop();
+    timer_.stop();
   }
 
   void init() {
-    _instance = this;
-    _timer.initialize();
-    _timer.attachInterrupt(interruptHandler);
+    instance_ = this;
+    timer_.initialize();
+    timer_.attachInterrupt(interruptHandler);
   }
 
   void setPeriod(unsigned long period) {
-    _timer.stop();
+    timer_.stop();
     if (period) {
-      _timer.setPeriod(period);
-      _timer.start();
+      timer_.setPeriod(period);
+      timer_.start();
     }
   }
 
 private:
   static void interruptHandler() {
-    _instance->tick();
+    instance_->tick();
   }
 
-  static TTimer _timer;
-  static TimerXTicker *_instance;
+  static TTimer timer_;
+  static TimerXTicker *instance_;
 };
 
 template <class TTimer>
-TTimer TimerXTicker<TTimer>::_timer;
+TTimer TimerXTicker<TTimer>::timer_;
 
 template <class TTimer>
-TimerXTicker<TTimer> *TimerXTicker<TTimer>::_instance;
+TimerXTicker<TTimer> *TimerXTicker<TTimer>::instance_;
 
 } // namespace ArduinoContinuousStepper

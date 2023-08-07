@@ -8,19 +8,19 @@ class ToneOscillator {
 public:
   void init(uint8_t pin) {
     pinMode(pin, OUTPUT);
-    _pin = pin;
+    pin_ = pin;
   }
 
   void start(unsigned int frequency) {
-    tone(_pin, frequency);
+    tone(pin_, frequency);
   }
 
   void stop() {
-    noTone(_pin);
+    noTone(pin_);
   }
 
 private:
-  uint8_t _pin = NULL_PIN;
+  uint8_t pin_ = NULL_PIN;
 };
 
 using ToneTicker = OscillatorTicker<ToneOscillator>;

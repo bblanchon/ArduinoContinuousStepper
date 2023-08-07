@@ -10,15 +10,15 @@ class OscillatorTicker : StepperTicker {
 
 public:
   void loop() {
-    if (!_period)
+    if (!period_)
       return;
 
     time_t now = micros();
-    time_t elapsed = now - _periodStart;
+    time_t elapsed = now - periodStart_;
 
-    if (elapsed >= _period) {
+    if (elapsed >= period_) {
       tick();
-      _periodStart = now;
+      periodStart_ = now;
     }
   }
 
@@ -29,21 +29,21 @@ protected:
 
   void setPin(uint8_t pin) {
     pinMode(pin, OUTPUT);
-    _oscillator.init(pin);
+    oscillator_.init(pin);
   }
 
   void setPeriod(unsigned long period) {
     if (period) {
-      _oscillator.start(1e6 / period);
+      oscillator_.start(1e6 / period);
     } else {
-      _oscillator.stop();
+      oscillator_.stop();
     }
-    _period = period;
+    period_ = period;
   }
 
 private:
-  TOscillator _oscillator;
-  time_t _period = 0, _periodStart = 0;
+  TOscillator oscillator_;
+  time_t period_ = 0, periodStart_ = 0;
 };
 
 template <class TStepper, class TOscillator>

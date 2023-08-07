@@ -7,28 +7,28 @@ namespace ArduinoContinuousStepper {
 
 class StepperTicker {
 protected:
-  StepperTicker(TickListener *listener) : _listener(listener) {}
+  StepperTicker(TickListener *listener) : listener_(listener) {}
 
   void tick() {
-    _listener->tick();
+    listener_->tick();
   }
 
 private:
-  TickListener *_listener;
+  TickListener *listener_;
 };
 
 class LoopTicker : StepperTicker {
 public:
   void loop() {
-    if (!_tickPeriod)
+    if (!tickPeriod_)
       return;
 
     time_t now = micros();
-    time_t elapsed = now - _lastTick;
+    time_t elapsed = now - lastTick_;
 
-    if (elapsed >= _tickPeriod) {
+    if (elapsed >= tickPeriod_) {
       tick();
-      _lastTick = now;
+      lastTick_ = now;
     }
   }
 
@@ -40,7 +40,7 @@ protected:
   void init() {}
 
   void setPeriod(unsigned long period) {
-    _tickPeriod = period;
+    tickPeriod_ = period;
   }
 
 private:
@@ -48,7 +48,7 @@ private:
     return micros();
   }
 
-  time_t _tickPeriod, _lastTick = 0;
+  time_t tickPeriod_, lastTick_ = 0;
 };
 
 template <class TStepper, class TTicker = LoopTicker>

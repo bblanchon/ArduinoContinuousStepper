@@ -13,20 +13,20 @@ public:
 
   void begin(callback_t callback, unsigned long period, bool start = true) {
     logEvent("PeriodicTimer::begin(%lu, %s)", period, start ? "true" : "false");
-    _callback = callback;
-    _period = period;
+    callback_ = callback;
+    period_ = period;
     if (start)
       theClock.addWatcher(this);
   }
 
   void attachInterrupt(callback_t cb) {
     logEvent("PeriodicTimer::attachInterrupt()");
-    _callback = cb;
+    callback_ = cb;
   }
 
   void setPeriod(unsigned long period) {
     logEvent("PeriodicTimer::setPeriod(%lu)", period);
-    _period = period;
+    period_ = period;
   }
 
   void start() {
@@ -41,16 +41,16 @@ public:
 
 private:
   void timeChanged(unsigned long time) override {
-    if (time - _lastTime >= _period) {
-      _lastTime = time;
-      if (_callback)
-        _callback();
+    if (time - lastTime_ >= period_) {
+      lastTime_ = time;
+      if (callback_)
+        callback_();
     }
   }
 
-  unsigned long _period = 0;
-  unsigned long _lastTime = 0;
-  callback_t _callback = nullptr;
+  unsigned long period_ = 0;
+  unsigned long lastTime_ = 0;
+  callback_t callback_ = nullptr;
 };
 
 } // namespace TeensyTimerTool

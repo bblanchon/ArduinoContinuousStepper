@@ -11,27 +11,27 @@ public:
 class Clock {
 public:
   void set(unsigned long time) {
-    _time = time;
-    std::vector<ClockWatcher *> watchers(_watchers.begin(), _watchers.end());
+    time_ = time;
+    std::vector<ClockWatcher *> watchers(watchers_.begin(), watchers_.end());
     for (auto watcher : watchers)
-      watcher->timeChanged(_time);
+      watcher->timeChanged(time_);
   }
 
   unsigned long get() const {
-    return _time;
+    return time_;
   }
 
   void addWatcher(ClockWatcher *watcher) {
-    _watchers.insert(watcher);
+    watchers_.insert(watcher);
   }
 
   void removeWatcher(ClockWatcher *watcher) {
-    _watchers.erase(watcher);
+    watchers_.erase(watcher);
   }
 
 private:
-  unsigned long _time = 0;
-  std::set<ClockWatcher *> _watchers;
+  unsigned long time_ = 0;
+  std::set<ClockWatcher *> watchers_;
 };
 
 extern Clock theClock;

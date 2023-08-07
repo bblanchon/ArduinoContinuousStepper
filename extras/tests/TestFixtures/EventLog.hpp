@@ -10,24 +10,24 @@ public:
   using event_t = std::pair<timestamp_t, std::string>;
 
   EventLog() {}
-  EventLog(std::initializer_list<event_t> events) : _events(events) {}
+  EventLog(std::initializer_list<event_t> events) : events_(events) {}
 
   void add(timestamp_t t, std::string event) {
-    _events.emplace_back(t, std::move(event));
+    events_.emplace_back(t, std::move(event));
   }
 
   void clear() {
-    _events.clear();
+    events_.clear();
   }
 
   std::string diff(const EventLog &) const;
 
   bool operator!=(const EventLog &other) const {
-    return _events != other._events;
+    return events_ != other.events_;
   }
 
 private:
-  std::vector<event_t> _events;
+  std::vector<event_t> events_;
 };
 
 extern EventLog theEventLog;

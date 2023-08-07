@@ -8,30 +8,30 @@ constexpr uint8_t NULL_PIN = 255;
 
 class OutputPin {
 public:
-  OutputPin() : _pin(NULL_PIN) {}
+  OutputPin() : pin_(NULL_PIN) {}
 
-  OutputPin(uint8_t pin) : _pin(pin) {
+  OutputPin(uint8_t pin) : pin_(pin) {
     pinMode(pin, OUTPUT);
   }
 
   operator uint8_t() const {
-    return _pin;
+    return pin_;
   }
 
   void set(bool level) {
-    if (_level == uint8_t(level) || _pin == NULL_PIN)
+    if (level_ == uint8_t(level) || pin_ == NULL_PIN)
       return;
-    digitalWrite(_pin, level);
-    _level = level;
+    digitalWrite(pin_, level);
+    level_ = level;
   }
 
   void toggle() {
-    set(_level != HIGH);
+    set(level_ != HIGH);
   }
 
 private:
-  uint8_t _pin;
-  uint8_t _level = 2; // i.e. neither HIGH nor LOW
+  uint8_t pin_;
+  uint8_t level_ = 2; // i.e. neither HIGH nor LOW
 };
 
 } // namespace ArduinoContinuousStepper

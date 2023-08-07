@@ -24,7 +24,7 @@ public:
   ContinuousStepperImpl(Args &&...args) : TTicker(this, args...), TStepper(this) {}
 
   void powerOn() {
-    if (_status != OFF)
+    if (status_ != OFF)
       return;
 
     TStepper::powerOn();
@@ -33,99 +33,99 @@ public:
 
   void powerOff() {
     TStepper::powerOff();
-    _status = OFF;
-    _currentSpeed = 0;
+    status_ = OFF;
+    currentSpeed_ = 0;
     TTicker::setPeriod(0);
   }
 
   void spin(float_t speed) {
-    _targetSpeed = speed;
-    if (_status != OFF)
+    targetSpeed_ = speed;
+    if (status_ != OFF)
       updateSpeed();
   }
 
   void stop() {
-    _targetSpeed = 0;
+    targetSpeed_ = 0;
   }
 
   float_t speed() const {
-    return _currentSpeed;
+    return currentSpeed_;
   }
 
   time_t period() const {
-    return _period;
+    return period_;
   }
 
   void setAcceleration(float_t acceleration) {
-    _acceleration = acceleration;
-    _minSpeedForAcceleration = sqrt(_acceleration);
+    acceleration_ = acceleration;
+    minSpeedForAcceleration_ = sqrt(acceleration_);
   }
 
   bool isSpinning() const {
-    return _status == STEP || _status == SKIP;
+    return status_ == STEP || status_ == SKIP;
   }
 
 protected:
   void tick() {
-    if (_status == STEP)
+    if (status_ == STEP)
       TStepper::step();
 
     updateSpeedIfNeeded();
   }
 
   void updateSpeedIfNeeded() {
-    if (_targetSpeed != _currentSpeed)
+    if (targetSpeed_ != currentSpeed_)
       updateSpeed();
   }
 
 private:
   void stepperInitialized() override {
-    _status = WAIT;
+    status_ = WAIT;
     TTicker::init();
   }
 
   void updateSpeed() {
-    float_t speedIncrement = _period ? _acceleration * _period / oneSecond : _minSpeedForAcceleration;
+    float_t speedIncrement = period_ ? acceleration_ * period_ / oneSecond : minSpeedForAcceleration_;
 
-    if (_targetSpeed > _currentSpeed) {
-      _currentSpeed = min(_currentSpeed + speedIncrement, _targetSpeed);
+    if (targetSpeed_ > currentSpeed_) {
+      currentSpeed_ = min(currentSpeed_ + speedIncrement, targetSpeed_);
     }
 
-    if (_targetSpeed < _currentSpeed) {
-      _currentSpeed = max(_currentSpeed - speedIncrement, _targetSpeed);
+    if (targetSpeed_ < currentSpeed_) {
+      currentSpeed_ = max(currentSpeed_ - speedIncrement, targetSpeed_);
     }
 
-    if (abs(_currentSpeed) >= _minSpeedForAcceleration) {
-      _period = oneSecond / abs(_currentSpeed);
-      _status = STEP;
-    } else if (abs(_targetSpeed) >= _minSpeedForAcceleration) {
+    if (abs(currentSpeed_) >= minSpeedForAcceleration_) {
+      period_ = oneSecond / abs(currentSpeed_);
+      status_ = STEP;
+    } else if (abs(targetSpeed_) >= minSpeedForAcceleration_) {
       // crossing the zero on the speed graph
-      _period = oneSecond / _minSpeedForAcceleration;
-      _status = SKIP;
-    } else if (_targetSpeed) {
+      period_ = oneSecond / minSpeedForAcceleration_;
+      status_ = SKIP;
+    } else if (targetSpeed_) {
       // target speed is not null but too low to allow a smooth acceleration
-      _period = oneSecond / abs(_targetSpeed);
-      _status = STEP;
+      period_ = oneSecond / abs(targetSpeed_);
+      status_ = STEP;
     } else {
       // target speed is null
-      _status = WAIT;
-      _currentSpeed = 0;
-      _period = 0;
+      status_ = WAIT;
+      currentSpeed_ = 0;
+      period_ = 0;
     }
 
     if (TStepper::needsDoubleSpeed())
-      _period /= 2;
+      period_ /= 2;
 
-    if (_period)
-      TStepper::setDirection(_currentSpeed < 0);
+    if (period_)
+      TStepper::setDirection(currentSpeed_ < 0);
 
-    TTicker::setPeriod(_period);
+    TTicker::setPeriod(period_);
   }
 
   static const time_t oneSecond = 1e6;
 
-  time_t _period = 0;
-  float_t _targetSpeed = 0, _currentSpeed = 0, _acceleration = 1000, _minSpeedForAcceleration = sqrt(1000);
+  time_t period_ = 0;
+  float_t targetSpeed_ = 0, currentSpeed_ = 0, acceleration_ = 1000, minSpeedForAcceleration_ = sqrt(1000);
 
   enum Status {
     OFF,
@@ -134,7 +134,7 @@ private:
     SKIP,
   };
 
-  Status _status = OFF;
+  Status status_ = OFF;
 };
 
 } // namespace ArduinoContinuousStepper

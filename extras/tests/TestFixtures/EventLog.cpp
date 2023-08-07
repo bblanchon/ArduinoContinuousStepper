@@ -22,7 +22,7 @@ std::ostream &operator<<(std::ostream &os, const EventLog::event_t &value) {
 }
 
 std::string EventLog::diff(const EventLog &expected) const {
-  dtl::Diff<event_t> diff(expected._events, _events);
+  dtl::Diff<event_t> diff(expected.events_, events_);
   diff.compose();
   std::ostringstream message;
   diff.printSES(message);

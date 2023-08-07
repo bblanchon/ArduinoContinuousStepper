@@ -9,28 +9,28 @@ namespace ArduinoContinuousStepper {
 class TeensyTimerToolTicker : StepperTicker {
 protected:
   TeensyTimerToolTicker(TickListener *listener, TeensyTimerTool::PeriodicTimer *timer)
-      : StepperTicker(listener), _timer(timer) {}
+      : StepperTicker(listener), timer_(timer) {}
 
   TeensyTimerToolTicker(const TeensyTimerToolTicker &) = delete;
 
   ~TeensyTimerToolTicker() {
-    _timer->stop();
+    timer_->stop();
   }
 
   void init() {
-    _timer->begin([this]() { tick(); }, 1000, false);
+    timer_->begin([this]() { tick(); }, 1000, false);
   }
 
   void setPeriod(unsigned long period) {
-    _timer->stop();
+    timer_->stop();
     if (period) {
-      _timer->setPeriod(period);
-      _timer->start();
+      timer_->setPeriod(period);
+      timer_->start();
     }
   }
 
 private:
-  TeensyTimerTool::PeriodicTimer *_timer;
+  TeensyTimerTool::PeriodicTimer *timer_;
 };
 
 template <class TStepper>

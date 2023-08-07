@@ -9,71 +9,71 @@ namespace ArduinoContinuousStepper {
 
 class StepperBase {
 protected:
-  StepperBase(StepperListener *listener) : _listener(listener) {}
+  StepperBase(StepperListener *listener) : listener_(listener) {}
 
   void stepperInitialized() {
-    _listener->stepperInitialized();
+    listener_->stepperInitialized();
   }
 
 private:
-  StepperListener *_listener;
+  StepperListener *listener_;
 };
 
 class StepperDriver : StepperBase {
 public:
   void begin(uint8_t stepPin, uint8_t dirPin) {
-    _stepPin = stepPin;
-    _dirPin = dirPin;
+    stepPin_ = stepPin;
+    dirPin_ = dirPin;
     stepperInitialized();
   }
 
   void setEnablePin(uint8_t pin, bool activeLevel = HIGH) {
-    _enablePin = pin;
-    _enablePinActiveLevel = activeLevel;
-    _enablePin.set(!_isPowered ^ activeLevel);
+    enablePin_ = pin;
+    enablePinActiveLevel_ = activeLevel;
+    enablePin_.set(!isPowered_ ^ activeLevel);
   }
 
 protected:
   using StepperBase::StepperBase;
 
   void setDirection(bool reversed) {
-    _dirPin.set(reversed ? LOW : HIGH);
+    dirPin_.set(reversed ? LOW : HIGH);
   }
 
   void step() {
-    _stepPin.toggle();
+    stepPin_.toggle();
   }
 
   bool needsDoubleSpeed() const {
     // step() must be called twice per cycle:
     // - once to set the step pin high
     // - once to set it low
-    return _stepPin != NULL_PIN;
+    return stepPin_ != NULL_PIN;
   }
 
   void powerOn() {
-    _enablePin.set(_enablePinActiveLevel);
-    _isPowered = true;
+    enablePin_.set(enablePinActiveLevel_);
+    isPowered_ = true;
   };
 
   void powerOff() {
-    _enablePin.set(!_enablePinActiveLevel);
-    _isPowered = false;
+    enablePin_.set(!enablePinActiveLevel_);
+    isPowered_ = false;
   };
 
 private:
-  OutputPin _stepPin, _dirPin, _enablePin;
-  bool _enablePinActiveLevel = HIGH;
-  bool _isPowered = true;
+  OutputPin stepPin_, dirPin_, enablePin_;
+  bool enablePinActiveLevel_ = HIGH;
+  bool isPowered_ = true;
 };
 
 class FourWireStepper : StepperBase {
 public:
   void begin(uint8_t pin1, uint8_t pin2, uint8_t pin3, uint8_t pin4) {
-    _pins[0] = pin1;
-    _pins[1] = pin2;
-    _pins[2] = pin3;
-    _pins[3] = pin4;
+    pins_[0] = pin1;
+    pins_[1] = pin2;
+    pins_[2] = pin3;
+    pins_[3] = pin4;
     stepperInitialized();
   }
 
@@ -81,16 +81,16 @@ protected:
   using StepperBase::StepperBase;
 
   void setDirection(bool reversed) {
-    _increment = reversed ? 3 : 1;
+    increment_ = reversed ? 3 : 1;
   }
 
   void step() {
-    _position = (_position + _increment) % 4;
-    setPins(_flags[_position]);
+    position_ = (position_ + increment_) % 4;
+    setPins(flags_[position_]);
   }
 
   void powerOn() {
-    setPins(_flags[_position]);
+    setPins(flags_[position_]);
   }
 
   void powerOff() {
@@ -103,15 +103,15 @@ protected:
 
 private:
   void setPins(uint8_t flags) {
-    for (auto &pin : _pins) {
+    for (auto &pin : pins_) {
       pin.set(flags & 1);
       flags >>= 1;
     }
   }
 
-  OutputPin _pins[4];
-  uint8_t _position = 0, _increment = 1;
-  uint8_t _flags[4] = {0b0101, 0b0110, 0b1010, 0b1001};
+  OutputPin pins_[4];
+  uint8_t position_ = 0, increment_ = 1;
+  uint8_t flags_[4] = {0b0101, 0b0110, 0b1010, 0b1001};
 };
 
 } // namespace ArduinoContinuousStepper
