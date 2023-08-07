@@ -4,7 +4,7 @@
 
 namespace ArduinoContinuousStepper {
 
-class ToneOscillator {
+class AwfOscillator {
 public:
   void begin(pin_t pin) {
     pinMode(pin, OUTPUT);
@@ -12,19 +12,23 @@ public:
   }
 
   void start(unsigned int frequency) {
-    tone(_pin, frequency);
+    analogWriteFrequency(_pin, frequency);
+    if (!_active) {
+      analogWrite(_pin, 128);
+      _active = true;
+    }
   }
 
   void stop() {
-    noTone(_pin);
+    analogWrite(_pin, 0);
+    _active = false;
   }
 
 private:
+  bool _active = false;
   pin_t _pin = NULL_PIN;
 };
 
-using ToneTicker = OscillatorTicker<ToneOscillator>;
+using AwfTicker = OscillatorTicker<AwfOscillator>;
 
 } // namespace ArduinoContinuousStepper
-
-using ArduinoContinuousStepper::ToneTicker;

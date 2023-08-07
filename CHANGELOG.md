@@ -7,6 +7,7 @@ HEAD
 * Remove deprecated 3-parameter `begin()` (use `setEnablePin()` instead)
 * Add support for four-wire stepper motors
 * `ContinuousStepper` is now a template class with two parameters, see the first table below.
+* Add `ContinuousStepper.hpp` that keeps everything in the `ArduinoContinuousStepper` namespace.
 * Some include files have been renamed, see the second table below.
 
 | Before                                | After                                                       |
@@ -19,14 +20,14 @@ HEAD
 | `ContinuousStepper_Timer3`            | `ContinuousStepper<StepperDriver, TimerThreeTicker>`        |
 | `ContinuousStepper_Tone`              | `ContinuousStepper<StepperDriver, ToneTicker>`              |
 
-| Before                                | After                                              |
-|---------------------------------------|----------------------------------------------------|
-| `ContinuousStepper_AWF.h`             | `ContinuousStepper/Tickers/AnalogWriteFrequency.h` |
-| `ContinuousStepper_KhoiH.h`           | `ContinuousStepper/Tickers/Khoih_PWM.h`            |
-| `ContinuousStepper_TeensyTimerTool.h` | `ContinuousStepper/Tickers/TeensyTimerTool.h`      |
-| `ContinuousStepper_Timer1.h`          | `ContinuousStepper/Tickers/TimerOne.h`             |
-| `ContinuousStepper_Timer3.h`          | `ContinuousStepper/Tickers/TimerThree.h`           |
-| `ContinuousStepper_Tone.h`            | `ContinuousStepper/Tickers/Tone.h`                 |
+| Before                                | After                                                |
+|---------------------------------------|------------------------------------------------------|
+| `ContinuousStepper_AWF.h`             | `ContinuousStepper/Tickers/AnalogWriteFrequency.hpp` |
+| `ContinuousStepper_KhoiH.h`           | `ContinuousStepper/Tickers/Khoih_PWM.hpp`            |
+| `ContinuousStepper_TeensyTimerTool.h` | `ContinuousStepper/Tickers/TeensyTimerTool.hpp`      |
+| `ContinuousStepper_Timer1.h`          | `ContinuousStepper/Tickers/TimerOne.hpp`             |
+| `ContinuousStepper_Timer3.h`          | `ContinuousStepper/Tickers/TimerThree.hpp`           |
+| `ContinuousStepper_Tone.h`            | `ContinuousStepper/Tickers/Tone.hpp`                 |
 
 2.2.0
 -----

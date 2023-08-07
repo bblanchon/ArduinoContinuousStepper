@@ -6,7 +6,6 @@
 
 namespace ArduinoContinuousStepper {
 
-typedef unsigned long time_t;
 typedef double float_t;
 typedef uint8_t pin_t;
 

@@ -9,5 +9,3 @@ namespace ArduinoContinuousStepper {
 using TimerOneTicker = TimerXTicker<TimerOne>;
 
 }; // namespace ArduinoContinuousStepper
-
-using ArduinoContinuousStepper::TimerOneTicker;

@@ -66,7 +66,7 @@ In the basic example above, the level of the *step* pin is changed with `digital
 
 ```c++
 #include <ContinuousStepper.h>
-#include <ContinuousStepper/Tickers/Tone.h>
+#include <ContinuousStepper/Tickers/Tone.hpp>
 
 ContinuousStepper<StepperDriver, ToneTicker> stepper;
 
@@ -89,7 +89,7 @@ Alternatively, you can install the [TimerOne](https://github.com/PaulStoffregen/
 
 ```c++
 #include <ContinuousStepper.h>
-#include <ContinuousStepper/Tickers/TimerOne.h>
+#include <ContinuousStepper/Tickers/TimerOne.hpp>
 
 ContinuousStepper<FourWireStepper, TimerOneTicker> stepper;
 

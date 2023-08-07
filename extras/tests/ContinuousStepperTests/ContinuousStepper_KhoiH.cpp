@@ -1,5 +1,5 @@
 #include <ContinuousStepper.h>
-#include <ContinuousStepper/Tickers/KhoiH_PWM.h>
+#include <ContinuousStepper/Tickers/KhoiH_PWM.hpp>
 #include <Teensy_PWM.h>
 #include <TestFixtures.hpp>
 

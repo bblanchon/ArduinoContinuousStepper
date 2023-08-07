@@ -1,5 +1,5 @@
 #include <ContinuousStepper.h>
-#include <ContinuousStepper/Tickers/TimerThree.h>
+#include <ContinuousStepper/Tickers/TimerThree.hpp>
 #include <TestFixtures.hpp>
 
 TEST_CASE("ContinuousStepper<StepperDriver, TimerThreeTicker>") {

@@ -1,13 +1,13 @@
 #pragma once
 
-#include <ContinuousStepper.h>
-#include <ContinuousStepperImpl.h>
+#include <ContinuousStepper.hpp>
 
 namespace ArduinoContinuousStepper {
 
 template <class TOscillator>
 class OscillatorTicker : public StepperTicker {
 public:
+  using time_t = unsigned long;
   using StepperTicker::StepperTicker;
 
   void setPin(pin_t pin) {
@@ -42,8 +42,6 @@ private:
   time_t _period = 0, _periodStart = 0;
 };
 
-class ErrorThisTickerOnlySupportsStepperDriver;
-
 template <class TStepper, class TOscillator>
 class ContinuousStepper<TStepper, OscillatorTicker<TOscillator>> {
   ContinuousStepper() = delete; // This ticker only supports StepperDriver
@@ -68,4 +66,5 @@ public:
 private:
   time_t _periodStart = 0;
 };
+
 } // namespace ArduinoContinuousStepper

@@ -2,8 +2,7 @@
 
 #include <TeensyTimerTool.h> // https://github.com/luni64/TeensyTimerTool
 
-#include <ContinuousStepper.h>
-#include <ContinuousStepperImpl.h>
+#include <ContinuousStepper.hpp>
 
 namespace ArduinoContinuousStepper {
 
@@ -44,7 +43,4 @@ public:
 
   ContinuousStepper(TeensyTimerTool::PeriodicTimer &timer) : TBase(&timer) {}
 };
-
 }; // namespace ArduinoContinuousStepper
-
-using ArduinoContinuousStepper::TeensyTimerToolTicker;

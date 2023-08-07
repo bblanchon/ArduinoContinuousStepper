@@ -2,7 +2,7 @@
 
 #include <TimerThree.h> // https://github.com/PaulStoffregen/TimerThree
 
-#include <ContinuousStepper.h>
+#include <ContinuousStepper.hpp>
 #include <ContinuousStepper/Tickers/TimerX.hpp>
 
 namespace ArduinoContinuousStepper {
@@ -10,5 +10,3 @@ namespace ArduinoContinuousStepper {
 using TimerThreeTicker = TimerXTicker<TimerThree>;
 
 } // namespace ArduinoContinuousStepper
-
-using ArduinoContinuousStepper::TimerThreeTicker;

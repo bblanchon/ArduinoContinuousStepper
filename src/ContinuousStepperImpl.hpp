@@ -12,6 +12,8 @@ public:
 template <class TStepper, class TTicker>
 class ContinuousStepperImpl : TickListener {
 public:
+  using time_t = unsigned long;
+
   template <typename... Args>
   ContinuousStepperImpl(Args &&...args) : _ticker(this, args...) {}
 

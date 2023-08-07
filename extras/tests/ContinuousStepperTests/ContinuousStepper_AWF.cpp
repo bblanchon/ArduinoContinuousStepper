@@ -1,5 +1,5 @@
 #include <ContinuousStepper.h>
-#include <ContinuousStepper/Tickers/AnalogWriteFrequency.h>
+#include <ContinuousStepper/Tickers/AnalogWriteFrequency.hpp>
 #include <TestFixtures.hpp>
 
 TEST_CASE("ContinuousStepper<StepperDriver, AwfTicker>") {

@@ -33,5 +33,3 @@ template <class KhoiH_PWM>
 using KhoihTicker = OscillatorTicker<KhoihOscillator<KhoiH_PWM>>;
 
 } // namespace ArduinoContinuousStepper
-
-using ArduinoContinuousStepper::KhoihTicker;

@@ -1,5 +1,5 @@
 #include <ContinuousStepper.h>
-#include <ContinuousStepper/Tickers/Tone.h>
+#include <ContinuousStepper/Tickers/Tone.hpp>
 #include <TestFixtures.hpp>
 
 TEST_CASE("ContinuousStepper<StepperDriver, ToneTicker>") {
