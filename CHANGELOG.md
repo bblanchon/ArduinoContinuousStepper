@@ -1,6 +1,11 @@
 ContinuousStepper: changelog
 ============================
 
+HEAD
+----
+
+* Remove deprecated 3-parameter `begin()` (use `setEnablePin()` instead)
+
 2.2.0
 -----
 

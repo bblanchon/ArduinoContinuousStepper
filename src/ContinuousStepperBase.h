@@ -2,8 +2,6 @@
 
 #include <Arduino.h>
 
-#include "attributes.h"
-
 namespace ArduinoContinuousStepper {
 
 typedef unsigned long time_t;
@@ -21,12 +19,6 @@ public:
     pinMode(dirPin, OUTPUT);
 
     initialize();
-  }
-
-  CONTINUOUSSTEPPER_DEPRECATED("use setEnablePin() instead")
-  void begin(pin_t stepPin, pin_t dirPin, pin_t enablePin) {
-    begin(stepPin, dirPin);
-    setEnablePin(enablePin);
   }
 
   void setEnablePin(pin_t enablePin, bool activeLevel = HIGH) {
