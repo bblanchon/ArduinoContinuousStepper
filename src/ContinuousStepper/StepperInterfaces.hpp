@@ -2,6 +2,8 @@
 
 #include <Arduino.h>
 
+#include <ContinuousStepper/OutputPin.hpp>
+
 namespace ArduinoContinuousStepper {
 
 typedef unsigned long time_t;
@@ -23,17 +25,14 @@ public:
 
 class StepperDriver : public StepperInterface {
 public:
-  StepperDriver(pin_t stepPin, pin_t dirPin) : _stepPin(stepPin), _dirPin(dirPin) {
-    pinMode(stepPin, OUTPUT);
-    pinMode(dirPin, OUTPUT);
-  }
+  StepperDriver(pin_t stepPin, pin_t dirPin) : _stepPin(stepPin), _dirPin(dirPin) {}
 
   void setDirection(bool reversed) override {
-    setDirPinLevel(reversed ? LOW : HIGH);
+    _dirPin.set(reversed ? LOW : HIGH);
   }
 
   void step() override {
-    toggleStepPinLevel();
+    _stepPin.toggle();
   }
 
   bool needsDoubleSpeed() const override {
@@ -44,21 +43,7 @@ public:
   }
 
 private:
-  void toggleStepPinLevel() {
-    _stepLevel = !_stepLevel;
-    digitalWrite(_stepPin, _stepLevel);
-  }
-
-  void setDirPinLevel(bool level) {
-    if (level == _dirLevel)
-      return;
-    digitalWrite(_dirPin, level);
-    _dirLevel = level;
-  }
-
-  pin_t _stepPin, _dirPin;
-  bool _stepLevel = LOW;
-  bool _dirLevel = LOW;
+  OutputPin _stepPin, _dirPin;
 };
 
 } // namespace ArduinoContinuousStepper

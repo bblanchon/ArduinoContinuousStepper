@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Arduino.h>
 #include <assert.h>
 
 #include <ContinuousStepper/StepperInterfaces.hpp>
@@ -24,9 +23,8 @@ public:
   }
 
   void setEnablePin(pin_t enablePin, bool activeLevel = HIGH) {
-    pinMode(enablePin, OUTPUT);
-    digitalWrite(enablePin, (_status == OFF) ^ activeLevel);
-    _enablePin = enablePin;
+    _enablePin = OutputPin(enablePin);
+    _enablePin.set((_status == OFF) ^ activeLevel);
     _enablePinActiveLevel = activeLevel;
   }
 
@@ -34,15 +32,13 @@ public:
     if (_status != OFF)
       return;
 
-    if (_enablePin != NULL_PIN)
-      digitalWrite(_enablePin, _enablePinActiveLevel);
+    _enablePin.set(_enablePinActiveLevel);
 
     updateSpeed();
   }
 
   void powerOff() {
-    if (_enablePin != NULL_PIN)
-      digitalWrite(_enablePin, !_enablePinActiveLevel);
+    _enablePin.set(!_enablePinActiveLevel);
 
     _status = OFF;
     _currentSpeed = 0;
@@ -133,11 +129,10 @@ private:
   virtual void initialize(){};
   virtual void setPeriod(time_t period) = 0;
 
-  static const pin_t NULL_PIN = 255;
   static const time_t oneSecond = 1e6;
 
   StepperInterface *_stepper = nullptr;
-  pin_t _enablePin = NULL_PIN;
+  OutputPin _enablePin;
   time_t _period = 0;
   float_t _targetSpeed = 0, _currentSpeed = 0, _acceleration = 1000, _minSpeedForAcceleration = sqrt(1000);
   bool _enablePinActiveLevel = HIGH;
