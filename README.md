@@ -122,7 +122,7 @@ public:
   // Configures the "enable" pin.
   // You can pass LOW as the second argument to invert the logic.
   // The pin is set to its active level unless powerOff() was called.
-  void setEnablePin(pin_t pinNumber, bool activeLevel = HIGH);
+  void setEnablePin(uint8_t pinNumber, bool activeLevel = HIGH);
 
   // Updates the status of the step and dir pins.
   // You must call this function as frequently as possible.
@@ -161,10 +161,10 @@ The `begin()` function forwards its arguments to the `TStepper::begin()`, such a
 
 ```c++
 // For stepper drivers, the arguments are step and dir pins numbers.
-void StepperDriver::begin(pin_t stepPin, pin_t dirPin);
+void StepperDriver::begin(uint8_t stepPin, uint8_t dirPin);
 
 // For four-wire stepper motors, the arguments are the four pins numbers.
-void FourWireStepper::begin(pin_t pin1, pin_t pin2, pin_t pin3, pin_t pin4);
+void FourWireStepper::begin(uint8_t pin1, uint8_t pin2, uint8_t pin3, uint8_t pin4);
 ```
 
 

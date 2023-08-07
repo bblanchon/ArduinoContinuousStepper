@@ -6,7 +6,7 @@ namespace ArduinoContinuousStepper {
 
 class AwfOscillator {
 public:
-  void init(pin_t pin) {
+  void init(uint8_t pin) {
     pinMode(pin, OUTPUT);
     _pin = pin;
   }
@@ -26,7 +26,7 @@ public:
 
 private:
   bool _active = false;
-  pin_t _pin = NULL_PIN;
+  uint8_t _pin = NULL_PIN;
 };
 
 using AwfTicker = OscillatorTicker<AwfOscillator>;

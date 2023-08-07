@@ -23,7 +23,7 @@ public:
   template <typename... Args>
   ContinuousStepperImpl(Args &&...args) : TTicker(this, args...), TStepper(this) {}
 
-  void setEnablePin(pin_t enablePin, bool activeLevel = HIGH) {
+  void setEnablePin(uint8_t enablePin, bool activeLevel = HIGH) {
     _enablePin = OutputPin(enablePin);
     _enablePin.set((_status == OFF) ^ activeLevel);
     _enablePinActiveLevel = activeLevel;

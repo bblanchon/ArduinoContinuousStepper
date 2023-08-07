@@ -4,18 +4,17 @@
 
 namespace ArduinoContinuousStepper {
 
-typedef uint8_t pin_t;
-constexpr pin_t NULL_PIN = 255;
+constexpr uint8_t NULL_PIN = 255;
 
 class OutputPin {
 public:
   OutputPin() : _pin(NULL_PIN) {}
 
-  OutputPin(pin_t pin) : _pin(pin) {
+  OutputPin(uint8_t pin) : _pin(pin) {
     pinMode(pin, OUTPUT);
   }
 
-  operator pin_t() const {
+  operator uint8_t() const {
     return _pin;
   }
 
@@ -31,7 +30,7 @@ public:
   }
 
 private:
-  pin_t _pin;
+  uint8_t _pin;
   uint8_t _level = 2; // i.e. neither HIGH nor LOW
 };
 

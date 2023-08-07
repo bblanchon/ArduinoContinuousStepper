@@ -7,8 +7,6 @@
 
 namespace ArduinoContinuousStepper {
 
-typedef uint8_t pin_t;
-
 class StepperBase {
 protected:
   StepperBase(StepperListener *listener) : _listener(listener) {}
@@ -23,7 +21,7 @@ private:
 
 class StepperDriver : StepperBase {
 public:
-  void begin(pin_t stepPin, pin_t dirPin) {
+  void begin(uint8_t stepPin, uint8_t dirPin) {
     _stepPin = stepPin;
     _dirPin = dirPin;
     stepperInitialized();
@@ -56,7 +54,7 @@ private:
 
 class FourWireStepper : StepperBase {
 public:
-  void begin(pin_t pin1, pin_t pin2, pin_t pin3, pin_t pin4) {
+  void begin(uint8_t pin1, uint8_t pin2, uint8_t pin3, uint8_t pin4) {
     _pins[0] = pin1;
     _pins[1] = pin2;
     _pins[2] = pin3;

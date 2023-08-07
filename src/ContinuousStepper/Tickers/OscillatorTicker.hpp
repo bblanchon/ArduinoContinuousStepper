@@ -27,7 +27,7 @@ protected:
 
   void init() {}
 
-  void setPin(pin_t pin) {
+  void setPin(uint8_t pin) {
     pinMode(pin, OUTPUT);
     _oscillator.init(pin);
   }
@@ -58,7 +58,7 @@ class ContinuousStepper<StepperDriver, OscillatorTicker<TOscillator>>
   using TBase = ContinuousStepperImpl<StepperDriver, TTicker>;
 
 public:
-  void begin(pin_t stepPin, pin_t dirPin) {
+  void begin(uint8_t stepPin, uint8_t dirPin) {
     TTicker::setPin(stepPin);
     TBase::begin(NULL_PIN, dirPin);
   }
