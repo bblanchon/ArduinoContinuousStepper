@@ -23,26 +23,16 @@ public:
   template <typename... Args>
   ContinuousStepperImpl(Args &&...args) : TTicker(this, args...), TStepper(this) {}
 
-  void setEnablePin(uint8_t enablePin, bool activeLevel = HIGH) {
-    _enablePin = OutputPin(enablePin);
-    _enablePin.set((_status == OFF) ^ activeLevel);
-    _enablePinActiveLevel = activeLevel;
-  }
-
   void powerOn() {
     if (_status != OFF)
       return;
 
     TStepper::powerOn();
-    _enablePin.set(_enablePinActiveLevel);
-
     updateSpeed();
   }
 
   void powerOff() {
     TStepper::powerOff();
-    _enablePin.set(!_enablePinActiveLevel);
-
     _status = OFF;
     _currentSpeed = 0;
     TTicker::setPeriod(0);
@@ -134,10 +124,8 @@ private:
 
   static const time_t oneSecond = 1e6;
 
-  OutputPin _enablePin;
   time_t _period = 0;
   float_t _targetSpeed = 0, _currentSpeed = 0, _acceleration = 1000, _minSpeedForAcceleration = sqrt(1000);
-  bool _enablePinActiveLevel = HIGH;
 
   enum Status {
     OFF,

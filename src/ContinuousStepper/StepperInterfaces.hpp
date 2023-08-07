@@ -27,6 +27,12 @@ public:
     stepperInitialized();
   }
 
+  void setEnablePin(uint8_t pin, bool activeLevel = HIGH) {
+    _enablePin = pin;
+    _enablePinActiveLevel = activeLevel;
+    _enablePin.set(!_isPowered ^ activeLevel);
+  }
+
 protected:
   using StepperBase::StepperBase;
 
@@ -45,11 +51,20 @@ protected:
     return _stepPin != NULL_PIN;
   }
 
-  void powerOn(){};
-  void powerOff(){};
+  void powerOn() {
+    _enablePin.set(_enablePinActiveLevel);
+    _isPowered = true;
+  };
+
+  void powerOff() {
+    _enablePin.set(!_enablePinActiveLevel);
+    _isPowered = false;
+  };
 
 private:
-  OutputPin _stepPin, _dirPin;
+  OutputPin _stepPin, _dirPin, _enablePin;
+  bool _enablePinActiveLevel = HIGH;
+  bool _isPowered = true;
 };
 
 class FourWireStepper : StepperBase {

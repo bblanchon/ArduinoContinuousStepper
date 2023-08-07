@@ -84,23 +84,3 @@ TEST_CASE("ContinuousStepper<StepperDriver>::setEnablePin()") {
     }
   }
 }
-
-TEST_CASE("ContinuousStepper<FourWireStepper>::setEnablePin()") {
-  ContinuousStepper<FourWireStepper> stepper;
-
-  GIVEN("begin(2, 3, 4, 5) was called") {
-    stepper.begin(2, 3, 4, 5);
-
-    WHEN("setEnablePin(6) is called") {
-      CLEAR_ARDUINO_LOG();
-      stepper.setEnablePin(6);
-
-      THEN("it should set pin 6 to HIGH") {
-        CHECK_ARDUINO_LOG({
-            {0, "pinMode(6, OUTPUT)"},
-            {0, "digitalWrite(6, HIGH)"},
-        });
-      }
-    }
-  }
-}
