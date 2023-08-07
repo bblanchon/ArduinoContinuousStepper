@@ -6,7 +6,7 @@ namespace ArduinoContinuousStepper {
 
 class ToneOscillator {
 public:
-  void begin(pin_t pin) {
+  void init(pin_t pin) {
     pinMode(pin, OUTPUT);
     _pin = pin;
   }

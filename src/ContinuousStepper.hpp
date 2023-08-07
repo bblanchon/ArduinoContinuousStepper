@@ -1,6 +1,7 @@
 #pragma once
 
-#include "ContinuousStepperImpl.hpp"
+#include <ContinuousStepper/StepperInterfaces.hpp>
+#include <ContinuousStepperImpl.hpp>
 
 namespace ArduinoContinuousStepper {
 
@@ -36,7 +37,7 @@ protected:
 
   LoopTicker(TickListener *listener) : StepperTicker(listener) {}
 
-  void begin() {}
+  void init() {}
 
   void setPeriod(unsigned long period) {
     _tickPeriod = period;

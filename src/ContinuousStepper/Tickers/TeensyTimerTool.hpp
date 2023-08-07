@@ -17,7 +17,7 @@ protected:
     _timer->stop();
   }
 
-  void begin() {
+  void init() {
     _timer->begin([this]() { tick(); }, 1000, false);
   }
 

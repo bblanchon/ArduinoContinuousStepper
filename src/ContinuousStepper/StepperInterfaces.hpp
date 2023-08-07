@@ -3,18 +3,34 @@
 #include <Arduino.h>
 
 #include <ContinuousStepper/OutputPin.hpp>
+#include <ContinuousStepperImpl.hpp>
 
 namespace ArduinoContinuousStepper {
 
-typedef double float_t;
 typedef uint8_t pin_t;
 
-class StepperDriver {
+class StepperBase {
+protected:
+  StepperBase(StepperListener *listener) : _listener(listener) {}
+
+  void stepperInitialized() {
+    _listener->stepperInitialized();
+  }
+
+private:
+  StepperListener *_listener;
+};
+
+class StepperDriver : StepperBase {
 public:
   void begin(pin_t stepPin, pin_t dirPin) {
     _stepPin = stepPin;
     _dirPin = dirPin;
+    stepperInitialized();
   }
+
+protected:
+  using StepperBase::StepperBase;
 
   void setDirection(bool reversed) {
     _dirPin.set(reversed ? LOW : HIGH);
@@ -38,14 +54,18 @@ private:
   OutputPin _stepPin, _dirPin;
 };
 
-class FourWireStepper {
+class FourWireStepper : StepperBase {
 public:
   void begin(pin_t pin1, pin_t pin2, pin_t pin3, pin_t pin4) {
     _pins[0] = pin1;
     _pins[1] = pin2;
     _pins[2] = pin3;
     _pins[3] = pin4;
+    stepperInitialized();
   }
+
+protected:
+  using StepperBase::StepperBase;
 
   void setDirection(bool reversed) {
     _increment = reversed ? 3 : 1;

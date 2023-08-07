@@ -11,7 +11,7 @@ public:
     delete _pwm;
   }
 
-  void begin(uint8_t pin) {
+  void init(uint8_t pin) {
     _pin = pin;
     _pwm = new KhoiH_PWM(pin, 500, 0);
   }

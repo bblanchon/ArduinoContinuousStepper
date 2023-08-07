@@ -9,8 +9,6 @@ class OscillatorTicker : StepperTicker {
   using time_t = unsigned long;
 
 public:
-  void begin() {}
-
   void loop() {
     if (!_period)
       return;
@@ -27,9 +25,11 @@ public:
 protected:
   using StepperTicker::StepperTicker;
 
+  void init() {}
+
   void setPin(pin_t pin) {
     pinMode(pin, OUTPUT);
-    _oscillator.begin(pin);
+    _oscillator.init(pin);
   }
 
   void setPeriod(unsigned long period) {

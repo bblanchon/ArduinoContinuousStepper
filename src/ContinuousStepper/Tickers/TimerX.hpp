@@ -11,7 +11,7 @@ protected:
     _timer.stop();
   }
 
-  void begin() {
+  void init() {
     _instance = this;
     _timer.initialize();
     _timer.attachInterrupt(interruptHandler);

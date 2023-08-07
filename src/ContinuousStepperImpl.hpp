@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ContinuousStepper/StepperInterfaces.hpp>
+#include <ContinuousStepper/OutputPin.hpp>
 
 namespace ArduinoContinuousStepper {
 
@@ -9,20 +9,19 @@ public:
   virtual void tick() = 0;
 };
 
-template <class TStepper, class TTicker>
-class ContinuousStepperImpl : TickListener, public TTicker {
+class StepperListener {
 public:
+  virtual void stepperInitialized() = 0;
+};
+
+template <class TStepper, class TTicker>
+class ContinuousStepperImpl : public TTicker, TickListener, public TStepper, StepperListener {
+public:
+  using float_t = double;
   using time_t = unsigned long;
 
   template <typename... Args>
-  ContinuousStepperImpl(Args &&...args) : TTicker(this, args...) {}
-
-  template <typename... Args>
-  void begin(Args &&...args) {
-    _stepper.begin(args...);
-    _status = WAIT;
-    TTicker::begin();
-  }
+  ContinuousStepperImpl(Args &&...args) : TTicker(this, args...), TStepper(this) {}
 
   void setEnablePin(pin_t enablePin, bool activeLevel = HIGH) {
     _enablePin = OutputPin(enablePin);
@@ -34,14 +33,14 @@ public:
     if (_status != OFF)
       return;
 
-    _stepper.powerOn();
+    TStepper::powerOn();
     _enablePin.set(_enablePinActiveLevel);
 
     updateSpeed();
   }
 
   void powerOff() {
-    _stepper.powerOff();
+    TStepper::powerOff();
     _enablePin.set(!_enablePinActiveLevel);
 
     _status = OFF;
@@ -79,7 +78,7 @@ public:
 protected:
   void tick() {
     if (_status == STEP)
-      _stepper.step();
+      TStepper::step();
 
     updateSpeedIfNeeded();
   }
@@ -90,6 +89,11 @@ protected:
   }
 
 private:
+  void stepperInitialized() override {
+    _status = WAIT;
+    TTicker::init();
+  }
+
   void updateSpeed() {
     float_t speedIncrement = _period ? _acceleration * _period / oneSecond : _minSpeedForAcceleration;
 
@@ -119,18 +123,17 @@ private:
       _period = 0;
     }
 
-    if (_stepper.needsDoubleSpeed())
+    if (TStepper::needsDoubleSpeed())
       _period /= 2;
 
     if (_period)
-      _stepper.setDirection(_currentSpeed < 0);
+      TStepper::setDirection(_currentSpeed < 0);
 
     TTicker::setPeriod(_period);
   }
 
   static const time_t oneSecond = 1e6;
 
-  TStepper _stepper;
   OutputPin _enablePin;
   time_t _period = 0;
   float_t _targetSpeed = 0, _currentSpeed = 0, _acceleration = 1000, _minSpeedForAcceleration = sqrt(1000);
