@@ -5,7 +5,7 @@
 // ⚠️ speed is quite limited on Teensy 3.1
 
 #include <ContinuousStepper.h>
-#include <ContinuousStepper/Tickers/AnalogWriteFrequency.h>
+#include <ContinuousStepper/Tickers/AnalogWriteFrequency.hpp>
 
 // AwfTicker can only work with StepperDriver
 ContinuousStepper<StepperDriver, AwfTicker> stepper;

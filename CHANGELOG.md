@@ -1,6 +1,11 @@
 ContinuousStepper: changelog
 ============================
 
+HEAD
+----
+
+* Fix ticker includes in examples (was `.h` instead of `.hpp`)
+
 3.0.0
 -----
 

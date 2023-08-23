@@ -4,7 +4,7 @@
 // Tested on AVR, Teensy 3.1 and Teensy 4.1
 
 #include <ContinuousStepper.h>
-#include <ContinuousStepper/Tickers/Tone.h>
+#include <ContinuousStepper/Tickers/Tone.hpp>
 
 // ToneTicker can only work with StepperDriver
 ContinuousStepper<StepperDriver, ToneTicker> stepper;

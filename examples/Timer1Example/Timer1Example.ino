@@ -6,7 +6,7 @@
 // ⚠️ Works poorly on AVR boards (UNO, Leonardo, Mega, etc.)
 
 #include <ContinuousStepper.h>
-#include <ContinuousStepper/Tickers/TimerOne.h>
+#include <ContinuousStepper/Tickers/TimerOne.hpp>
 
 // If using a stepper driver, with STEP and DIR pins:
 ContinuousStepper<StepperDriver, TimerOneTicker> stepper;

@@ -5,7 +5,7 @@
 // ⚠️ Doesn't work on Teensy 3.1 (most likely due to a bug in PeriodicTimer::setPeriod())
 
 #include <ContinuousStepper.h>
-#include <ContinuousStepper/Tickers/TeensyTimerTool.h>
+#include <ContinuousStepper/Tickers/TeensyTimerTool.hpp>
 
 TeensyTimerTool::PeriodicTimer timer;
 

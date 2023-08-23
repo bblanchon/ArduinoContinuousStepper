@@ -5,7 +5,7 @@
 // ⛔ Doesn't work on Teensy 3.1 (most likely due to a bug in Teensy_PWM)
 
 #include <ContinuousStepper.h>
-#include <ContinuousStepper/Tickers/KhoiH_PWM.h>
+#include <ContinuousStepper/Tickers/KhoiH_PWM.hpp>
 #include <Teensy_PWM.h>
 
 // KhoihTicker can only work with StepperDriver
