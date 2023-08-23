@@ -32,3 +32,58 @@ jobs:
         run: cmake --build .
       - name: Test
         run: ctest --output-on-failure -C Debug .
+
+  arduino:
+    name: Arduino
+    needs: test
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - board: arduino:avr:uno
+            core: arduino:avr
+            libraries:
+              - TimerOne
+              - TimerThree
+          - board: teensy:avr:teensy41
+            core: teensy:avr
+            libraries:
+              - Teensy_PWM
+              - TeensyTimerTool@1.3.1
+            urls: https://www.pjrc.com/teensy/td_156/package_teensy_index.json
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install arduino-cli
+        run: curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | BINDIR=/usr/local/bin sh
+      - name: Install core
+        run: arduino-cli core --additional-urls "${{ matrix.urls }}" install ${{ matrix.core }}
+      - name: Install libraries
+        if: matrix.libraries
+        run: arduino-cli lib install ${{ join(matrix.libraries, ' ') }}
+      - name: Create build script
+        run: |
+          cat >/usr/local/bin/compile-example <<END
+          #!/bin/bash
+          arduino-cli compile --library . --warnings all -b ${{ matrix.board }} "examples/\$1/\$1.ino"
+          END
+          chmod +x /usr/local/bin/compile-example
+      - name: Build AwfExample
+        if: matrix.core == 'teensy:avr'
+        run: compile-example AwfExample
+      - name: Build BasicExample
+        run: compile-example BasicExample
+      - name: Build TeensyPwmExample
+        if: matrix.core == 'teensy:avr'
+        run: compile-example TeensyPwmExample
+      - name: Build TeensyTimerToolExample
+        if: matrix.core == 'teensy:avr'
+        run: compile-example TeensyTimerToolExample
+      - name: Build Timer1Example
+        run: compile-example Timer1Example
+      - name: Build Timer3Example
+        if: matrix.core == 'teensy:avr'
+        run: compile-example Timer3Example
+      - name: Build ToneExample
+        run: compile-example ToneExample
