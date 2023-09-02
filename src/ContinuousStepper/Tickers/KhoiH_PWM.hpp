@@ -24,6 +24,10 @@ public:
     pwm_->setPWM(pin_, 500, 0);
   }
 
+  unsigned int minFrequency() const {
+    return 1;
+  }
+
 private:
   uint8_t pin_ = nullPin;
   KhoiH_PWM *pwm_ = nullptr;

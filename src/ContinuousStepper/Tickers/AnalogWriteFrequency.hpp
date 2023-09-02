@@ -24,6 +24,12 @@ public:
     active_ = false;
   }
 
+  unsigned int minFrequency() const {
+    // The analogWriteFrequency function has a lower limit of a few Hz.
+    // https://www.pjrc.com/teensy/td_pulse.html#frequency
+    return 5;
+  }
+
 private:
   bool active_ = false;
   uint8_t pin_ = nullPin;
