@@ -1,7 +1,7 @@
 ContinuousStepper: changelog
 ============================
 
-HEAD
+3.0.2
 -----
 
 * Respect `tone()`'s minimum frequency (issue #14)
