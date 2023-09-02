@@ -39,6 +39,8 @@ public:
   }
 
   void spin(float_t speed) {
+    if (targetSpeed_ == speed)
+      return;
     targetSpeed_ = speed;
     if (status_ != OFF)
       updateSpeed();

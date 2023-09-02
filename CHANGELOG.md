@@ -5,6 +5,7 @@ HEAD
 -----
 
 * Respect `tone()`'s minimum frequency (issue #14)
+* Ignore repeated calls to `spin()` with the same values (issue #14)
 
 3.0.1
 -----
