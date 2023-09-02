@@ -4,6 +4,8 @@
 
 namespace ArduinoContinuousStepper {
 
+using frequency_t = unsigned int;
+
 template <class TOscillator>
 class OscillatorTicker : StepperTicker {
   using time_t = unsigned long;

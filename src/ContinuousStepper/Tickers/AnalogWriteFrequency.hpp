@@ -11,7 +11,7 @@ public:
     pin_ = pin;
   }
 
-  void start(unsigned int frequency) {
+  void start(frequency_t frequency) {
     analogWriteFrequency(pin_, frequency);
     if (!active_) {
       analogWrite(pin_, 128);
@@ -24,7 +24,7 @@ public:
     active_ = false;
   }
 
-  unsigned int minFrequency() const {
+  frequency_t minFrequency() const {
     // The analogWriteFrequency function has a lower limit of a few Hz.
     // https://www.pjrc.com/teensy/td_pulse.html#frequency
     return 5;

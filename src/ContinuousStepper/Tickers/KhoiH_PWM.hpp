@@ -16,7 +16,7 @@ public:
     pwm_ = new KhoiH_PWM(pin, 500, 0);
   }
 
-  void start(unsigned int frequency) {
+  void start(frequency_t frequency) {
     pwm_->setPWM(pin_, frequency, 50);
   }
 
@@ -24,7 +24,7 @@ public:
     pwm_->setPWM(pin_, 500, 0);
   }
 
-  unsigned int minFrequency() const {
+  frequency_t minFrequency() const {
     return 1;
   }
 

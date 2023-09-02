@@ -11,7 +11,7 @@ public:
     pin_ = pin;
   }
 
-  void start(unsigned int frequency) {
+  void start(frequency_t frequency) {
     tone(pin_, frequency);
   }
 
@@ -19,7 +19,7 @@ public:
     noTone(pin_);
   }
 
-  unsigned int minFrequency() const {
+  frequency_t minFrequency() const {
 #if defined(ARDUINO_ARCH_AVR)
     // It is not possible to generate tones lower than 31Hz
     // https://www.arduino.cc/reference/en/language/functions/advanced-io/tone/
