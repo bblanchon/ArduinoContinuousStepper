@@ -50,6 +50,10 @@ public:
     targetSpeed_ = 0;
   }
 
+  float_t acceleration() const {
+    return acceleration_;
+  }
+
   float_t speed() const {
     return currentSpeed_;
   }

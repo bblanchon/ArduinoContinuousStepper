@@ -1,6 +1,11 @@
 ContinuousStepper: changelog
 ============================
 
+HEAD
+----
+
+* Add `acceleration()` getter
+
 3.0.2
 -----
 

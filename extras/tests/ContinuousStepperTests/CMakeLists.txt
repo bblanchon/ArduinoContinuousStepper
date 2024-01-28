@@ -1,4 +1,5 @@
 add_executable(ContinuousStepperTests
+  acceleration.cpp
   begin.cpp
   powerOff.cpp
   powerOn.cpp

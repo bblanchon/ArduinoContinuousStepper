@@ -141,6 +141,9 @@ public:
   // Call isSpinning() to know when the motion is complete.
   void stop();
 
+  // Gets the acceleration in steps/s².
+  float_t acceleration() const;
+
   // Returns the current speed.
   // During accelerations and decelerations, this value differs from the
   // target speed configured with spin().
