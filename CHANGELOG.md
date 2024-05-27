@@ -1,8 +1,8 @@
 ContinuousStepper: changelog
 ============================
 
-HEAD
-----
+3.1.0
+-----
 
 * Add `acceleration()` getter
 * Add `isPowered()` (issue #17)
