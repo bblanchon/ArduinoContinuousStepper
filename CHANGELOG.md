@@ -5,6 +5,7 @@ HEAD
 ----
 
 * Add `acceleration()` getter
+* Add `isPowered()` (issue #17)
 
 3.0.2
 -----

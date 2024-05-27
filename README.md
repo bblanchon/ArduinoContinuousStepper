@@ -131,6 +131,9 @@ public:
   // See StepperDriver and FourWireStepper below for details.
   void powerOff();
 
+  // Tells whether the power is on.
+  bool isPowered() const;
+
   // Sets the target speed.
   // The shaft will smoothly accelerate or decelerate to reach the
   // target speed.
